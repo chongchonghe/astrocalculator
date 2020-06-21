@@ -235,7 +235,7 @@ def main():
                 if type(Ret.cgs) is CompositeUnit:
                     # TODO: sci here. Seems impossible to work
                     out_cgs.config(text=Ret.cgs)
-                    print("Output (cgs):", f_fmt.format(Ret.cgs))
+                    print("Output (cgs):", Ret.cgs)
                 else:
                     # out1.config(text="{} {}".format(Ret.value, Ret._unit))
                     _text = f_fmt.format(Ret.cgs.value) + ' ' + str(Ret.cgs._unit)
