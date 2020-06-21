@@ -3,13 +3,14 @@
 
 * About
 
-ACAP, an Awesome Calculator for Astronomers and Physicists.\\
-Author: Chong-Chong He (che1234@umd.edu)\\
-Date: 2020-06-20\\
+ACAP, an Awesome Calculator for Astronomers and Physicists. \\
+Author: Chong-Chong He (che1234@umd.edu) \\
+Date: 2020-06-20
 
 This is a calculator designed for astronomers and physicists. This
 program is written in Python with GUI. 
 
+#+attr_html: :width 600
 [[./demo-fast.gif]]
 
 * How to run?
