@@ -10,7 +10,7 @@ Date: 2020-06-20\\
 This is a calculator designed for astronomers and physicists. This
 program is written in Python with GUI. 
 
-[[./demo_fast.gif]]
+[[./demo-fast.gif]]
 
 * How to run?
 
