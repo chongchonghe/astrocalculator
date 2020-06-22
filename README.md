@@ -26,3 +26,14 @@ as an executable and put it in your PATH.
 - m_e c^2 / h  
 - (G M_sun / au)^.5 (define output units as km/s)
 - e.esu^2 / (0.1 nm)^2
+
+## TODO
+
+- Add latex preview
+
+## References
+
+- https://www.lidavidm.me/blog/posts/2013-09-15-implicit-parsing-in-sympy.html
+- https://docs.astropy.org/en/stable/units/
+- https://docs.astropy.org/en/stable/constants/
+

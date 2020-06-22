@@ -46,12 +46,12 @@ def main():
     transformations = standard_transformations + (implicit_multiplication,) + (convert_xor,)
 
     win = tk.Tk()
-    win.title("ACA")
+    win.title("ACAP")
     win.geometry('600x660')
 
     # Documentation
     doc = \
-        "Welcome to ACA, an Awesome Calculator for Astronomers!\n"\
+        "Welcome to ACAP, an Awesome Calculator for Astronomers and Physicists!\n"\
         "Author: Chong-Chong He (che1234@umd.edu)\n"\
         "\n"\
         "Type in the expression you want to evaluate in the box blow and "\
