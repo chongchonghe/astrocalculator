@@ -41,6 +41,11 @@ mpcc = m_p / cm**3
 
 IS_SCI = 0
 
+# from sympy.printing.str import StrPrinter
+# class CustomStrPrinter(StrPrinter):
+#     def _print_Float(self, expr):         
+#         return '{:.3e}'.format(expr)
+
 def main():
 
     transformations = standard_transformations + (implicit_multiplication,) + (convert_xor,)
@@ -179,8 +184,10 @@ def main():
         print("Input:", inp)
         # inp = inp.replace('^', '**')
         with evaluate(False):
-            inp = str(parse_expr(inp, transformations=transformations, evaluate=False))
-        input_parse.config(text=inp, )
+            inp_expr = parse_expr(inp, transformations=transformations, evaluate=False)
+            inp = str(inp_expr)
+        input_parse.config(text=inp)
+        # print("Input-paresed:", CustomStrPrinter().doprint(inp_expr))
 
         # get the results
         global Ret

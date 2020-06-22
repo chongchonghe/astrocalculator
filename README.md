@@ -6,17 +6,27 @@ ACAP, an Awesome Calculator for Astronomers and Physicists.
 Author: Chong-Chong He (che1234@umd.edu)  
 Date: 2020-06-20
 
-This is a calculator designed for astronomers and physicists. This
-program is written in Python with GUI. 
+This is a calculator designed for astronomers and physicists,
+programmed in Python with GUI.
 
 <img src="./demo-fast.gif" width="500">
 
 ## How to run?
 
-No installation required. As long as you have Python3 installed
-(not tested on python2) with the required modules (astropy, tkinter,
-and sympy), you can run this program with `python acap.py`. Or make it
-as an executable and put it in your PATH.
+No installation required. To start this program, simply run `python
+acap.py`. Or, make it as an executable and link it to your PATH so that
+you can start this program in your terminal with `acap`. e.g.,
+
+```
+chmod +x acap.py
+cd /usr/local/bin
+ln -s /path/to/acap.py acap
+```
+
+The following python modules are required: tkinter, sympy, and
+astropy. `tkinter` is available on most Unix platforms as well as on
+Windows systems. You can install the other two modules via `pip
+install sympy astropy`.
 
 ## Example inputs
 
