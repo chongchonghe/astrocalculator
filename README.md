@@ -46,4 +46,5 @@ install sympy astropy`.
 - https://www.lidavidm.me/blog/posts/2013-09-15-implicit-parsing-in-sympy.html
 - https://docs.astropy.org/en/stable/units/
 - https://docs.astropy.org/en/stable/constants/
+- https://stackoverflow.com/questions/62507535/python-suppress-expansion-of-exponential-notation-in-parse-expr-sympy, answer from metatoaster
 
