@@ -36,8 +36,13 @@ for _key in Units.keys():
         if _unit in _unit_extra or _unit in _unit_skip:
             continue
         locals()[_unit] = eval("U.{}".format(_unit))
-Ang = 0.1 * nm
-mpcc = m_p / cm**3
+
+# User defined units
+UNITS_USER = ['Ang', 'mpcc']
+# Ang = 0.1 * nm
+Ang = U.def_unit('Ang', 0.1 * nm)
+# mpcc = m_p / cm**3
+mpcc = U.def_unit('mpcc', m_p / cm**3)   
 
 IS_SCI = 0
 
@@ -48,7 +53,39 @@ IS_SCI = 0
 
 def main():
 
-    transformations = standard_transformations + (implicit_multiplication,) + (convert_xor,)
+    def restrict_e_notation_precision(tokens, local_dict, global_dict):
+        """
+        Restrict input e notation precision to the minimum required.
+
+        Should be used after auto_number transformation, as it depends on
+        that transform to add the ``Float`` functional call for this to have
+        an effect.
+        """
+
+        result = []
+        float_call = False
+
+        for toknum, tokval in tokens:
+            if toknum == NAME and tokval == 'Float':
+                # set the flag
+                float_call = True
+
+            if float_call and toknum == NUMBER and ('e' in tokval or 'E' in tokval):
+                # recover original number before auto_number transformation
+                number = literal_eval(tokval)
+                # split the significand from base, while dropping the
+                # decimal point before treating length as the precision.
+                precision = len(number.lower().split('e')[0].replace('.', ''))
+                result.extend([(NUMBER, repr(str(number))), (OP, ','),
+                    (NUMBER, repr(str(precision)))])
+                float_call = False
+            else:
+                result.append((toknum, tokval))
+
+        return result
+
+
+    transformations = standard_transformations + (restrict_e_notation_precision,) + (implicit_multiplication,) + (convert_xor,)
 
     win = tk.Tk()
     win.title("ACAP")
@@ -146,7 +183,10 @@ def main():
             out_user.config(text=f_fmt.format(Ret), fg='black')
         else:
             try:
-                ret_loc = Ret.to(unit)
+                if unit in UNITS_USER:
+                    ret_loc = Ret.to(eval(unit))
+                else:
+                    ret_loc = Ret.to(unit)
                 if type(ret_loc) is int:
                     out_user.config(text=ret_loc, fg='black')
                 elif type(ret_loc) is float:
@@ -316,5 +356,7 @@ if __name__ == "__main__":
     from sympy import evaluate
     from sympy.parsing.sympy_parser import parse_expr, standard_transformations, \
         implicit_multiplication, convert_xor
+    from ast import literal_eval
+    from tokenize import NUMBER, NAME, OP
 
     main()
