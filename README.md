@@ -13,10 +13,16 @@ programmed in Python with GUI.
 
 ## How to run?
 
-No installation required. To start this program, simply run `python
-acap.py`. Or, make it as an executable and link it to your PATH so that
+No installation required. Simply download and run the python script `acap.py`. 
+Or, make it as an executable and move it to your PATH so that
 you can start this program in your terminal with `acap`. e.g.,
 
+```
+mv acap.py ~/local/bin/acap
+chmod +x ~/local/bin/acap
+```
+
+Or, better clone this repo and make a symbolic link of acap.py to your `local/bin` so that you can get the most update-to-date version 
 ```
 chmod +x acap.py
 cd /usr/local/bin
@@ -47,4 +53,5 @@ install sympy astropy`.
 - https://www.lidavidm.me/blog/posts/2013-09-15-implicit-parsing-in-sympy.html
 - https://docs.astropy.org/en/stable/units/
 - https://docs.astropy.org/en/stable/constants/
+- https://stackoverflow.com/questions/62507535/python-suppress-expansion-of-exponential-notation-in-parse-expr-sympy, answer from metatoaster
 
