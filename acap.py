@@ -8,9 +8,11 @@ A calculator written in python with GUI.
 """
 
 from math import *
+from numpy import sqrt
 from astropy import units as U
 from astropy import constants as C
 from astropy.constants import *
+from astropy.cosmology import WMAP9
 
 #========================================================================
 # The following variables can be changed by the user
@@ -24,8 +26,9 @@ Units = {
     'Mass': ['kg', 'g', 'M_sun'],
     'Density': ['mpcc'],
     'Time': ['s', 'yr', 'Myr', 'Gyr',],
-    'Energy': ['J', 'erg', 'eV', 'MeV', 'GeV'],
-    'Frequency': ['Hz', 'MHz', 'GHz',],
+    'Energy': ['J', 'erg', 'eV', 'keV', 'MeV', 'GeV'],
+    'Power': ['W'],
+    'Frequency': ['Hz', 'kHz', 'MHz', 'GHz',],
     'Temperature': ['K',],
     }
 _unit_extra = ['Ang', 'mpcc']
@@ -43,6 +46,9 @@ UNITS_USER = ['Ang', 'mpcc']
 Ang = U.def_unit('Ang', 0.1 * nm)
 # mpcc = m_p / cm**3
 mpcc = U.def_unit('mpcc', m_p / cm**3)   
+
+# User defined constants
+H0 = WMAP9.H0
 
 IS_SCI = 0
 
@@ -160,7 +166,7 @@ def main():
 
     row_cgs = tk.Frame(win)
     lab_cgs = tk.Label(row_cgs, width=10, text='CGS', anchor='e', ) #font="-size 16")
-    out_cgs = tk.Label(row_cgs, anchor='w', padx=20, font="-size 16", justify=out_justify)
+    out_cgs = tk.Label(row_cgs, anchor='w', padx=20, font="-size 16", justify=out_justify, )
 
     row_si = tk.Frame(win)
     lab_si = tk.Label(row_si, width=10, text='SI', anchor='e', justify='center', ) #font="-size 16")

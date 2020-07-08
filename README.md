@@ -40,6 +40,7 @@ install sympy astropy`.
 ## TODO
 
 - Add latex preview
+- Add logo ([[https://www.c-sharpcorner.com/blogs/create-application-title-and-icon-in-python-gui][ref1]] and [[https://stackoverflow.com/questions/22618156/how-to-replace-the-python-logo-in-a-tkinter-based-python-gui-app][ref2]])
 
 ## References
 
