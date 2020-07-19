@@ -33,7 +33,7 @@ cd ~/local/bin
 ln -s /path/to/acap.py acap
 ```
 
-The following python modules are required: tkinter, sympy, and
+**The following python modules are required:** tkinter, sympy, and
 astropy. `tkinter` is available on most Unix platforms as well as on
 Windows systems. You can install the other two modules via `pip
 install sympy astropy`.
