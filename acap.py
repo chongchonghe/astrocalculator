@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-""" acap
+""" acap.py
 ACAP, an Awesome Calculator for Astronomers and Physicists.
 Author: Chong-Chong He (che1234@umd.edu)
 Date: 2020-06-20
@@ -16,6 +16,7 @@ from astropy.constants import *
 
 #========================================================================
 # The following variables can be changed by the user
+SCALE = 1.3      # Recommended: 1.3 on 1080p, 1.0 on a retina display.
 USE_ENTER = 1    # Use <Enter> to calculate instead of 'Calculate' button
 DIGITS = 4       # number of significant digits in scientific notations
 #========================================================================
@@ -49,7 +50,7 @@ for _key in Units.keys():
 esu = e.esu
 Ang = U.def_unit('Ang', 0.1 * nm)
 # mpcc = m_p / cm**3
-mpcc = U.def_unit('mpcc', m_p / cm**3) 
+mpcc = U.def_unit('mpcc', m_p / cm**3)
 Msun = M_sun
 m2 = m**2
 m3 = m**3
@@ -68,7 +69,7 @@ arcsec2 = arcsec**2
 
 # from sympy.printing.str import StrPrinter
 # class CustomStrPrinter(StrPrinter):
-#     def _print_Float(self, expr):         
+#     def _print_Float(self, expr):
 #         return '{:.3e}'.format(expr)
 
 IS_SCI = 0
@@ -84,8 +85,9 @@ def main():
         (convert_xor,)
 
     win = tk.Tk()
+    win.tk.call('tk', 'scaling', SCALE)
     win.title("ACAP")
-    win.geometry('600x660')
+    win.geometry('{:d}x{:d}'.format(int(600.0*SCALE), int(660.0*SCALE)))
 
     # Documentation
     doc = \
@@ -118,7 +120,7 @@ def main():
     scrollbar = tk.Scrollbar(win)
     scrollbar.pack(side='right', fill='y')
     # text_doc = tk.Text(win, height=16, font=font.Font(family='TkFixedFont'))
-    text_doc = tk.Text(win, height=18, bd=10)
+    text_doc = tk.Text(win, height=18/SCALE, bd=10, font="-size {:d}".format(int(12*SCALE)))
     text_doc.pack(fill='x', padx=5, pady=5, ipadx=5, ipady=5)
     text_doc.insert(tk.END, doc)
     text_doc.config(state=tk.DISABLED)
@@ -127,30 +129,33 @@ def main():
 
     # input1
     if USE_ENTER:
-        input1 = tk.Entry(win, font="-size 16", justify='center')
+        input1 = tk.Entry(win, font="-size {:d}".format(int(16*SCALE)), justify='center')
     else:
         input1 = tk.Text(win, height=3, font="-size 16")
         input1.pack(fill='x', padx=5)
 
     # error message
     # row0 = tk.Label(win, text="", anchor='center', )
-    row0 = tk.Label(win, text="Outputs:", anchor='w', justify='left')
+    row0 = tk.Label(win, text="Outputs:", anchor='w', justify='left', font="-size {:d}".format(int(12*SCALE)))
 
     # four rows for output
 
+    fontbig = "-size {:d}".format(int(16*SCALE))
+    fontnormal = "-size {:d}".format(int(12*SCALE))
     out_justify = 'center'
 
     row_cgs = tk.Frame(win)
-    lab_cgs = tk.Label(row_cgs, width=10, text='CGS', anchor='e', ) #font="-size 16")
-    out_cgs = tk.Label(row_cgs, anchor='w', padx=20, font="-size 16", justify=out_justify, )
+    lab_cgs = tk.Label(row_cgs, width=10, text='CGS', anchor='e', font=fontnormal)
+    out_cgs = tk.Label(row_cgs, anchor='w', padx=20, font=fontbig)
 
     row_si = tk.Frame(win)
-    lab_si = tk.Label(row_si, width=10, text='SI', anchor='e', justify='center', ) #font="-size 16")
-    out_si = tk.Label(row_si, anchor='w', padx=20, font="-size 16", justify='center')
+    lab_si = tk.Label(row_si, width=10, text='SI', anchor='e',
+                      justify='center', font=fontnormal)
+    out_si = tk.Label(row_si, anchor='w', padx=20, font=fontbig)
 
     row_user = tk.Frame(win)
-    ent_user = tk.Entry(row_user, width=10, justify='center') #font="-size 16")
-    out_user = tk.Label(row_user, anchor='w', padx=20, font="-size 16", justify=out_justify)
+    ent_user = tk.Entry(row_user, width=10, justify='center', font=fontnormal)
+    out_user = tk.Label(row_user, anchor='w', padx=20, font=fontbig)
 
     def evaluate_user(event):
         unit = ent_user.get()
@@ -287,12 +292,15 @@ def main():
     row_cal.pack(fill='x', padx=5, pady=5)
     if not USE_ENTER:
         tk.Button(row_cal, text="Calculate", command=calculate).pack(side='top')
-    tk.Checkbutton(row_cal, text='Scientific', variable=sci, onvalue=1,
-                offvalue=0, command=sci_switch).pack(side='right')
+    tk.Checkbutton(row_cal, text='Scientific', variable=sci,
+                   onvalue=1, font="-size {:d}".format(int(12*SCALE)), offvalue=0,
+                   command=sci_switch).pack(side='right')
 
     input_fm = tk.Frame(win)
-    input_lab = tk.Label(input_fm, width=12, text='Python input:', anchor='w')
-    input_parse = tk.Label(input_fm, justify='center', anchor='w')
+    input_lab = tk.Label(input_fm, width=14, text='Python input:',
+                         anchor='w', font="-size {:d}".format(int(12*SCALE)))
+    input_parse = tk.Label(input_fm, justify='center', anchor='w',
+                           font="-size {:d}".format(int(12*SCALE)))
     input_fm.pack(fill='x', padx=5, pady=5)
     input_lab.pack(side='left')
     input_parse.pack(side='right', expand=1, fill='x')
