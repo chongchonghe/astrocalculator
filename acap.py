@@ -16,7 +16,7 @@ from astropy.constants import *
 
 #========================================================================
 # The following variables can be changed by the user
-USE_ENTER = 1    # Use <Enter> to calculate instead of 'Calculate' button
+USE_ENTER = True    # True or False. Use <Enter> to calculate instead of 'Calculate' button
 DIGITS = 4       # number of significant digits in scientific notations
 #========================================================================
 
@@ -92,7 +92,7 @@ def main():
         "Welcome to ACAP, an Awesome Calculator for Astronomers and Physicists!\n"\
         "Author: Chong-Chong He (che1234@umd.edu)\n"\
         "\n"\
-        "Type in the expression you want to evaluate in the box blow and "\
+        "Type in the expression you want to evaluate in the box below and "\
         "{}. ".format("press <Enter>" if USE_ENTER else "click 'Calculate'") +\
         "The box in the bottom left corner can be used to express the output in any units.\n"\
         "\n"\
