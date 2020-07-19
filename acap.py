@@ -75,38 +75,6 @@ IS_SCI = 0
 
 def main():
 
-    def restrict_e_notation_precision(tokens, local_dict, global_dict):
-        """
-        Restrict input e notation precision to the minimum required.
-
-        Should be used after auto_number transformation, as it depends on
-        that transform to add the ``Float`` functional call for this to have
-        an effect.
-        """
-
-        result = []
-        float_call = False
-
-        for toknum, tokval in tokens:
-            if toknum == NAME and tokval == 'Float':
-                # set the flag
-                float_call = True
-
-            if float_call and toknum == NUMBER and ('e' in tokval or 'E' in tokval):
-                # recover original number before auto_number transformation
-                number = literal_eval(tokval)
-                # split the significand from base, while dropping the
-                # decimal point before treating length as the precision.
-                precision = len(number.lower().split('e')[0].replace('.', ''))
-                result.extend([(NUMBER, repr(str(number))), (OP, ','),
-                    (NUMBER, repr(str(precision)))])
-                float_call = False
-            else:
-                result.append((toknum, tokval))
-
-        return result
-
-
     # transformations = standard_transformations +\
     #     (restrict_e_notation_precision,) +\
     #     (implicit_multiplication,) +\
@@ -362,10 +330,9 @@ if __name__ == "__main__":
     from sympy import evaluate
     from sympy.parsing.sympy_parser import parse_expr, standard_transformations, \
         implicit_multiplication, convert_xor
-    from ast import literal_eval
-    from tokenize import NUMBER, NAME, OP
 
-    try:
-        main()
-    except Exception as uncaught:
-        print(uncaught)
+    # try:
+    #     main()
+    # except Exception as uncaught:
+    #     print(uncaught)
+    main()
