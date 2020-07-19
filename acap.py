@@ -117,31 +117,32 @@ def main():
     # doc = doc.splitlines()[13:]
     # doc = "\n".join(doc)
 
+    fontbig = "-size {:d}".format(int(16*SCALE))
+    fontnormal = "-size {:d}".format(int(12*SCALE))
     scrollbar = tk.Scrollbar(win)
     scrollbar.pack(side='right', fill='y')
     # text_doc = tk.Text(win, height=16, font=font.Font(family='TkFixedFont'))
-    text_doc = tk.Text(win, height=18/SCALE, bd=10, font="-size {:d}".format(int(12*SCALE)))
+    text_doc = tk.Text(win, height=18/SCALE, bd=10, font='TkFixedFont')
     text_doc.pack(fill='x', padx=5, pady=5, ipadx=5, ipady=5)
-    text_doc.insert(tk.END, doc)
+    text_doc.insert(tk.END, doc, )
     text_doc.config(state=tk.DISABLED)
     text_doc.config(yscrollcommand=scrollbar.set)
     scrollbar.config(command=text_doc.yview)
 
     # input1
     if USE_ENTER:
-        input1 = tk.Entry(win, font="-size {:d}".format(int(16*SCALE)), justify='center')
+        input1 = tk.Entry(win, font=fontbig, justify='center')
     else:
         input1 = tk.Text(win, height=3, font="-size 16")
         input1.pack(fill='x', padx=5)
 
     # error message
     # row0 = tk.Label(win, text="", anchor='center', )
-    row0 = tk.Label(win, text="Outputs:", anchor='w', justify='left', font="-size {:d}".format(int(12*SCALE)))
+    row0 = tk.Label(win, text="Outputs:", anchor='w', justify='left',
+                    font=fontnormal)
 
     # four rows for output
 
-    fontbig = "-size {:d}".format(int(16*SCALE))
-    fontnormal = "-size {:d}".format(int(12*SCALE))
     out_justify = 'center'
 
     row_cgs = tk.Frame(win)
