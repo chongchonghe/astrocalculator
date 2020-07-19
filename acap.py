@@ -12,7 +12,7 @@ from numpy import sqrt
 from astropy import units as U
 from astropy import constants as C
 from astropy.constants import *
-from astropy.cosmology import WMAP9
+# from astropy.cosmology import WMAP9
 
 #========================================================================
 # The following variables can be changed by the user
@@ -22,40 +22,56 @@ DIGITS = 4       # number of significant digits in scientific notations
 
 # load astropy constants
 Units = {
-    'Length': ['m', 'cm', 'mm', 'um', 'nm', 'Ang', 'km', 'au', 'pc', 'Mpc', 'lyr',],
-    'Mass': ['kg', 'g', 'M_sun'],
+    'Length': ['m', 'cm', 'mm', 'um', 'nm', 'Angstrom', 'km', 'au', 'AU', 'pc', 'kpc', 'Mpc', 'lyr',],
+    'Mass': ['kg', 'g', 'M_sun', 'Msun'],
     'Density': ['mpcc'],
     'Time': ['s', 'yr', 'Myr', 'Gyr',],
     'Energy': ['J', 'erg', 'eV', 'keV', 'MeV', 'GeV'],
     'Power': ['W'],
+    'Pressure': ['Pa', 'bar', 'mbar'],
     'Frequency': ['Hz', 'kHz', 'MHz', 'GHz',],
     'Temperature': ['K',],
+    'Angular size': ['deg', 'arcmin', 'arcsec', 'arcsec2'],
+    'Astronomy': ['Lsun', 'Jy', 'mJy', 'MJy'],
+    'Composite': ['m2', 'm3', 'cm2', 'cm3', 's2', 'pc2', 'pc3']
     }
-_unit_extra = ['Ang', 'mpcc']
-_unit_skip = ['au', 'pc', 'M_sun']
+UNITS_USER = ['Msun', 'Ang', 'mpcc', 'm2', 'm3', 'cm2', 'cm3', 's2', 'pc2',
+              'pc3', 'deg', 'arcsec', 'arcsec2']
+_unit_skip = ['au', 'pc', 'M_sun']  # defined as constants instead of units
 # Extra
 for _key in Units.keys():
     for _unit in Units[_key]:
-        if _unit in _unit_extra or _unit in _unit_skip:
-            continue
-        locals()[_unit] = eval("U.{}".format(_unit))
+        if _unit not in _unit_skip + UNITS_USER:
+            locals()[_unit] = eval("U.{}".format(_unit))
 
 # User defined units
-UNITS_USER = ['Ang', 'mpcc']
 # Ang = 0.1 * nm
+esu = e.esu
 Ang = U.def_unit('Ang', 0.1 * nm)
 # mpcc = m_p / cm**3
-mpcc = U.def_unit('mpcc', m_p / cm**3)   
+mpcc = U.def_unit('mpcc', m_p / cm**3) 
+Msun = M_sun
+m2 = m**2
+m3 = m**3
+cm2 = cm**2
+cm3 = cm**3
+s2 = s**2
+pc2 = pc**2
+pc3 = pc**3
+deg = pi / 180.
+arcmin = deg / 60.
+arcsec = deg / 60.**2
+arcsec2 = arcsec**2
 
-# User defined constants
-H0 = WMAP9.H0
-
-IS_SCI = 0
+# Cosmology
+# H0 = WMAP9.H0
 
 # from sympy.printing.str import StrPrinter
 # class CustomStrPrinter(StrPrinter):
 #     def _print_Float(self, expr):         
 #         return '{:.3e}'.format(expr)
+
+IS_SCI = 0
 
 def main():
 
@@ -91,7 +107,13 @@ def main():
         return result
 
 
-    transformations = standard_transformations + (restrict_e_notation_precision,) + (implicit_multiplication,) + (convert_xor,)
+    # transformations = standard_transformations +\
+    #     (restrict_e_notation_precision,) +\
+    #     (implicit_multiplication,) +\
+    #     (convert_xor,)
+    transformations = standard_transformations +\
+        (implicit_multiplication,) +\
+        (convert_xor,)
 
     win = tk.Tk()
     win.title("ACAP")
@@ -108,9 +130,9 @@ def main():
         "\n"\
         "Example input: \n"\
         "    4 pc\n"\
-        "    (G M_sun / au)^.5\n"\
+        "    sqrt(G M_sun / au)\n"\
         "    m_p c^2 / k_B\n"\
-        "    e.esu^2 / (0.1 nm)^2\n"\
+        "    esu^2 / (0.1 nm)^2 (esu is the electron charge in ESU system)\n"\
         "\n"
     doc += "\n".join(C.__doc__.splitlines()[13:]) + "\n"
     doc += "\n"
@@ -135,16 +157,6 @@ def main():
     text_doc.config(yscrollcommand=scrollbar.set)
     scrollbar.config(command=text_doc.yview)
 
-    # top text
-    # text_top_text = "Type in the expression you want to evaluate and " \
-    #     "{}.\n".format("press <Enter>" if USE_ENTER else "click 'Calculate'") + \
-    #     "e.g. 4 * pc, (G * M_sun / au)^.5, m_p * c^2 / k_B, e.esu^2 / (0.1 * nm)^2"
-    # text_top = tk.Label(win,
-    #                     text=text_top_text,
-    #                     anchor='w',
-    #                     justify='left')
-    # text_top.pack(fill='both', padx=5, pady=6)
-
     # input1
     if USE_ENTER:
         input1 = tk.Entry(win, font="-size 16", justify='center')
@@ -157,10 +169,6 @@ def main():
     row0 = tk.Label(win, text="Outputs:", anchor='w', justify='left')
 
     # four rows for output
-
-    # row1 = tk.Frame(win)
-    # lab1 = tk.Label(row1, width=10, text='Raw', anchor='center')
-    # out1 = tk.Label(row1, text='alkdjfl adlkf aslkdfjalksdjflaksdjf lasdjf l', anchor='w')
 
     out_justify = 'center'
 
@@ -225,10 +233,7 @@ def main():
             inp = input1.get(1.0, tk.END)
 
         # parse input
-        # print("Input:", inp, end='\t')
-        # print(type(inp))
         print("Input:", inp)
-        # inp = inp.replace('^', '**')
         with evaluate(False):
             inp_expr = parse_expr(inp, transformations=transformations, evaluate=False)
             inp = str(inp_expr)
@@ -327,14 +332,9 @@ def main():
     # display parsed input
 
     # pack error message
-    # row0.pack(pady=8, )
     row0.pack(fill='both', padx=5, pady=6)
 
     # pack the four rows
-
-    # row1.pack(fill='x', padx=5, pady=5)
-    # lab1.pack(side='left')
-    # out1.pack(side='right', expand=1, fill='x')
 
     row_cgs.pack(fill='x', padx=5, pady=5)
     lab_cgs.pack(side='left')
@@ -365,4 +365,7 @@ if __name__ == "__main__":
     from ast import literal_eval
     from tokenize import NUMBER, NAME, OP
 
-    main()
+    try:
+        main()
+    except Exception as uncaught:
+        print(uncaught)
