@@ -13,7 +13,13 @@ programmed in Python with GUI.
 
 ## How to run?
 
-No installation required. Simply download and run `acap.py`. Or, make it as an executable and move it to your PATH so that you can start this program in your terminal with `acap`. e.g.,
+No installation required. Simply download this repository and run 
+
+```
+python acap.py
+```
+
+Or, make it as an executable and move it to your PATH so that you can start this program in your terminal with `acap`. e.g.,
 
 ```
 mv acap.py ~/local/bin/acap
