@@ -9,5 +9,5 @@ setup(
     description='ACAP, an Awesome Calculator for Astronomers and Physicists.',
     packages=find_packages(),
     scripts=['acap'],
-    install_requires=['tkinter', 'sympy', 'astropy'],
+    install_requires=['sympy', 'astropy'],
 )
