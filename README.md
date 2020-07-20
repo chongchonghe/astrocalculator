@@ -13,18 +13,25 @@ programmed in Python with GUI.
 
 ## How to run?
 
-Clone this repository. Inside the directory of this project, do
+Simply clone this repository and run the python program with `python
+acap`.
+
+Alternatively, to install ACAP as a software, clone this repository, cd
+into it, and install it via pip:
 
 ```
+git clone https://github.com/chongchonghe/acap.git
+cd acap
 pip install -e .
 ```
 
-This will create a executable call 'acap' in your PATH. Now anywhere in your terminal you can do `acap` to initiate this program.
+This will create an executable `acap` in your PATH. Anywhere in
+your terminal you can do `acap` to start this program.
 
-**The following python modules are required and will be automatically
-installed:** tkinter, sympy, and astropy. `tkinter` is available on
-most Unix platforms as well as on Windows systems. You can install the
-other two modules via `pip install sympy astropy`.
+**The following python modules are required and will be installed
+automatically:** tkinter, sympy, and astropy. `tkinter` is available
+on most Unix platforms as well as on Windows systems. The other two
+packages with be installed via pip.
 
 ## Example inputs
 
@@ -39,7 +46,7 @@ other two modules via `pip install sympy astropy`.
 
 ## TODO
 
-- [ ] Add setup.py
+- [X] Add setup.py
 - [ ] Add latex preview
 - [ ] Add logo ([ref1](https://www.c-sharpcorner.com/blogs/create-application-title-and-icon-in-python-gui) and [ref2)](https://stackoverflow.com/questions/22618156/how-to-replace-the-python-logo-in-a-tkinter-based-python-gui-app)
 

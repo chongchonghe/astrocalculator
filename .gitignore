@@ -1,0 +1,22 @@
+test*
+*.egg-info
+
+# General
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Emacs stuff #
+###############
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+
+# python stuff
+__pycache__/
+**/__pycache__/
+

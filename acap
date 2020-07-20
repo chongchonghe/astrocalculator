@@ -245,8 +245,6 @@ def main():
             print("Output (cgs):", Ret)
             out_si.config(text=Ret)
         elif type(Ret) in [float, np.float, np.float64]:
-        # elif type(Ret) in [float, np.float64, np.float32]:
-        # if type(Ret) in [float, int]:
             # out1.config(text=str(Ret))
             out_cgs.config(text=f_fmt.format(Ret))
             print("Output (cgs):", f_fmt.format(Ret))
