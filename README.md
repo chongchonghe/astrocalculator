@@ -43,6 +43,16 @@ packages with be installed via pip.
 | sqrt(G M_sun / au) | 2978469.182967693 cm / s (29.78 km/s)                        |
 | 1 Mpc * 2 arcsec   | 2.991957413976559e+19 cm rad                                 |
 
+## Configurations
+
+Configuration is possible via changing a few parameter on the top of the python script. Currently available parameters are:
+
+| Parameter | Default | Description                                                  |
+| --------- | ------- | ------------------------------------------------------------ |
+| SCALE     | 1.2     | Scaling of the window size. Recommended: 1.2 on 1080p, 1.0 on a retina display. |
+| PRINT_LOG | True    | Toggle printing inputs and outputs to `~/.acap`. Will always print on terminal. |
+| DIGITS    | 4       | Number of significant digits in the scientific notation.     |
+
 
 ## TODO
 
