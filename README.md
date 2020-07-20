@@ -28,17 +28,20 @@ other two modules via `pip install sympy astropy`.
 
 ## Example inputs
 
-| Input              | Output                                             |
-| ------------------ | -------------------------------------------------- |
-| sin(pi/2)          | 1.0                                                |
-| h                  | 6.62607015e-27 erg s                               |
-| m_e c^2            | 8.187105776823886e-07 erg (0.5109989499961642 MeV) |
-| sqrt(G M_sun / au) | 2978469.182967693 cm / s (29.78 km/s)              |
+| Input              | Output                                                       |
+| ------------------ | ------------------------------------------------------------ |
+| sin(pi/2)          | 1.0                                                          |
+| h                  | 6.62607015e-27 erg s (plus detailed descriptions of plank constant) |
+| m_e c^2            | 8.187105776823886e-07 erg (0.5109989499961642 MeV)           |
+| sqrt(G M_sun / au) | 2978469.182967693 cm / s (29.78 km/s)                        |
+| 1 Mpc * 2 arcsec   | 2.991957413976559e+19 cm rad                                 |
+
 
 ## TODO
 
-- Add latex preview
-- Add logo ([[https://www.c-sharpcorner.com/blogs/create-application-title-and-icon-in-python-gui][ref1]] and [[https://stackoverflow.com/questions/22618156/how-to-replace-the-python-logo-in-a-tkinter-based-python-gui-app][ref2]])
+- [ ] Add setup.py
+- [ ] Add latex preview
+- [ ] Add logo ([ref1](https://www.c-sharpcorner.com/blogs/create-application-title-and-icon-in-python-gui) and [ref2)](https://stackoverflow.com/questions/22618156/how-to-replace-the-python-logo-in-a-tkinter-based-python-gui-app)
 
 ## References
 
