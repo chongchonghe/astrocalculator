@@ -17,12 +17,12 @@ from astropy.constants import *
 
 #========================================================================
 # The following variables can be changed by the user
-SCALE = 1.3      # Recommended: 1.3 on 1080p, 1.0 on a retina display.
-USE_ENTER = True    # True or False. Use <Enter> to calculate instead of 'Calculate' button
-DIGITS = 4       # number of significant digits in scientific notations
+SCALE = 1.3         # Recommended: 1.3 on 1080p, 1.0 on a retina display.
+DIGITS = 4          # number of significant digits in scientific notations
+USE_ENTER = True    # True or False. Use <Enter> to calculate instead of
+                    # 'Calculate' button   
 #========================================================================
 
-# load astropy constants
 Units = {
     'Length': ['m', 'cm', 'mm', 'um', 'nm', 'Angstrom', 'km', 'au', 'AU', 'pc', 'kpc', 'Mpc', 'lyr',],
     'Mass': ['kg', 'g', 'M_sun', 'Msun'],
@@ -72,6 +72,25 @@ arcsec2 = arcsec**2
 #         return '{:.3e}'.format(expr)
 
 IS_SCI = 0
+
+def delete(window):
+    window.delete(1.0, 'end')
+
+def focusText(event, window):
+    window.config(state='normal')
+    window.focus()
+    window.config(state='disabled')
+
+def update_text(window, text, tag=None):
+    window.configure(state='normal')
+    delete(window)
+    if tag is None:
+        window.insert(1.0, text)
+    elif tag == 'red':
+        window.insert(1.0, text, 'color')
+    elif tag == 'vcenter':
+        window.insert(1.0, text, 'vcenter')
+    window.configure(state='disabled')
 
 def main():
 
@@ -137,76 +156,98 @@ def main():
 
     # error message
     # row0 = tk.Label(win, text="", anchor='center', )
-    row0 = tk.Label(win, text="Outputs:", anchor='w', justify='left',
+    row0 = tk.Label(win, text="Outputs (CGS, USER, SI):", anchor='w', justify='left',
                     font=fontnormal)
 
     # four rows for output
 
-    out_justify = 'center'
-
     row_cgs = tk.Frame(win)
     lab_cgs = tk.Label(row_cgs, width=10, text='CGS', anchor='e', font=fontnormal)
-    out_cgs = tk.Label(row_cgs, anchor='w', padx=20, font=fontbig)
+    # out_cgs = tk.Text(row_cgs, anchor='w', padx=20, height=1, font=fontbig)
+    out_cgs = tk.Text(row_cgs, padx=10, height=1, font=fontbig,
+                      highlightthickness=0)
+    out_cgs.bind('<Button-1>', lambda t: focusText(t, out_cgs)) 
 
     row_si = tk.Frame(win)
     lab_si = tk.Label(row_si, width=10, text='SI', anchor='e',
                       justify='center', font=fontnormal)
-    out_si = tk.Label(row_si, anchor='w', padx=20, font=fontbig)
+    # out_si = tk.Label(row_si, anchor='w', padx=20, font=fontbig)
+    out_si = tk.Text(row_si, padx=10, height=5, font=fontbig,
+                     highlightthickness=0, )
+    out_si.tag_configure('vcenter', justify='left')
+    out_si.bind('<Button-1>', lambda t: focusText(t, out_si)) 
 
     row_user = tk.Frame(win)
-    ent_user = tk.Entry(row_user, width=10, justify='center', font=fontnormal)
-    out_user = tk.Label(row_user, anchor='w', padx=20, font=fontbig)
+    ent_user = tk.Entry(row_user, width=10, justify='right', borderwidth=0,
+                        font=fontnormal)
+    # out_user = tk.Label(row_user, anchor='w', padx=20, font=fontbig)
+    out_user = tk.Text(row_user, padx=10, height=1, font=fontbig,
+                       highlightthickness=0)
+    out_user.bind('<Button-1>', lambda t: focusText(t, out_user)) 
+    out_user.tag_config('color', foreground='red')  # add a tag for 'red text'
 
-    def evaluate_user(event):
+    def evaluate_user(event, ret):
         unit = ent_user.get()
         if unit == '':
-            out_user.config(text="", fg='black')
+            update_text(out_user, "")
+            # out_user.config(text="", fg='black')
             return
         f_fmt = '{{:.{}e}}'.format(DIGITS-1) if IS_SCI else '{}'
-        if type(Ret) is int:
-            out_user.config(text=Ret, fg='black')
-        # elif type(Ret) in [float, np.float, np.float64]:
-        elif type(Ret) is float:
-            out_user.config(text=f_fmt.format(Ret), fg='black')
+        if type(ret) is int:
+            update_text(out_user, ret)
+            # out_user.config(text=ret, fg='black')
+        # elif type(ret) in [float, np.float, np.float64]:
+        elif type(ret) in [float, np.float, np.float64]:
+            update_text(out_user, f_fmt.format(ret))
+            # out_user.config(text=f_fmt.format(ret), fg='black')
         else:
             try:
                 if unit in UNITS_USER:
-                    ret_loc = Ret.to(eval(unit))
+                    ret_loc = ret.to(eval(unit))
                 else:
-                    ret_loc = Ret.to(unit)
+                    ret_loc = ret.to(unit)
                 if type(ret_loc) is int:
-                    out_user.config(text=ret_loc, fg='black')
+                    update_text(out_user, ret_loc.format(ret))
+                    # out_user.config(text=ret_loc, fg='black')
                 elif type(ret_loc) is float:
-                    out_user.config(text=f_fmt.format(ret_loc), fg='black')
+                    update_text(out_user, f_fmt.format(ret_loc))
+                    # out_user.config(text=f_fmt.format(ret_loc), fg='black')
                 else:
-                    out_user.config(text=f_fmt.format(ret_loc.value) + " " +
-                                    str(ret_loc._unit), fg='black')
+                    text=f_fmt.format(ret_loc.value) + " " + str(ret_loc._unit)
+                    update_text(out_user, text)
+                    # out_user.config(text=f_fmt.format(ret_loc.value) + " " +
+                    #                 str(ret_loc._unit), fg='black')
             except UnitConversionError as uce:
-                out_user.config(text=uce, fg='red')
+                update_text(out_user, uce, 'red')
+                # out_user.config(text=uce, fg='red')
             except ValueError as _e:
-                out_user.config(text=_e, fg='red')
+                update_text(out_user, _e, 'red')
+                # out_user.config(text=_e, fg='red')
 
     # define the calculate function
     def calculate(event=None):
         if USE_ENTER:
             inp = input1.get()
             if inp == "":
-                out_cgs.config(text="")
+                update_text(out_cgs, "")
+                # out_cgs.config(text="")
                 print("Output (cgs):", "")
-                out_si.config(text="")
-                out_user.config(text="")
+                update_text(out_si, "", 'vcenter')
+                update_text(out_user, "")
+                # out_si.config(text="")
+                # out_user.config(text="")
                 return
         else:
             if input1.compare("end-1c", "==", "1.0"):
-                out_cgs.config(text="")
+                update_text(out_cgs, "")
                 print("Output (cgs):", "")
-                out_si.config(text="")
-                out_user.config(text="")
+                update_text(out_si, "", 'vcenter')
+                update_text(out_user, "")
                 return
             inp = input1.get(1.0, tk.END)
 
         # parse input
-        print("Input:", inp)
+        print("Input:", inp.replace("\n",""))
         with evaluate(False):
             inp_expr = parse_expr(inp, transformations=transformations, evaluate=False)
             inp = str(inp_expr)
@@ -214,7 +255,7 @@ def main():
         # print("Input-paresed:", CustomStrPrinter().doprint(inp_expr))
 
         # get the results
-        global Ret
+        # global Ret
         error_msg = None
         try:
             Ret = eval(inp)
@@ -231,49 +272,57 @@ def main():
             # row0.config(text="Unexpected error: " + str(_e), fg='red')
             # return
         if error_msg is not None:
-            out_cgs.config(text="")
+            update_text(out_cgs, "")
+            # out_cgs.config(text="")
             print("Output (cgs):", "")
-            out_si.config(text="")
+            update_text(out_si, "")
+            # out_si.config(text="")
             row0.config(text=textwrap.fill(error_msg, 80), fg='red')
             return
 
         # Display results
         f_fmt = '{{:.{}e}}'.format(DIGITS-1) if IS_SCI else '{}'
-        row0.config(text='Outputs:', fg='black')
-        if type(Ret) is int:
-            out_cgs.config(text=Ret)
-            print("Output (cgs):", Ret)
-            out_si.config(text=Ret)
-        elif type(Ret) in [float, np.float, np.float64]:
-            # out1.config(text=str(Ret))
-            out_cgs.config(text=f_fmt.format(Ret))
-            print("Output (cgs):", f_fmt.format(Ret))
-            out_si.config(text=f_fmt.format(Ret))
+        row0.config(text='Outputs (CGS, USER, SI):', fg='black')
+        if type(Ret) in [int, float, np.float, np.float64]:
+            if type(Ret) is not int:
+                ret = f_fmt.format(Ret)
+            else:
+                ret = Ret
+            print('here')
+            update_text(out_cgs, ret)
+            # out_cgs.config(text=Ret)
+            print("Output (cgs):", ret)
+            update_text(out_si, ret, 'vcenter')
+            # out_si.config(text=Ret)
         else:                       # is astropy stuff
             # SI
             if type(Ret.si) is Quantity:
-                out_si.config(text=f_fmt.format(Ret.si))
+                update_text(out_si, f_fmt.format(Ret.si))
+                # out_si.config(text=f_fmt.format(Ret.si))
             # if type(Ret.si) is CompositeUnit:
             #     # TODO: sci here. Seems impossible to work
             #     out_si.config(text=Ret.si)
             else:
                 # out_si.config(text=f_fmt.format(Ret.si.value) + ' ' + str(Ret.si._unit))
-                out_si.config(text=Ret.si)
+                update_text(out_si, Ret.si)
+                # out_si.config(text=Ret.si)
             # CGS
             try:
                 if type(Ret.cgs) is CompositeUnit:
                     # TODO: sci here. Seems impossible to work
-                    out_cgs.config(text=Ret.cgs)
+                    update_text(out_cgs, Ret.cgs)
+                    # out_cgs.config(text=Ret.cgs)
                     print("Output (cgs):", Ret.cgs)
                 else:
                     # out1.config(text="{} {}".format(Ret.value, Ret._unit))
                     _text = f_fmt.format(Ret.cgs.value) + ' ' + str(Ret.cgs._unit)
-                    out_cgs.config(text=_text)
+                    update_text(out_cgs, _text)
+                    # out_cgs.config(text=_text)
                     print("Output (cgs):", _text)
                 # out_cgs.config(text=str(Ret.cgs))
             except Exception as _e:
                 row0.config(text=textwrap.fill(str(_e), 80), fg='red')
-        evaluate_user(None)
+        evaluate_user(None, Ret)
 
     def sci_switch():
         global IS_SCI
@@ -312,16 +361,17 @@ def main():
 
     row_cgs.pack(fill='x', padx=5, pady=5)
     lab_cgs.pack(side='left')
-    out_cgs.pack(side='right', expand=1, fill='x')
+    out_cgs.pack(side='right', expand=1, fill='x', padx=10)
+
+    row_user.pack(fill='x', padx=5, pady=5)
+    ent_user.bind("<Return>", calculate)
+    # ent_user.bind("<Return>", evaluate_user)
+    ent_user.pack(side='left', ipady=4)
+    out_user.pack(side='right', expand=1, fill='x', padx=8)
 
     row_si.pack(fill='x', padx=5, pady=5)
     lab_si.pack(side='left')
-    out_si.pack(side='right', expand=1, fill='x')
-
-    row_user.pack(fill='x', padx=5, pady=5)
-    ent_user.bind("<Return>", evaluate_user)
-    ent_user.pack(side='left', ipady=4)
-    out_user.pack(side='right', expand=1, fill='x')
+    out_si.pack(side='right', expand=1, fill='x', padx=10)
 
     win.mainloop()
 
