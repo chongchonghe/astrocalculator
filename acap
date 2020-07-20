@@ -8,7 +8,8 @@ A calculator written in python with GUI.
 """
 
 from math import *
-from numpy import sqrt, sin
+import numpy as np
+from numpy import sqrt
 from astropy import units as U
 from astropy import constants as C
 from astropy.constants import *
@@ -243,8 +244,8 @@ def main():
             out_cgs.config(text=Ret)
             print("Output (cgs):", Ret)
             out_si.config(text=Ret)
-        # elif type(Ret) in [float, np.float, np.float64]:
-        elif type(Ret) is float:
+        elif type(Ret) in [float, np.float, np.float64]:
+        # elif type(Ret) in [float, np.float64, np.float32]:
         # if type(Ret) in [float, int]:
             # out1.config(text=str(Ret))
             out_cgs.config(text=f_fmt.format(Ret))

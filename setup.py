@@ -8,6 +8,6 @@ setup(
     author_email='che1234@umd.edu',
     description='ACAP, an Awesome Calculator for Astronomers and Physicists.',
     packages=find_packages(),
-    scripts=['bin/acap'],
+    scripts=['acap'],
     install_requires=['tkinter', 'sympy', 'astropy'],
 )
