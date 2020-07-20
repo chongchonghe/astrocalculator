@@ -8,7 +8,7 @@ A calculator written in python with GUI.
 """
 
 from math import *
-from numpy import sqrt
+from numpy import sqrt, sin
 from astropy import units as U
 from astropy import constants as C
 from astropy.constants import *
@@ -32,12 +32,12 @@ Units = {
     'Pressure': ['Pa', 'bar', 'mbar'],
     'Frequency': ['Hz', 'kHz', 'MHz', 'GHz',],
     'Temperature': ['K',],
-    'Angular size': ['deg', 'arcmin', 'arcsec', 'arcsec2'],
+    'Angular size': ['radian', 'arcmin', 'arcsec', 'arcsec2'],
     'Astronomy': ['Lsun', 'Jy', 'mJy', 'MJy'],
     'Composite': ['m2', 'm3', 'cm2', 'cm3', 's2', 'pc2', 'pc3']
     }
 UNITS_USER = ['Msun', 'Ang', 'mpcc', 'm2', 'm3', 'cm2', 'cm3', 's2', 'pc2',
-              'pc3', 'deg', 'arcsec', 'arcsec2']
+              'pc3', 'arcsec2']
 _unit_skip = ['au', 'pc', 'M_sun']  # defined as constants instead of units
 # Extra
 for _key in Units.keys():
@@ -59,9 +59,7 @@ cm3 = cm**3
 s2 = s**2
 pc2 = pc**2
 pc3 = pc**3
-deg = pi / 180.
-arcmin = deg / 60.
-arcsec = deg / 60.**2
+# deg = pi / 180. * radian
 arcsec2 = arcsec**2
 
 # Cosmology
