@@ -13,30 +13,18 @@ programmed in Python with GUI.
 
 ## How to run?
 
-No installation required. Simply download this repository and run 
+Clone this repository. Inside the directory of this project, do
 
 ```
-python acap.py
+pip install -e .
 ```
 
-Or, make it as an executable and move it to your PATH so that you can start this program in your terminal with `acap`. e.g.,
+This will create a executable call 'acap' in your PATH. Now anywhere in your terminal you can do `acap` to initiate this program.
 
-```
-mv acap.py ~/local/bin/acap
-chmod +x ~/local/bin/acap
-```
-
-Or better, clone this repo and make a symbolic link of acap.py to your `local/bin` so that you can get the most update-to-date version 
-```
-chmod +x acap.py
-cd ~/local/bin
-ln -s /path/to/acap.py acap
-```
-
-**The following python modules are required:** tkinter, sympy, and
-astropy. `tkinter` is available on most Unix platforms as well as on
-Windows systems. You can install the other two modules via `pip
-install sympy astropy`.
+**The following python modules are required and will be automatically
+installed:** tkinter, sympy, and astropy. `tkinter` is available on
+most Unix platforms as well as on Windows systems. You can install the
+other two modules via `pip install sympy astropy`.
 
 ## Example inputs
 
