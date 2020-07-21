@@ -11,9 +11,9 @@ programmed in Python with GUI.
 
 <img src="https://user-images.githubusercontent.com/24463821/87982584-0295ae80-caa5-11ea-9319-2da2b9ef2ea9.gif" width="500">
 
-## How to run?
+## How to install and upgrade?
 
-Simply clone this repository and run the python program with `python
+To try it out, simply clone this repository and run the python script with `python
 acap`.
 
 Alternatively, to install ACAP as a software, clone this repository, cd
@@ -25,15 +25,17 @@ cd acap
 pip install -e .
 ```
 
-This will create an executable `acap` in your PATH. Anywhere in
-your terminal you can do `acap` to start this program.
+This will create an executable `acap` in your PATH. Now type `acap` in
+your terminal to start this program. 
 
-**The following python modules are required and will be installed
-automatically:** tkinter, sympy, and astropy. `tkinter` is available
+**To upgrade** to the latest version, `git pull` in the code directory to pull the latest version and `pip install -e .` to install it.
+
+The following python modules are required and will be installed
+automatically: tkinter, sympy, and astropy. `tkinter` is available
 on most Unix platforms as well as on Windows systems. The other two
 packages with be installed via pip.
 
-## Example inputs
+## Example inputs and outputs
 
 | Input              | Output                                                       |
 | ------------------ | ------------------------------------------------------------ |
@@ -57,6 +59,7 @@ Configuration is possible via changing a few parameter on the top of the python 
 ## TODO
 
 - [X] Add setup.py
+- [X] Make the outputs copyable
 - [ ] Add latex preview
 - [ ] Add logo ([ref1](https://www.c-sharpcorner.com/blogs/create-application-title-and-icon-in-python-gui) and [ref2)](https://stackoverflow.com/questions/22618156/how-to-replace-the-python-logo-in-a-tkinter-based-python-gui-app)
 
