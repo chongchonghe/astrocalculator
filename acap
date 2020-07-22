@@ -19,8 +19,8 @@ from datetime import datetime
 
 #========================================================================
 # The following variables can be changed by the user
-SCALE = 1.2         # Recommended: 1.3 on 1080p, 1.0 on a retina display.
-PRINT_LOG = True    # print inputs and outputs to ~/.acap
+SCALE = 1.1         # Recommended: 1.3 on 1080p, 1.0 on a retina display.
+PRINT_LOG = True    # Toggle printing inputs and outputs to ~/.acap_history
 DIGITS = 4          # number of significant digits in the scientific notation
 #========================================================================
 
@@ -53,7 +53,6 @@ for _key in Units.keys():
 # Ang = 0.1 * nm
 esu = e.esu
 Ang = U.def_unit('Ang', 0.1 * nm)
-# mpcc = m_p / cm**3
 mpcc = U.def_unit('mpcc', m_p / cm**3)
 Msun = M_sun
 m2 = m**2
@@ -85,6 +84,7 @@ def focusText(event, window):
     window.config(state='disabled')
 
 def update_text(window, text, tag=None):
+    """ Update texts of a Text widget. Make it uneditable. """
     window.configure(state='normal')
     delete(window)
     if tag is None:
@@ -98,14 +98,13 @@ def update_text(window, text, tag=None):
 def print_log(*args):
     print(*args)
     if PRINT_LOG:
-        with open(os.path.join(os.path.expanduser('~'), ".acap"), 'a') as f:
+        with open(os.path.join(os.path.expanduser('~'), ".acap_history"), 'a') as f:
             print(*args, file=f)
 
 def main():
 
     print_log('')
-    print_log('Running ACAP')
-    print_log(datetime.now())
+    print_log('Running ACAP on ' + str(datetime.now()))
 
     # transformations = standard_transformations +\
     #     (restrict_e_notation_precision,) +\
@@ -125,15 +124,16 @@ def main():
         "Welcome to ACAP, an Awesome Calculator for Astronomers and Physicists!\n"\
         "Author: Chong-Chong He (che1234@umd.edu)\n"\
         "\n"\
-        "Type in the expression you want to evaluate in the box below and "\
+        "Type the expression you want to evaluate in the box below and "\
         "{}. ".format("press <Enter>" if USE_ENTER else "click 'Calculate'") +\
-        "The box in the bottom left corner can be used to express the output in any units.\n"\
+        "The result is shown in the following units: CGS, USER, and SI.\n"\
         "\n"\
-        "Example input: \n"\
-        "    4 pc\n"\
+        "Example inputs: \n"\
+        "    m_p\n"\
         "    sqrt(G M_sun / au)\n"\
         "    m_p c^2 / k_B\n"\
-        "    esu^2 / (0.1 nm)^2 (esu is the electron charge in ESU system)\n"\
+        "    1 arcsec * 3 Mpc\n"\
+        "    esu^2 / (0.1 nm)^2   Note: esu is the electron charge in ESU system\n"\
         "\n"
     doc += "\n".join(C.__doc__.splitlines()[13:]) + "\n"
     doc += "\n"
@@ -141,19 +141,18 @@ def main():
     for _key in Units.keys():
         doc += "{:s} | {}\n".format(_key.rjust(12), ", ".join(Units[_key]))
     doc += "\n"
-    doc += "Command math operations are available. For instance, sin, cos, exp, ! (factorial), ^ (power), sqrt\n"
+    doc += "Command math operations are available. For instance, sin, cos, exp,"
+    doc += " ! (factorial), ^ (power), sqrt\n"
     doc += "\n"
-    doc += "More units are available for the user-defined unit."
-    # print('\n\nHere')
-    # doc = doc.splitlines()[13:]
-    # doc = "\n".join(doc)
+    doc += "More (composite) units are available as the user-defined units.\n"
 
     fontbig = "-size {:d}".format(int(16*SCALE))
     fontnormal = "-size {:d}".format(int(12*SCALE))
     scrollbar = tk.Scrollbar(win)
     scrollbar.pack(side='right', fill='y')
     # text_doc = tk.Text(win, height=16, font=font.Font(family='TkFixedFont'))
-    text_doc = tk.Text(win, height=18/SCALE, bd=10, font='TkFixedFont')
+    text_doc = tk.Text(win, height=18/SCALE, bd=10, font='TkFixedFont',
+                       wrap='word')
     text_doc.pack(fill='x', padx=5, pady=5, ipadx=5, ipady=5)
     text_doc.insert(tk.END, doc, )
     text_doc.config(state=tk.DISABLED)
@@ -239,9 +238,15 @@ def main():
 
     # define the calculate function
     def calculate(event=None):
-        if USE_ENTER:
+        # clean outputs prior doing anything
+        update_text(out_cgs, "")
+        update_text(out_si, "")
+        update_text(out_user, "")
+        row0.config(text="")
+        
+        if USE_ENTER:           # use <Enter> to execute calculation
             inp = input1.get()
-            if inp == "":
+            if inp == "":       # if empty
                 update_text(out_cgs, "")
                 # out_cgs.config(text="")
                 print_log("Output (cgs):", "")
@@ -250,8 +255,8 @@ def main():
                 # out_si.config(text="")
                 # out_user.config(text="")
                 return
-        else:
-            if input1.compare("end-1c", "==", "1.0"):
+        else:                   # use Calculate button
+            if input1.compare("end-1c", "==", "1.0"):  # if empty
                 update_text(out_cgs, "")
                 print_log("Output (cgs):", "")
                 update_text(out_si, "", 'vcenter')
@@ -261,9 +266,13 @@ def main():
 
         # parse input
         print_log("Input:", inp.replace("\n",""))
-        with evaluate(False):
-            inp_expr = parse_expr(inp, transformations=transformations, evaluate=False)
-            inp = str(inp_expr)
+        try:
+            with evaluate(False):
+                inp_expr = parse_expr(inp, transformations=transformations, evaluate=False)
+                inp = str(inp_expr)
+        except Exception as error_msg:
+            row0.config(text=textwrap.fill(str(error_msg), 80), fg='red')
+            return
         input_parse.config(text=inp)
         # print_log("Input-paresed:", CustomStrPrinter().doprint(inp_expr))
 
@@ -336,6 +345,7 @@ def main():
                 row0.config(text=textwrap.fill(str(_e), 80), fg='red')
         evaluate_user(None, Ret)
 
+
     def sci_switch():
         global IS_SCI
         IS_SCI = sci.get()
@@ -370,7 +380,6 @@ def main():
     row0.pack(fill='both', padx=5, pady=6)
 
     # pack the four rows
-
     row_cgs.pack(fill='x', padx=5, pady=5)
     lab_cgs.pack(side='left')
     out_cgs.pack(side='right', expand=1, fill='x', padx=10)
