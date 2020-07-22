@@ -40,7 +40,7 @@ packages with be installed via pip.
 | Input              | Output                                                       |
 | ------------------ | ------------------------------------------------------------ |
 | sin(pi/2)          | 1.0                                                          |
-| h                  | 6.62607015e-27 erg s (plus detailed descriptions of plank constant) |
+| h                  | 6.62607015e-27 erg s (plus detailed descriptions of the plank constant) |
 | m_e c^2            | 8.187105776823886e-07 erg (0.5109989499961642 MeV)           |
 | sqrt(G M_sun / au) | 2978469.182967693 cm / s (29.78 km/s)                        |
 | 1 Mpc * 2 arcsec   | 2.991957413976559e+19 cm rad                                 |
@@ -51,8 +51,8 @@ Configuration is possible via changing a few parameter on the top of the python 
 
 | Parameter | Default | Description                                                  |
 | --------- | ------- | ------------------------------------------------------------ |
-| SCALE     | 1.2     | Scaling of the window size. Recommended: 1.2 on 1080p, 1.0 on a retina display. |
-| PRINT_LOG | True    | Toggle printing inputs and outputs to `~/.acap`. Will always print on terminal. |
+| SCALE     | 1.1     | Scaling of the window size. Recommended: >=1.2 on a 1080p screen, 1.0 on a retina display. |
+| PRINT_LOG | True    | Toggle printing inputs and outputs to `~/.acap_history`. Will always print on terminal. |
 | DIGITS    | 4       | Number of significant digits in the scientific notation.     |
 
 
