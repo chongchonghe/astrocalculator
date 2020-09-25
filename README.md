@@ -10,13 +10,13 @@ programmed in Python with GUI.
 
 <img src="https://user-images.githubusercontent.com/24463821/87982584-0295ae80-caa5-11ea-9319-2da2b9ef2ea9.gif" width="500">
 
-## How to install and keep it up to date?
+## How to install and upgrade?
 
-To try it out, simply clone this repository or download a zip file and run the python script with `python
-acap`.
+To try it out, simply clone this repository or download a zip file and run the
+python script with `python acap`.
 
-Alternatively, to install ACAP as a software, clone this repository, cd
-into it, and install it via pip:
+Alternatively, **to install ACAP** as a software, clone this repository, cd into it,
+and install it via pip:
 
 ```
 git clone https://github.com/chongchonghe/acap.git
@@ -27,7 +27,8 @@ pip install -e .
 This will create an executable `acap` in your PATH. Now type `acap` in
 your terminal to start this program. 
 
-**To upgrade** to the latest version, `git pull` in the code directory to pull the latest version and `pip install -e .` to install it.
+**To upgrade** to the latest version, `git pull` in the code directory to pull
+the latest version and your ACAP is upgraded.
 
 The following python modules are required and will be installed
 automatically: tkinter, sympy, and astropy. `tkinter` is available
@@ -39,24 +40,29 @@ packages with be installed via pip.
 | Input              | Output                                                       |
 | ------------------ | ------------------------------------------------------------ |
 | sin(pi/2)          | 1.0                                                          |
-| h                  | 6.62607015e-27 erg s (plus detailed descriptions of the plank constant) |
+| h                  | Detailed descriptions of the Plank constant)                 |
 | m_e c^2            | 8.187105776823886e-07 erg (0.5109989499961642 MeV)           |
 | sqrt(G M_sun / au) | 2978469.182967693 cm / s (29.78 km/s)                        |
 | 1 Mpc * 2 arcsec   | 2.991957413976559e+19 cm rad                                 |
 
 ## Configurations
 
-Configuration is possible via changing a few parameter on the top of the python script. Currently available parameters are:
+Configuration is possible via changing a few variables on the beginning of the python
+script. Currently configurable parameters are:
 
-| Parameter | Default | Description                                                  |
-| --------- | ------- | ------------------------------------------------------------ |
+| Parameter | Default | Description                                                                                |
+| --------- | ------- | ------------------------------------------------------------                               |
 | SCALE     | 1.1     | Scaling of the window size. Recommended: >=1.2 on a 1080p screen, 1.0 on a retina display. |
-| PRINT_LOG | True    | Toggle printing inputs and outputs to `~/.acap_history`. Will always print on terminal. |
-| DIGITS    | 4       | Number of significant digits in the scientific notation.     |
+| PRINT_LOG | True    | Toggle printing inputs and outputs to `~/.acap_history`. Will always print on terminal.    |
+| DIGITS    | 4       | Number of significant digits in the scientific notation.                                   |
 
 
 ## TODO
 
+- [ ] Enable si mode: display SI and USER_UNIT. 
+- [ ] parse keyword 'in' at the last line and automatically change User Unit.
+- [ ] Add more units: N (Newton), 
+- [X] Enable variable assignment
 - [X] Add setup.py
 - [X] Make the outputs copyable
 - [ ] Add latex preview
