@@ -3,17 +3,16 @@
 ## About
 
 ACAP, an Awesome Calculator for Astronomers and Physicists.  
-Author: Chong-Chong He (che1234@umd.edu)  
-Date: 2020-06-20
+Author: Chong-Chong He (che1234@umd.edu)
 
 This is a calculator designed for astronomers and physicists,
 programmed in Python with GUI.
 
 <img src="https://user-images.githubusercontent.com/24463821/87982584-0295ae80-caa5-11ea-9319-2da2b9ef2ea9.gif" width="500">
 
-## How to install and upgrade?
+## How to install and keep it up to date?
 
-To try it out, simply clone this repository and run the python script with `python
+To try it out, simply clone this repository or download a zip file and run the python script with `python
 acap`.
 
 Alternatively, to install ACAP as a software, clone this repository, cd
