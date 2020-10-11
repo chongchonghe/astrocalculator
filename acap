@@ -8,6 +8,7 @@ A calculator written in python with GUI.
 """
 
 import os
+import sys
 from math import *
 import numpy as np
 from numpy import sqrt
@@ -16,18 +17,22 @@ from astropy import constants as C
 from astropy.constants import *
 from datetime import datetime
 # from astropy.cosmology import WMAP9
+import logging
 
-#========================================================================
 # The following variables can be changed by the user
+#========================================================================
 SCALE = 1.1         # Recommended: 1.3 on 1080p, 1.0 on a retina display.
 PRINT_LOG = True    # Toggle printing inputs and outputs to ~/.acap_history
 DIGITS = 4          # number of significant digits in the scientific notation
-DOC_HEIGHT = 4
-HEIGHT = 480.0
+DOC_HEIGHT = 6      # height of the documentation pane (in lines)
+HEIGHT = 520.0      # height of the whole window (in pixels)
+INP_HEIGHT = 5      # height of the input pane (in lines)
 #========================================================================
 
-USE_ENTER = True    # True or False. Use <Enter> to calculate instead of
-                    # 'Calculate' button
+# True or False. Use <Enter> to calculate instead of 'Calculate' button
+USE_ENTER = False
+REQUIRE_UNDERSCORE = False
+
 Units = {
     'Length': ['m', 'cm', 'mm', 'um', 'nm', 'Angstrom', 'km', 'au', 'AU', 'pc', 'kpc', 'Mpc', 'lyr',],
     'Mass': ['kg', 'g', 'M_sun'],
@@ -77,6 +82,10 @@ arcsec2 = arcsec**2
 
 IS_SCI = 0
 
+class EvalError(Exception):
+    """Error in variable assignment"""
+    pass
+
 def delete(window):
     window.delete(1.0, 'end')
 
@@ -119,35 +128,41 @@ def main():
     win = tk.Tk()
     win.tk.call('tk', 'scaling', SCALE)
     win.title("ACAP")
-    win.geometry('{:d}x{:d}'.format(int(600.0*SCALE), int(HEIGHT*SCALE)))
+    win.geometry('{:d}x{:d}'.format(int(380.0*SCALE), int(HEIGHT*SCALE)))
 
     # Documentation
-    doc = \
-        "Welcome to ACAP, an Awesome Calculator for Astronomers and Physicists!\n"\
-        "Author: Chong-Chong He (che1234@umd.edu)\n"\
-        "\n"\
-        "Type the expression you want to evaluate in the box below and "\
-        "{}. ".format("press <Enter>" if USE_ENTER else "click 'Calculate'") +\
-        "The result is shown in the following units: CGS, USER, and SI.\n"\
-        "\n"\
-        "Example inputs: \n"\
-        "    m_p\n"\
-        "    sqrt(G M_sun / au)\n"\
-        "    m_p c^2 / k_B\n"\
-        "    1 arcsec * 3 Mpc\n"\
-        "    esu^2 / (0.1 nm)^2   Note: esu is the electron charge in ESU system\n"\
-        "\n"
+    doc = """\
+Welcome to ACAP, an Awesome Calculator for Astronomers and Physicists!
+Author: Chong-Chong He (che1234@umd.edu)
+
+Shift + Enter or 'Calculate' button to evaluate. Enter to break line.
+
+Example 1:  m_p
+Example 2:  sqrt(G M_sun / au)
+Example 3:  1 arcsec * 3 Mpc
+Example 4:  rho = 100 mpcc
+            tff = sqrt(1 / (G rho))
+            cs = 10 km/s
+            tff * cs
+
+The results are shown in the following units: CGS, USER, and SI.
+
+New feature: variable assignment. Note that the user defined variable must begin with an underscore (_) to avoid conflict with predefined variables. See Example 5 above.
+
+"""
     doc += "\n".join(C.__doc__.splitlines()[13:]) + "\n"
     doc += "\n"
     doc += "The following units are available:\n\n"
     for _key in Units.keys():
         doc += "{:s} | {}\n".format(_key.rjust(12), ", ".join(Units[_key]))
-    doc += "\n"
-    doc += "Command math operations are available. For instance, sin, cos, exp,"
-    doc += " ! (factorial), ^ (power), sqrt\n"
-    doc += "\n"
-    doc += "More (composite) units are available for conversion. To learn "
-    doc += "more, google 'astropy units'.\n"
+    doc += \
+"""
+Command math operations are available. For instance, sin, cos, exp, ! (factorial), ^ (power), sqrt
+
+More (composite) units are available for conversion. To learn more bout available units, google 'astropy units'.
+
+About CGS units in E&M: use 'esu' as the electron charge in ESU system, so the Coulomb's Law is F = q1 q2 / r^2.
+"""
 
     fontbig = "-size {:d}".format(int(16*SCALE))
     fontnormal = "-size {:d}".format(int(12*SCALE))
@@ -166,7 +181,7 @@ def main():
     if USE_ENTER:
         input1 = tk.Entry(win, font=fontbig, justify='center')
     else:
-        input1 = tk.Text(win, height=3, font="-size 16")
+        input1 = tk.Text(win, height=INP_HEIGHT, font="-size 16", padx=5, pady=5)
         input1.pack(fill='x', padx=5)
 
     # error message
@@ -207,7 +222,8 @@ def main():
             update_text(out_user, "")
             # out_user.config(text="", fg='black')
             return
-        f_fmt = '{{:.{}e}}'.format(DIGITS-1) if IS_SCI else '{}'
+        # f_fmt = '{{:.{}e}}'.format(DIGITS-1) if IS_SCI else '{}'
+        f_fmt = '{{:.{}e}}'.format(DIGITS-1) if IS_SCI else "{{:.{}g}}".format(DIGITS+1)
         if type(ret) is int:
             update_text(out_user, ret)
             # out_user.config(text=ret, fg='black')
@@ -240,13 +256,14 @@ def main():
                 # out_user.config(text=_e, fg='red')
 
     # define the calculate function
-    def unsafe_calculate(event=None):
+    def calculate(event=None):
         # clean outputs prior doing anything
         update_text(out_cgs, "")
         update_text(out_si, "")
         update_text(out_user, "")
         row0.config(text="")
 
+        # read input
         if USE_ENTER:           # use <Enter> to execute calculation
             inp = input1.get()
             if inp == "":       # if empty
@@ -260,98 +277,159 @@ def main():
         else:                   # use Calculate button
             if input1.compare("end-1c", "==", "1.0"):  # if empty
                 update_text(out_cgs, "")
-                print_log("Output (cgs):", "")
+                print_log("-Output (cgs):", "")
                 update_text(out_si, "", 'vcenter')
                 update_text(out_user, "")
                 return
             inp = input1.get(1.0, tk.END)
-
+        # logging.info(repr("inp = {}".format(inp)))
         # parse input
-        print_log("Input:", inp.replace("\n",""))
-        try:
-            with evaluate(False):
-                inp_expr = parse_expr(inp, transformations=transformations, evaluate=False)
-                inp = str(inp_expr)
-        except Exception as error_msg:
-            row0.config(text=textwrap.fill(str(error_msg), 80), fg='red')
-            return
-        input_parse.config(text=inp)
-        # print_log("Input-paresed:", CustomStrPrinter().doprint(inp_expr))
 
-        # get the results
-        # global Ret
-        error_msg = None
+        # removing tracing '\n'
+        # count = 0
+        # while inp[-1] == '\n' and count < 100:
+        #     inp = inp[:-1]
+        #     count += 1
+        inp = inp.strip()
+
+        # print input to terminal
+        if '\n' in inp:
+            print_log("+Input:\n" + inp)
+        else:
+            print_log("+Input:", inp)
+
+        def parse_and_eval(expr, local_vars_={}):
+            for item in local_vars_:
+                locals()[item] = local_vars_[item]
+            try:
+                with evaluate(False):
+                    inp_expr = parse_expr(expr, transformations=transformations, evaluate=False)
+                    inp_expr = str(inp_expr)
+                    # logging.info(repr("Parsed inp = {}".format(inp_expr)))
+            except Exception as error_msg:
+                row0.config(text=textwrap.fill(str(error_msg), 80), fg='red')
+                raise EvalError
+            input_parse.config(text=inp_expr)
+            # print_log("Input-paresed:", CustomStrPrinter().doprint(inp_expr))
+
+            # get the results
+            # global Ret
+            error_msg = None
+            try:
+                Ret = eval(inp_expr)
+            except NameError as _ne:
+                error_msg = "Error: " + str(_ne)
+                # row0.config(text=, fg='red')
+                # return
+            except SyntaxError as _se:
+                error_msg = "Error: " + str(_se)
+                # row0.config(text="Error: " + str(_se), fg='red')
+                # return
+            except Exception as _e:
+                error_msg = "Unexpected error: " + str(_e)
+                # row0.config(text="Unexpected error: " + str(_e), fg='red')
+                # return
+            if error_msg is not None:
+                update_text(out_cgs, "")
+                # out_cgs.config(text="")
+                print_log("-Output (cgs):", "")
+                update_text(out_si, "")
+                # out_si.config(text="")
+                row0.config(text=textwrap.fill(error_msg, 80), fg='red')
+                raise EvalError
+            return inp_expr, Ret
+
+        # split lines
+        var_err = "Error: assigned variable must begin with _ (underscore)"
+        local_vars = {}
+        if '\n' in inp:
+            lines = inp.split('\n')  # this ensures a list
+            n_line = len(lines)
+            logging.info('Lines:')
+            for count, line in enumerate(lines):
+                logging.info(repr(line))
+                if count >= n_line - 1:  # last line
+                    inp = line
+                    break
+                # remove spaces
+                line = line.strip()
+                items = line.split('=')
+                if len(items) > 2:
+                    row0.config(text='Multiple equal signs found in variable assignment',
+                                fg='red')
+                    return
+                if len(items) == 1:
+                    continue
+                var, value = items
+                var = var.strip()
+                if REQUIRE_UNDERSCORE and var[0] != '_':
+                    row0.config(text=var_err, fg='red')
+                    return
+                if ' ' in var:
+                    row0.config(text='Variable should not have space in it',
+                                fg='red')
+                    return
+                try:
+                    parsed_expr, ret = parse_and_eval(value, local_vars)
+                except EvalError:
+                    return
+                local_vars[var] = ret
+
         try:
-            Ret = eval(inp)
-        except NameError as _ne:
-            error_msg = "Error: " + str(_ne)
-            # row0.config(text=, fg='red')
-            # return
-        except SyntaxError as _se:
-            error_msg = "Error: " + str(_se)
-            # row0.config(text="Error: " + str(_se), fg='red')
-            # return
-        except Exception as _e:
-            error_msg = "Unexpected error: " + str(_e)
-            # row0.config(text="Unexpected error: " + str(_e), fg='red')
-            # return
-        if error_msg is not None:
-            update_text(out_cgs, "")
-            # out_cgs.config(text="")
-            print_log("Output (cgs):", "")
-            update_text(out_si, "")
-            # out_si.config(text="")
-            row0.config(text=textwrap.fill(error_msg, 80), fg='red')
+            _, Ret = parse_and_eval(inp, local_vars)
+        except EvalError:
             return
 
         # Display results
-        f_fmt = '{{:.{}e}}'.format(DIGITS-1) if IS_SCI else '{}'
+        # f_fmt = '{{:.{}e}}'.format(DIGITS-1) if IS_SCI else '{}'
+        f_fmt = '{{:.{}e}}'.format(DIGITS-1) if IS_SCI else "{{:.{}g}}".format(DIGITS)
         row0.config(text='Outputs (CGS, USER, SI):', fg='black')
         if type(Ret) in [int, float, np.float, np.float64]:
+            # has no units
             if type(Ret) is not int:
                 ret = f_fmt.format(Ret)
             else:
                 ret = Ret
             update_text(out_cgs, ret)
-            # out_cgs.config(text=Ret)
-            print_log("Output (cgs):", ret)
+            print_log("-Output (cgs):", ret)
             update_text(out_si, ret, 'vcenter')
-            # out_si.config(text=Ret)
-        else:                       # is astropy stuff
-            # SI
+        else:
+            # has units
+            # SI units
             if type(Ret.si) is Quantity:
+                logging.info("here #399")
                 update_text(out_si, f_fmt.format(Ret.si))
-                # out_si.config(text=f_fmt.format(Ret.si))
             # if type(Ret.si) is CompositeUnit:
             #     # TODO: sci here. Seems impossible to work
             #     out_si.config(text=Ret.si)
             else:
-                # out_si.config(text=f_fmt.format(Ret.si.value) + ' ' + str(Ret.si._unit))
+                # Physical constants. Display full description.
+                logging.info("Here #407")
                 update_text(out_si, Ret.si)
-                # out_si.config(text=Ret.si)
             # CGS
             try:
                 if type(Ret.cgs) is CompositeUnit:
-                    # TODO: sci here. Seems impossible to work
+                    logging.info("here #410")
                     update_text(out_cgs, Ret.cgs)
-                    # out_cgs.config(text=Ret.cgs)
-                    print_log("Output (cgs):", Ret.cgs)
+                    print_log("-Output (cgs):", Ret.cgs)
                 else:
-                    # out1.config(text="{} {}".format(Ret.value, Ret._unit))
-                    _text = f_fmt.format(Ret.cgs.value) + ' ' + str(Ret.cgs._unit)
-                    update_text(out_cgs, _text)
-                    # out_cgs.config(text=_text)
-                    print_log("Output (cgs):", _text)
-                # out_cgs.config(text=str(Ret.cgs))
+                    logging.info("here #415")
+                    # _text = f_fmt.format(Ret.cgs.value) + ' ' + str(Ret.cgs._unit)
+                    # update_text(out_cgs, _text)
+                    # print_log("-Output (cgs):", _text)
+                    update_text(out_cgs, f_fmt.format(Ret.cgs))
+                    print_log("-Output (cgs):", f_fmt.format(Ret.cgs))
             except Exception as _e:
                 row0.config(text=textwrap.fill(str(_e), 80), fg='red')
         evaluate_user(None, Ret)
 
-    def calculate(event=None):
-        try:
-            unsafe_calculate(event)
-        except Exception as err:
-            row0.config(text='Uncaught Error: {}'.format(err), fg='red')
+    # def calculate(event=None):
+    #     try:
+    #         unsafe_calculate(event)
+    #     except Exception as err:
+    #         err_str = "{}".format(err).replace('\n', ' ')
+    #         print(err_str)
+    #         row0.config(text="Uncaught Error: {}".format(err_str), fg='red')
 
     def sci_switch():
         global IS_SCI
@@ -361,6 +439,8 @@ def main():
     if USE_ENTER:
         input1.bind("<Return>", calculate)
         input1.pack(fill='x', padx=5, pady=5, ipady=16)
+    else:
+        input1.bind("<Shift-Return>", calculate)
 
     # calculate button
     sci = tk.IntVar()
@@ -368,6 +448,7 @@ def main():
     row_cal.pack(fill='x', padx=5, pady=5)
     if not USE_ENTER:
         tk.Button(row_cal, text="Calculate", command=calculate).pack(side='top')
+
     tk.Checkbutton(row_cal, text='Scientific', variable=sci,
                    onvalue=1, font="-size {:d}".format(int(12*SCALE)),
                    offvalue=0, command=sci_switch).pack(side='right')
@@ -413,6 +494,12 @@ if __name__ == "__main__":
     from sympy import evaluate
     from sympy.parsing.sympy_parser import parse_expr, standard_transformations, \
         implicit_multiplication, convert_xor
+
+    if len(sys.argv) >= 2:
+        level_config = {'debug': logging.DEBUG, 'info': logging.INFO}
+        if sys.argv[1] in level_config:
+            logging.basicConfig(level=level_config[sys.argv[1]])
+            print("Running in {} mode".format(sys.argv[1]))
 
     # try:
     #     main()

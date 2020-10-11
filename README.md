@@ -10,24 +10,26 @@ programmed in Python with GUI.
 
 <img src="https://user-images.githubusercontent.com/24463821/87982584-0295ae80-caa5-11ea-9319-2da2b9ef2ea9.gif" width="500">
 
-## How to install and keep it up to date?
+## How to install and upgrade?
 
-To try it out, simply clone this repository or download a zip file and run the python script with `python
-acap`.
+To try it out, simply download this repository and run the python script with
+`python acap`.
 
-Alternatively, to install ACAP as a software, clone this repository, cd
-into it, and install it via pip:
+Alternatively, to **install ACAP** as a software, clone this repository, cd into it,
+and install it via pip:
 
 ```
+cd /where/you/want/to/put/acap
 git clone https://github.com/chongchonghe/acap.git
 cd acap
 pip install -e .
 ```
 
-This will create an executable `acap` in your PATH. Now type `acap` in
-your terminal to start this program. 
+This will create an executable `acap` in your PATH, which is linked to the git
+repository. Now type `acap` in your terminal to start this program.
 
-**To upgrade** to the latest version, `git pull` in the code directory to pull the latest version and `pip install -e .` to install it.
+**To upgrade** to the latest version, `git pull` in the code directory to pull
+the latest version and your ACAP is automatically upgraded.
 
 The following python modules are required and will be installed
 automatically: tkinter, sympy, and astropy. `tkinter` is available
@@ -36,27 +38,66 @@ packages with be installed via pip.
 
 ## Example inputs and outputs
 
-| Input              | Output                                                       |
-| ------------------ | ------------------------------------------------------------ |
-| sin(pi/2)          | 1.0                                                          |
-| h                  | 6.62607015e-27 erg s (plus detailed descriptions of the plank constant) |
-| m_e c^2            | 8.187105776823886e-07 erg (0.5109989499961642 MeV)           |
-| sqrt(G M_sun / au) | 2978469.182967693 cm / s (29.78 km/s)                        |
-| 1 Mpc * 2 arcsec   | 2.991957413976559e+19 cm rad                                 |
+- `h`
+
+  CGS: `6.62607e-27 erg s`  
+  SI:
+  ```
+    Name   = Planck constant
+    Value  = 6.62607015e-34
+    Uncertainty  = 0.0
+    Unit  = J s
+    Reference = CODATA 2018
+  ```
+
+- `m_e c^2`
+
+  CGS: `8.18711e-07 erg`  
+  SI: `8.18711e-14 s W`  
+  MeV: `0.5109989 MeV`
+
+- `1 Mpc * 2 arcsec/radian`
+
+  CGS: `2.99196e+19 cm`  
+  SI: `2.99196e+17 m`  
+  pc: `9.696274 pc`
+
+- `sqrt(G M_sun / au)`
+
+  CGS: `2.97847e+06 cm / s`  
+  SI: `29784.7 m / s`  
+  km/s: `29.78469 km / s`
+
+- 
+```python
+rho = 100 mpcc
+tff = sqrt(1 / (G rho))
+cs = 10 km/s
+tff * cs
+```
+
+  CGS: `2.99294e+20 cm`  
+  SI: `2.99294e+18 m`  
+  pc: `96.99463 pc`
 
 ## Configurations
 
-Configuration is possible via changing a few parameter on the top of the python script. Currently available parameters are:
+Configuration is possible via changing variables at the beginning of the Python
+script. Currently the configurable parameters are:
 
-| Parameter | Default | Description                                                  |
-| --------- | ------- | ------------------------------------------------------------ |
+| Parameter | Default | Description                                                                                |
+| --------- | ------- | ------------------------------------------------------------                               |
 | SCALE     | 1.1     | Scaling of the window size. Recommended: >=1.2 on a 1080p screen, 1.0 on a retina display. |
-| PRINT_LOG | True    | Toggle printing inputs and outputs to `~/.acap_history`. Will always print on terminal. |
-| DIGITS    | 4       | Number of significant digits in the scientific notation.     |
-
+| PRINT_LOG | True    | Toggle printing inputs and outputs to `~/.acap_history`. Will always print on terminal.    |
+| DIGITS    | 4       | Number of significant digits in the scientific notation.                                   |
+| HEIGHT    | 520     | Height of the window (in pixels)                                                                                        |
 
 ## TODO
 
+- [X] Enable si mode: display SI and USER_UNIT. 
+- [ ] parse keyword 'in' at the last line and automatically change User Unit.
+- [ ] Add more units: N (Newton), 
+- [X] Enable variable assignment
 - [X] Add setup.py
 - [X] Make the outputs copyable
 - [ ] Add latex preview
