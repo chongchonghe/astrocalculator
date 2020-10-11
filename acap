@@ -23,7 +23,7 @@ import logging
 #========================================================================
 SCALE = 1.1         # Recommended: 1.3 on 1080p, 1.0 on a retina display.
 PRINT_LOG = True    # Toggle printing inputs and outputs to ~/.acap_history
-DIGITS = 6          # number of significant digits in the scientific notation
+DIGITS = 4          # number of significant digits in the scientific notation
 DOC_HEIGHT = 6      # height of the documentation pane (in lines)
 HEIGHT = 520.0      # height of the whole window (in pixels)
 INP_HEIGHT = 5      # height of the input pane (in lines)
