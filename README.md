@@ -36,6 +36,10 @@ automatically: tkinter, sympy, and astropy. `tkinter` is available
 on most Unix platforms as well as on Windows systems. The other two
 packages with be installed via pip.
 
+## New features
+
+- Enabled multi-line input. Check the last example in the "Example inputs and outputs" section.
+
 ## Example inputs and outputs
 
 - `h`

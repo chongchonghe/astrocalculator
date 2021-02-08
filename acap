@@ -27,6 +27,7 @@ DIGITS = 4          # number of significant digits in the scientific notation
 DOC_HEIGHT = 6      # height of the documentation pane (in lines)
 HEIGHT = 520.0      # height of the whole window (in pixels)
 INP_HEIGHT = 5      # height of the input pane (in lines)
+PRINT_ON_TERMINAL = False  # Toggle printing on terminal
 #========================================================================
 
 # True or False. Use <Enter> to calculate instead of 'Calculate' button
@@ -71,6 +72,8 @@ pc2 = pc**2
 pc3 = pc**3
 # deg = pi / 180. * radian
 arcsec2 = arcsec**2
+Gauss = g**(1/2) * cm**(-1/2) * s**(-1)
+# Gauss = g / U.Bi / s2
 
 # Cosmology
 # H0 = WMAP9.H0
@@ -107,7 +110,8 @@ def update_text(window, text, tag=None):
     window.configure(state='disabled')
 
 def print_log(*args):
-    print(*args)
+    if PRINT_ON_TERMINAL:
+        print(*args)
     if PRINT_LOG:
         with open(os.path.join(os.path.expanduser('~'), ".acap_history"), 'a') as f:
             print(*args, file=f)
