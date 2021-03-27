@@ -12,21 +12,22 @@ programmed in Python with GUI.
 
 ## How to install and upgrade?
 
-To try it out, simply download this repository and run the python script with
-`python acap`.
+To try it out, simply download this repository and run the python script with `python acap`.
 
-Alternatively, to **install ACAP** as a software, clone this repository, cd into it,
-and install it via pip:
+Alternatively, to **install ACAP** as a software, clone this repository, cd into it, and install it via pip:
 
 ```
-cd /where/you/want/to/put/acap
+# clone acap
 git clone https://github.com/chongchonghe/acap.git
+
+# cd into it
 cd acap
+
+# install (alternatively, run 'make')
 pip install -e .
 ```
 
-This will create an executable `acap` in your PATH, which is linked to the git
-repository. Now type `acap` in your terminal to start this program.
+This will create an executable `acap` in your PATH, which is linked to the git repository. Now type `acap` in your terminal to start this program. `acap` also works as a Python package. You can do `from acap import *` and all physical constants like `M_sun` and `k_B` are available. 
 
 **To upgrade** to the latest version, `git pull` in the code directory to pull
 the latest version and your ACAP is automatically upgraded.

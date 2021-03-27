@@ -118,6 +118,21 @@ def print_log(*args):
 
 def main():
 
+    from astropy.units.core import UnitConversionError, CompositeUnit
+    from astropy.units.quantity import Quantity
+    import tkinter as tk
+    # from tkinter.filedialog import askdirectory
+    import textwrap
+    from sympy import evaluate
+    from sympy.parsing.sympy_parser import parse_expr, standard_transformations, \
+        implicit_multiplication, convert_xor
+
+    if len(sys.argv) >= 2:
+        level_config = {'debug': logging.DEBUG, 'info': logging.INFO}
+        if sys.argv[1] in level_config:
+            logging.basicConfig(level=level_config[sys.argv[1]])
+            print("Running in {} mode".format(sys.argv[1]))
+
     print_log('')
     print_log('Running ACAP on ' + str(datetime.now()))
 
@@ -490,20 +505,20 @@ About CGS units in E&M: use 'esu' as the electron charge in ESU system, so the C
 
 if __name__ == "__main__":
 
-    from astropy.units.core import UnitConversionError, CompositeUnit
-    from astropy.units.quantity import Quantity
-    import tkinter as tk
-    # from tkinter.filedialog import askdirectory
-    import textwrap
-    from sympy import evaluate
-    from sympy.parsing.sympy_parser import parse_expr, standard_transformations, \
-        implicit_multiplication, convert_xor
+    # from astropy.units.core import UnitConversionError, CompositeUnit
+    # from astropy.units.quantity import Quantity
+    # import tkinter as tk
+    # # from tkinter.filedialog import askdirectory
+    # import textwrap
+    # from sympy import evaluate
+    # from sympy.parsing.sympy_parser import parse_expr, standard_transformations, \
+    #     implicit_multiplication, convert_xor
 
-    if len(sys.argv) >= 2:
-        level_config = {'debug': logging.DEBUG, 'info': logging.INFO}
-        if sys.argv[1] in level_config:
-            logging.basicConfig(level=level_config[sys.argv[1]])
-            print("Running in {} mode".format(sys.argv[1]))
+    # if len(sys.argv) >= 2:
+    #     level_config = {'debug': logging.DEBUG, 'info': logging.INFO}
+    #     if sys.argv[1] in level_config:
+    #         logging.basicConfig(level=level_config[sys.argv[1]])
+    #         print("Running in {} mode".format(sys.argv[1]))
 
     # try:
     #     main()
