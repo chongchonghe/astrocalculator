@@ -1,12 +1,59 @@
 # ACAP: an Awesome Calculator for Astronomers and Physicists
 
+Todo: publish on pip as astrocalculator
+
 ## About
 
 ACAP, an Awesome Calculator for Astronomers and Physicists.  
 Author: Chong-Chong He (che1234@umd.edu)
 
-This is a calculator designed for astronomers and physicists,
-programmed in Python with GUI.
+This is a calculator designed for astronomers and physicists based on Python astropy package.
+
+## Example
+
+```
+Input[1]: m_e c^2
+
+Parsed input = c**2*m_e
+Result (SI)  = 8.187e-14 s W
+Result (cgs) = 8.187e-07 erg
+
+Input[2]: in eV
+
+5.11e+05 eV
+
+Input[3]: M = 1.4 M_sun, R = 10 km, sqrt(2 G M / R)
+
+Parsed input = sqrt(2*G*M*1/R)
+Result (SI)  = 1.928e+08 m / s
+Result (cgs) = 1.928e+10 cm / s
+
+Input[4]: in km/s
+
+1.9277e+05 km / s
+
+Input[5]: G
+
+Parsed input = G
+Result (SI)  = 
+  Name   = Gravitational constant
+  Value  = 6.6743e-11
+  Uncertainty  = 1.5e-15
+  Unit  = m3 / (kg s2)
+  Reference = CODATA 2018
+Result (cgs) = 6.674e-08 cm3 / (g s2)
+```
+
+## Side-to-side comparison with WolframAlpha
+
+| Input | This calculator                             | WolframAlpha                                                 |
+| - | ------------------------------------------- | ------------------------------------------------------------ |
+| `M = 1.4 M_sun, R = 10 km, sqrt(2 G M / R)` | (takes 0.1 s)<br/>Parsed input = sqrt(2*G*M*1/R)<br/>Result (SI)  = 1.928e+08 m / s<br/>Result (cgs) = 1.928e+10 cm / s<br/><br/>Input[4]: in km/s<br/><br/>1.9277e+05 km / s | (takes 6 s)<br/><img src="../../../Library/Application Support/typora-user-images/Screen Shot 2021-03-30 at 11.52.06 AM.png" alt="Screen Shot 2021-03-30 at 11.52.06 AM" style="width:400px;" /> |
+| `m_e c^2` | (takes 0.1 s)<br/>Result (SI)  = 8.187e-14 s W<br/>Result (cgs) = 8.187e-07 erg<br/>Input[2]: in eV<br/><br/>5.11e+05 eV | (takes 3 s)<br /><img src="../../../Library/Application Support/typora-user-images/Screen Shot 2021-03-30 at 11.57.42 AM.png" alt="Screen Shot 2021-03-30 at 11.57.42 AM" style="width:400px;" /> |
+
+​		
+
+## Old GUI
 
 <img src="https://user-images.githubusercontent.com/24463821/87982584-0295ae80-caa5-11ea-9319-2da2b9ef2ea9.gif" width="500">
 
