@@ -1,5 +1,7 @@
 test*
 *.egg-info
+more/
+tests/
 
 # General
 .DS_Store

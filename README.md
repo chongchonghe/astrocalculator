@@ -1,117 +1,76 @@
-# ACAP: an Awesome Calculator for Astronomers and Physicists
+# AstroCalculator, a Calculator for Astronomers and Physicists
 
 ## About
 
-ACAP, an Awesome Calculator for Astronomers and Physicists.  
+AstroCalculator is a calculator for astronomers and physicists written in Python.  
 Author: Chong-Chong He (che1234@umd.edu)
 
-This is a calculator designed for astronomers and physicists,
-programmed in Python with GUI.
+## Installation
 
-<img src="https://user-images.githubusercontent.com/24463821/87982584-0295ae80-caa5-11ea-9319-2da2b9ef2ea9.gif" width="500">
+You can install astrocalculator from [PyPI](https://pypi.org/project/realpython-reader/):
 
-## How to install and upgrade?
-
-To try it out, simply download this repository and run the python script with `python acap`.
-
-Alternatively, to **install ACAP** as a software, clone this repository, cd into it, and install it via pip:
-
-```
-# clone acap
-git clone https://github.com/chongchonghe/acap.git
-
-# cd into it
-cd acap
-
-# install (alternatively, run 'make')
-pip install -e .
+```sh
+pip install astrocalculator
 ```
 
-This will create an executable `acap` in your PATH, which is linked to the git repository. Now type `acap` in your terminal to start this program. `acap` also works as a Python package. You can do `from acap import *` and all physical constants like `M_sun` and `k_B` are available. 
+`astrocalculator` is supported on Python 3.6 and above.
 
-**To upgrade** to the latest version, `git pull` in the code directory to pull
-the latest version and your ACAP is automatically upgraded.
+## How to use
 
-The following python modules are required and will be installed
-automatically: tkinter, sympy, and astropy. `tkinter` is available
-on most Unix platforms as well as on Windows systems. The other two
-packages with be installed via pip.
+Start the program with `calc`. You will see a command line interface where you can type in your inputs. A input can be 1) a single variable or constant like `k_B`, 2) an expression like `m_e c^2`, or 3) a list of variable assignments followed by a final expression to evaluate, e.g. `M = 1.4 M_sun, R = 10 km, sqrt(2 G M / R)`. 
 
-## New features
+Another way is to use it as a Python module in your script or interactively in iPython. Put the following in your code:
 
-- Enabled multi-line input. Check the last example in the "Example inputs and outputs" section.
-
-## Example inputs and outputs
-
-- `h`
-
-  CGS: `6.62607e-27 erg s`  
-  SI:
-  ```
-    Name   = Planck constant
-    Value  = 6.62607015e-34
-    Uncertainty  = 0.0
-    Unit  = J s
-    Reference = CODATA 2018
-  ```
-
-- `m_e c^2`
-
-  CGS: `8.18711e-07 erg`  
-  SI: `8.18711e-14 s W`  
-  MeV: `0.5109989 MeV`
-
-- `1 Mpc * 2 arcsec/radian`
-
-  CGS: `2.99196e+19 cm`  
-  SI: `2.99196e+17 m`  
-  pc: `9.696274 pc`
-
-- `sqrt(G M_sun / au)`
-
-  CGS: `2.97847e+06 cm / s`  
-  SI: `29784.7 m / s`  
-  km/s: `29.78469 km / s`
-
-- 
 ```python
-rho = 100 mpcc
-tff = sqrt(1 / (G rho))
-cs = 10 km/s
-tff * cs
+from calc import *
 ```
 
-  CGS: `2.99294e+20 cm`  
-  SI: `2.99294e+18 m`  
-  pc: `96.99463 pc`
+Now you can use all the physical constants defined in `astrocalculator` as listed in [here](https://github.com/chongchonghe/acap/docs/constants.md). 
 
-## Configurations
+### Example inputs and outputs
 
-Configuration is possible via changing variables at the beginning of the Python
-script. Currently the configurable parameters are:
+```
+Input[1]: m_p
 
-| Parameter | Default | Description                                                                                |
-| --------- | ------- | ------------------------------------------------------------                               |
-| SCALE     | 1.1     | Scaling of the window size. Recommended: >=1.2 on a 1080p screen, 1.0 on a retina display. |
-| PRINT_LOG | True    | Toggle printing inputs and outputs to `~/.acap_history`. Will always print on terminal.    |
-| DIGITS    | 4       | Number of significant digits in the scientific notation.                                   |
-| HEIGHT    | 520     | Height of the window (in pixels)                                                                                        |
+Parsed input = m_p
+Result (SI)  = 
+  Name   = Proton mass
+  Value  = 1.67262192369e-27
+  Uncertainty  = 5.1e-37
+  Unit  = kg
+  Reference = CODATA 2018
+Result (cgs) = 1.6726e-24 g
 
-## TODO
+Input[2]: m_e c^2
 
-- [X] Enable si mode: display SI and USER_UNIT. 
+Parsed input = c**2*m_e
+Result (SI)  = 8.1871e-14 m N
+Result (cgs) = 8.1871e-07 erg
+
+Input[3]: in MeV
+
+0.51100 MeV
+
+Input[4]: M = 1.4 M_sun, R = 10 km, sqrt(2 G M / R)
+
+Parsed input = sqrt(2*G*M*1/R)
+Result (SI)  = 1.9277e+08 m / s
+Result (cgs) = 1.9277e+10 cm / s
+
+Input[5]: in km/s
+
+1.9277e+05 km / s
+```
+
+## Todos
+
 - [ ] parse keyword 'in' at the last line and automatically change User Unit.
-- [ ] Add more units: N (Newton), 
-- [X] Enable variable assignment
-- [X] Add setup.py
-- [X] Make the outputs copyable
 - [ ] Add latex preview
-- [ ] Add logo ([ref1](https://www.c-sharpcorner.com/blogs/create-application-title-and-icon-in-python-gui) and [ref2)](https://stackoverflow.com/questions/22618156/how-to-replace-the-python-logo-in-a-tkinter-based-python-gui-app)
 
 ## References
 
-- https://www.lidavidm.me/blog/posts/2013-09-15-implicit-parsing-in-sympy.html
 - https://docs.astropy.org/en/stable/units/
 - https://docs.astropy.org/en/stable/constants/
-- https://stackoverflow.com/questions/62507535/python-suppress-expansion-of-exponential-notation-in-parse-expr-sympy, answer from metatoaster
+- https://www.lidavidm.me/blog/posts/2013-09-15-implicit-parsing-in-sympy.html
+- https://stackoverflow.com/questions/62507535/python-suppress-expansion-of-exponential-notation-in-parse-expr-sympy
 

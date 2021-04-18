@@ -1,13 +1,24 @@
+import pathlib
 from setuptools import setup, find_packages
 
+# The directory containing this file
+HERE = pathlib.Path(__file__).parent
+
+# The text of the README file
+README = (HERE / "README.md").read_text()
+
 setup(
-    name='acap',
-    version='0.2.0',
+    name='astrocalculator',
+    version='0.1.0',
+    description='AstroCalculator, a Calculator for Astronomers and Physicists',
+    long_description=README,
+    long_description_content_type="text/markdown",
     url='https://github.com/chongchonghe/acap.git',
     author='Chong-Chong He',
     author_email='che1234@umd.edu',
-    description='ACAP, an Awesome Calculator for Astronomers and Physicists.',
-    packages=find_packages(),
-    entry_points={'console_scripts': ['acap=acap:main']},
+    license="MIT",
+    # packages=find_packages(),
+    packages=["calc"],
+    entry_points={'console_scripts': ['calc=calc:main']},
     install_requires=['sympy', 'astropy'],
 )

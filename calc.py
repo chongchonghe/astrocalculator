@@ -35,9 +35,6 @@ import textwrap
 
 DIGITS = 5          # number of significant digits in the scientific notation
 REQUIRE_UNDERSCORE = False
-IS_SCI = 0
-
-F_FMT = '{{:.{}e}}'.format(DIGITS-1) if IS_SCI else "{{:#.{}g}}".format(DIGITS)
 
 # Define constants
 conList = ['G', 'N_A', 'R', 'Ryd', 'a0', 'alpha', 'atm', 'b_wien', 'c', 'g0',
@@ -98,6 +95,9 @@ Gauss = g**(1/2) * cm**(-1/2) * s**(-1)
 TRANSFORMATIONS = standard_transformations +\
     (implicit_multiplication,) +\
     (convert_xor,)
+
+IS_SCI = 0
+F_FMT = '{{:.{}e}}'.format(DIGITS-1) if IS_SCI else "{{:#.{}g}}".format(DIGITS)
 
 class EvalError(Exception):
     """Error in variable assignment"""
