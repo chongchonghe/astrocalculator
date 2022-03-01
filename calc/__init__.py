@@ -6,22 +6,25 @@ Date: 2020-06-20
 """
 
 import sys
-from math import pi, inf
-from numpy import sin, arcsin, cos, arccos, tan, arctan, sinh, arctanh, cosh, arccosh, \
-    tanh, arctanh, sqrt, exp, log, log10, log2, float64
+from math import pi, inf, log, log10, log2
+# from math import pi, inf, log
+import numpy as np
+from numpy import sin, arcsin, cos, arccos, tan, arctan, sinh, arctanh, \
+        cosh, arccosh, arcsinh, cosh, arccosh, tanh, arctanh, sqrt, exp, \
+        float64
 import readline
 try:
     from sympy import evaluate
 except ImportError:
-    raise SystemExit("Please install sympy by running the following "
-                     "command:\npython -m pip install sympy==1.6.1")
+    raise SystemExit("Please install sympy by running:\n"
+                     "python -m pip install sympy==1.6.1")
 from sympy.parsing.sympy_parser import parse_expr, standard_transformations, \
         implicit_multiplication, convert_xor
 try:
     from astropy import units as U
 except ImportError:
-    raise SystemExit("Please install astropy by running the following "
-                     "command:\npython -m pip install astropy")
+    raise SystemExit("Please install astropy by running:\n"
+                     "python -m pip install astropy")
 # from astropy.constants import *
 from astropy import constants
 from astropy.units.core import UnitConversionError, CompositeUnit
@@ -31,12 +34,14 @@ from datetime import datetime
 import logging
 import textwrap
 
+# print('test')
+
 # logging.basicConfig(level=logging.DEBUG)
 
 DIGITS = 5          # number of significant digits in the scientific notation
 REQUIRE_UNDERSCORE = False
 
-# Define constants
+# Define constants that are avialable in astropy.units
 conList = ['G', 'N_A', 'R', 'Ryd', 'a0', 'alpha', 'atm', 'b_wien', 'c', 'g0',
            'h', 'hbar', 'k_B', 'm_e', 'm_n', 'm_p', 'e', 'eps0', 'mu0', 'muB',
            'sigma_T', 'sigma_sb', 'u', 'GM_earth', 'GM_jup', 'GM_sun',
@@ -52,11 +57,11 @@ for con in conList:
         locals()[con] = getattr(constants, con)
     except:
         failList.append(con)
-        continue
 
 # Define more units/derived constants
 all_units = {
-    'Length': ['m', 'cm', 'mm', 'um', 'nm', 'Angstrom', 'km', 'au', 'AU', 'pc', 'kpc', 'Mpc', 'lyr',],
+    'Length': ['m', 'cm', 'mm', 'um', 'nm', 'Angstrom', 'km', 'au', 'AU',
+               'pc', 'kpc', 'Mpc', 'lyr',],
     'Mass': ['kg', 'g', 'M_sun', 'Msun'],
     'Density': ['mpcc'],
     'Time': ['s', 'yr', 'Myr', 'Gyr',],
@@ -69,14 +74,17 @@ all_units = {
     'Astronomy': ['Lsun', 'Jy', 'mJy', 'MJy'],
     'Composite': ['m2', 'm3', 'cm2', 'cm3', 's2', 'pc2', 'pc3']
     }
+# The following units are not avaiable in astropy.units and I will define
+# them by hand
 user_units = ['deg', 'Ang', 'mpcc', 'm2', 'm3', 'cm2', 'cm3', 's2', 'pc2',
               'pc3', 'arcsec2', 'Msun']
-_unit_skip = ['au', 'pc', 'M_sun']  # defined as constants instead of units
+# The following units are already defined as physical constants
+_unit_skip = ['au', 'pc', 'M_sun']
 for _key in all_units.keys():
     for _unit in all_units[_key]:
         if _unit not in _unit_skip + user_units:
             locals()[_unit] = eval("U.{}".format(_unit))
-# more units
+# define some derived units by hand
 esu = e.esu
 Ang = U.def_unit('Ang', 0.1 * nm)
 mpcc = U.def_unit('mpcc', m_p / cm**3)
@@ -88,13 +96,16 @@ cm3 = cm**3
 s2 = s**2
 pc2 = pc**2
 pc3 = pc**3
-degrees = pi / 180.
+degrees = pi / 180. * radian
+deg = pi / 180. * radian
 arcsec2 = arcsec**2
 Gauss = g**(1/2) * cm**(-1/2) * s**(-1)
 
-TRANSFORMATIONS = standard_transformations +\
-    (implicit_multiplication,) +\
-    (convert_xor,)
+# TRANSFORMATIONS = standard_transformations +\
+#     (implicit_multiplication,) +\
+#     (convert_xor,)
+TRANSFORMATIONS = (convert_xor,) + standard_transformations +\
+    (implicit_multiplication,)
 
 IS_SCI = 0
 F_FMT = '{{:.{}e}}'.format(DIGITS-1) if IS_SCI else "{{:#.{}g}}".format(DIGITS)
@@ -106,6 +117,10 @@ class EvalError(Exception):
 class UnitConversionError(Exception):
     """Error in variable assignment"""
     pass
+
+# user-defined functions
+def logten(x):
+    return np.log10(x)
 
 def parse_and_eval(expr, local_vars_={}):
     """
@@ -120,12 +135,16 @@ def parse_and_eval(expr, local_vars_={}):
     for item in local_vars_:
         locals()[item] = local_vars_[item]
     try:
-        with evaluate(False):
-            logging.debug("expr = {}".format(expr))
-            inp_expr = parse_expr(expr, transformations=TRANSFORMATIONS, evaluate=False)
-            inp_expr = str(inp_expr)
-            # logging.info(repr("Parsed inp = {}".format(inp_expr)))
+        # with evaluate(False):     # TODO: confirm this is okay. I remove this
+        # line in order to fix an error: ValueError: Abs(22*1) is not an integer
+        logging.debug("expr = {}".format(expr))
+        inp_expr = parse_expr(expr, transformations=TRANSFORMATIONS,
+                              evaluate=False)
+        logging.debug("inp_expr = {}".format(inp_expr))
+        inp_expr = str(inp_expr)
+        # logging.info(repr("Parsed inp = {}".format(inp_expr)))
     except Exception as error_msg:
+        logging.debug("here #801")
         raise EvalError(error_msg)
 
     logging.debug("here #810")
@@ -251,7 +270,7 @@ def readline_input(prompt, prefill=''):
    finally:
       readline.set_startup_hook()
 
-def main(withcolor=False):
+def main(withcolor=True):
     print("""===============================================
 A Calculator for Astrophysicists and Physicists
 Author: Chong-Chong He (che1234@umd.edu)
@@ -290,7 +309,7 @@ Examples:
         # inp = '\n'.join(iter(input, sentinel))
         # inp = inp.replace(';', '\n')
         # single line
-        pre = c_diag + f"Input[{count}]: " + c_end
+        pre = c_diag + f"Input[{count}]: " + c_end + "\n"
         if default == '':
             inp = input(pre)
         else:
@@ -358,8 +377,7 @@ Examples:
         #     print(c_error + "Error:" + str(_e) + c_end)
         # print()
 
+
 if __name__ == '__main__':
-    if "-nc" in sys.argv[1:]:
-        main(withcolor=False)
-    else:
-        main(withcolor=True)
+    _withcolor = not "-nc" in sys.argv[1:]
+    main(withcolor=_withcolor)
