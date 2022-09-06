@@ -286,6 +286,9 @@ Examples:
 >>> M = 1.4 M_sun, R = 10 km, sqrt(2 G M / R)
 >>>
 >>> in km/s
+
+For avaiable constants and units, check
+https://github.com/chongchonghe/acap/blob/master/docs/constants.md
 ===============================================""")
     print()
     if withcolor:
