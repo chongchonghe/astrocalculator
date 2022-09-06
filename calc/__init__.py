@@ -38,7 +38,7 @@ import textwrap
 
 # logging.basicConfig(level=logging.DEBUG)
 
-DIGITS = 5          # number of significant digits in the scientific notation
+DIGITS = 10          # number of significant digits in the scientific notation
 REQUIRE_UNDERSCORE = False
 
 # Define constants that are avialable in astropy.units
@@ -96,8 +96,9 @@ cm3 = cm**3
 s2 = s**2
 pc2 = pc**2
 pc3 = pc**3
-degrees = pi / 180. * radian
-deg = pi / 180. * radian
+# degree = pi / 180. * radian
+degrees = pi / 180
+# deg = degrees    # Error: SympifyError: <function deg at 0x7fe6d9403af0>
 arcsec2 = arcsec**2
 Gauss = g**(1/2) * cm**(-1/2) * s**(-1)
 
@@ -319,6 +320,8 @@ Examples:
         print()
         if inp == "":
             continue
+        if inp == 'q':
+            return
         if inp[0] == '!':
             if len(inp) == 1:
                 idx = count - 1
