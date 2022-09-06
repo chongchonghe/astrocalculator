@@ -9,7 +9,7 @@ README = (HERE / "README.md").read_text()
 
 setup(
     name='astrocalculator',
-    version='0.1.2',
+    version='0.1.3',
     description='AstroCalculator, a Calculator for Astronomers and Physicists',
     long_description=README,
     long_description_content_type="text/markdown",
