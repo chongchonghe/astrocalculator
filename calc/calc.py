@@ -69,7 +69,7 @@ for _key in more_units.keys():
 
 # Function to define derived units globally
 def define_derived_units():
-    global esu, Ang, mpcc, Msun, m2, m3, cm2, cm3, s2, pc2, pc3, degree, arcsec2, Gauss
+    global esu, Ang, mpcc, Msun, m2, m3, cm2, cm3, s2, pc2, pc3, degree, arcsec2, Gauss, a_rad
     esu = e.esu
     Ang = U.def_unit('Ang', 0.1 * nm)
     mpcc = U.def_unit('mpcc', m_p / cm**3)
@@ -84,6 +84,7 @@ def define_derived_units():
     degree = pi / 180
     arcsec2 = arcsec**2
     Gauss = g**(1/2) * cm**(-1/2) * s**(-1)
+    a_rad = 4.0 * sigma_sb / c
 
 # Call the function to define derived units
 define_derived_units()
