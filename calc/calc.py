@@ -124,23 +124,26 @@ def parse_and_eval(expr, local_vars_={}):
         inp_expr = str(inp_expr)
         # logging.info(repr("Parsed inp = {}".format(inp_expr)))
     except Exception as error_msg:
-        logging.debug("here #801")
-        raise EvalError(error_msg)
+        return 1, inp_expr, str(error_msg)
 
     logging.debug("here #810")
     # get the results
     try:
         ret = eval(inp_expr)
     except Exception as _e:
-        raise EvalError(_e)
+        return 1, inp_expr, str(_e)
 
-    return inp_expr, ret
+    return 0, inp_expr, ret
 
 
 def calculate(inp, delimiter=','):
+    """
+    Return:
+        err, parsed_expr, ret_raw, ret_si, ret_cgs
+    """
 
     if inp == "":
-        return None, None
+        return 0, '', '', '', ''
 
     # removing tracing '\n'
     inp = inp.strip()
@@ -173,12 +176,15 @@ def calculate(inp, delimiter=','):
                 raise EvalError("Assigned variable must begin with _ (underscore")
             if ' ' in var:
                 raise EvalError('Variable should not have space in it')
-            parsed_expr, ret = parse_and_eval(value, local_vars)
+            err, parsed_expr, ret = parse_and_eval(value, local_vars)
             local_vars[var] = ret
 
     # eval the last line
     logging.debug("here #250")
-    parsed_expr, Ret = parse_and_eval(inp, local_vars)
+    err, parsed_expr, Ret = parse_and_eval(inp, local_vars)
+    if err == 1:
+        return 1, parsed_expr, Ret, '', ''
+
     ret = None                  # in SI unit
     ret2 = None                 # in cgs unit
 
@@ -210,7 +216,7 @@ def calculate(inp, delimiter=','):
                 ret2 = F_FMT.format(Ret.cgs)
         except Exception as _e:
             ret2 = textwrap.fill(str(_e), 80)
-    return parsed_expr, Ret, ret, ret2
+    return 0, parsed_expr, Ret, ret, ret2
 
 
 def convert(quant, userunit):
@@ -252,10 +258,9 @@ def parse_input(inp):
 
 def execute_calculation(inp, units=None):
     inp_parsed = parse_input(inp)
-    expr, ret_raw, ret_si, ret_cgs = calculate(inp_parsed)
-    parsed_input = expr
-    result_si = ret_si
-    result_cgs = ret_cgs
+    err, expr, ret_raw, ret_si, ret_cgs = calculate(inp_parsed)
+    if err == 1:
+        return expr, ret_raw, '', ''
     if units is not None:
         userunit = units.strip()
         try:
@@ -266,7 +271,7 @@ def execute_calculation(inp, units=None):
             result_user_units = "Error: " + str(_e)
     else:
         result_user_units = None
-    return parsed_input, result_si, result_cgs, result_user_units
+    return expr, ret_si, ret_cgs, result_user_units
 
 
 def main(withcolor=True):
@@ -367,4 +372,10 @@ https://github.com/chongchonghe/acap/blob/master/docs/constants.md
 
 if __name__ == '__main__':
     _withcolor = not "-nc" in sys.argv[1:]
-    main(withcolor=_withcolor)
+    # main(withcolor=_withcolor)
+
+    parsed_input, result_si, result_cgs, result_user_units = execute_calculation(sys.argv[1])
+    print(parsed_input)
+    print(result_si)
+    print(result_cgs)
+    print(result_user_units)
