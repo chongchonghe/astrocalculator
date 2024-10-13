@@ -22,6 +22,7 @@ setup(
         'flask>=2.0.0',
         'sympy>=1.8',
         'astropy>=4.0',
+        'gunicorn>=20.0.0',  # Added Gunicorn
     ],
     entry_points={
         'console_scripts': [

@@ -267,7 +267,6 @@ def parse_input(inp0):
 def execute_calculation(inp, units=None):
     inp_parsed = parse_input(inp)
     logging.debug("inp_parsed = \n{}".format(inp_parsed))
-    print(inp_parsed)
     err, expr, ret_raw, ret_si, ret_cgs = calculate(inp_parsed)
     if err == 1:
         return expr, ret_raw, '', ''

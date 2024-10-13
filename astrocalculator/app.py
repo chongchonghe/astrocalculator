@@ -3,6 +3,8 @@ import webbrowser
 import threading
 from flask import Flask, render_template, request
 from .calc import execute_calculation  # Updated relative import
+import gunicorn.app.base
+from multiprocessing import cpu_count
 
 app = Flask(__name__)
 
@@ -29,9 +31,28 @@ def index():
 def open_browser():
     webbrowser.open_new("http://127.0.0.1:5000/")
 
+class StandaloneApplication(gunicorn.app.base.BaseApplication):
+    def __init__(self, app, options=None):
+        self.application = app
+        self.options = options or {}
+        super(StandaloneApplication, self).__init__()
+
+    def load_config(self):
+        config = {key: value for key, value in self.options.items()
+                  if key in self.cfg.settings and value is not None}
+        for key, value in config.items():
+            self.cfg.set(key.lower(), value)
+
+    def load(self):
+        return self.application
+
 def start_server():
+    options = {
+        'bind': '%s:%s' % ('127.0.0.1', '5000'),
+        'workers': 1,
+    }
     threading.Timer(1.0, open_browser).start()
-    app.run(debug=False, use_reloader=False)
+    StandaloneApplication(app, options).run()
 
 if __name__ == '__main__':
     start_server()
