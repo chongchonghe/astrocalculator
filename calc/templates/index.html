@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Python Calculator</title>
+    <title>AstroCalculator</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -47,7 +47,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>Python Calculator</h1>
+        <h1>AstroCalculator</h1>
         <form method="post">
             <label for="calculation">Enter calculation:</label>
             <textarea id="calculation" name="calculation" rows="5" style="resize: vertical;" required>{{ calculation if calculation else '' }}</textarea>
@@ -147,5 +147,13 @@ User units: arcmin</code></pre>
             </div>
         </div>
     </div>
+
+    <!-- Addition of the Footer section with CopyRight and Feedback button -->
+    <footer>
+        <p>&copy; 2024 ChongChong He.</p>
+        <a href="mailto:chongchong.he@anu.edu.au">
+            <button id="feedback-button">💬 Feedback</button>
+        </a>
+    </footer>
 </body>
 </html>

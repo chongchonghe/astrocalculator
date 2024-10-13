@@ -7,6 +7,7 @@ body {
   width: 50%;
   margin: 5% auto;
   margin-top: 2em;
+  margin-bottom: 2em;
   background-color: #ffffff;
   padding: 2em;
   padding-top: 1em;
@@ -175,4 +176,51 @@ h2 {
     padding: 0.5em;
     border-radius: 4px;
     overflow-x: auto;
+}
+
+/* Footer styles */
+footer {
+    margin-top: 2em; /* Space before the footer */
+    padding: 1em 0;
+    text-align: center;
+    background-color: #f8f9fa; /* Light background for the footer */
+    border-top: 1px solid #e0e0e0; /* Top border to separate from content */
+}
+
+footer p {
+    margin: 0;
+    color: #666666; /* Dark gray color for text */
+    font-size: 0.9em;
+}
+
+#feedback-button {
+    padding: 0.5em 1em;
+    background-color: #28a745; /* Green background */
+    border: none;
+    color: #ffffff; /* White text */
+    font-size: 1em;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 0.5em;
+    font-weight: bold; /* Thicker font */
+    transition: background-color 0.3s ease;
+}
+
+#feedback-button:hover {
+    background-color: #218838; /* Darker green on hover */
+}
+
+footer a {
+    text-decoration: none;
+}
+
+footer a button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+footer a button:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(40, 167, 69, 0.5); /* Focus outline */
 }
