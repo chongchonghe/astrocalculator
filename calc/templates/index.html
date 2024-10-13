@@ -13,6 +13,21 @@
                     document.querySelector('form').submit(); // Submit the form
                 }
             });
+
+            // Function to copy text to clipboard
+            function copyToClipboard(text) {
+                navigator.clipboard.writeText(text).catch(err => {
+                    console.error('Could not copy text: ', err);
+                });
+            }
+
+            // Add event listeners to result elements
+            const resultElements = document.querySelectorAll('.result-copy');
+            resultElements.forEach(element => {
+                element.addEventListener('click', function() {
+                    copyToClipboard(this.textContent);
+                });
+            });
         });
     </script>
 </head>
@@ -28,10 +43,10 @@
         {% if parsed_input %}
         <div class="result">
             <h2>Results</h2>
-            <p><strong>Parsed Input:</strong> {{ parsed_input }}</p>
-            <p><strong>Result (SI):</strong> {{ result_si }}</p>
-            <p><strong>Result (cgs):</strong> {{ result_cgs }}</p>
-            <p><strong>Result (user):</strong> {{ result_user_units }}</p>
+            <p><strong>Parsed Input:</strong> <span class="result-copy">{{ parsed_input }}</span></p>
+            <p><strong>Result (SI):</strong> <span class="result-copy">{{ result_si }}</span></p>
+            <p><strong>Result (cgs):</strong> <span class="result-copy">{{ result_cgs }}</span></p>
+            <p><strong>Result (user):</strong> <span class="result-copy">{{ result_user_units }}</span></p>
         </div>
         {% endif %}
     </div>

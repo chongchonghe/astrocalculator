@@ -261,11 +261,9 @@ def execute_calculation(inp, units=None):
         try:
             result_user_units = convert(ret_raw, userunit)
         except UnitConversionError as _e:
-            print("Error: " + str(_e))
-            result_user_units = None
+            result_user_units = "Error: " + str(_e)
         except ValueError as _e:
-            print("Error: " + str(_e))
-            result_user_units = None
+            result_user_units = "Error: " + str(_e)
     else:
         result_user_units = None
     return parsed_input, result_si, result_cgs, result_user_units

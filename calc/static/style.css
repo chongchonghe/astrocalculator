@@ -67,4 +67,25 @@ button:hover {
 .result p {
   margin: 0.5em 0;
   color: #333333;
+  text-align: left; /* Align text to the left */
+}
+
+.result-copy {
+  cursor: pointer; /* Change cursor to pointer to indicate it's clickable */
+  display: inline-block; /* Allow padding and margin to be applied */
+  position: relative; /* Positioning for the tooltip */
+}
+
+.result-copy:hover::after {
+  content: "copy"; /* Tooltip text */
+  position: absolute; /* Positioning of the tooltip */
+  top: -20px; /* Position above the element */
+  left: 0; /* Align to the left */
+  background: #f0f0f0; /* Background color of the tooltip */
+  padding: 2px 5px; /* Padding for the tooltip */
+  border-radius: 3px; /* Rounded corners */
+  font-size: 12px; /* Font size for the tooltip */
+  color: #333; /* Text color for the tooltip */
+  white-space: nowrap; /* Prevent text wrapping */
+  z-index: 10; /* Ensure tooltip appears above other elements */
 }
