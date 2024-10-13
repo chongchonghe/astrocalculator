@@ -7,36 +7,16 @@ Date: 2020-06-20
 
 import sys
 from math import pi, inf, log, log10, log2
-# from math import pi, inf, log
-import numpy as np
-from numpy import sin, arcsin, cos, arccos, tan, arctan, sinh, arctanh, \
-        cosh, arccosh, arcsinh, cosh, arccosh, tanh, arctanh, sqrt, exp, \
-        float64
+from numpy import sin, arcsin, cos, arccos, tan, arctan, sinh, arctanh, cosh, arccosh, arcsinh, cosh, arccosh, tanh, arctanh, sqrt, exp, float64
 import readline
-try:
-    from sympy import evaluate
-except ImportError:
-    raise SystemExit("Please install sympy by running:\n"
-                     "python -m pip install sympy==1.6.1")
-from sympy.parsing.sympy_parser import parse_expr, standard_transformations, \
-        implicit_multiplication, convert_xor
-try:
-    from astropy import units as U
-except ImportError:
-    raise SystemExit("Please install astropy by running:\n"
-                     "python -m pip install astropy")
-# from astropy.constants import *
+from sympy import evaluate
+from sympy.parsing.sympy_parser import parse_expr, standard_transformations, implicit_multiplication, convert_xor
+from astropy import units as U
 from astropy import constants
 from astropy.units.core import UnitConversionError, CompositeUnit
 from astropy.units.quantity import Quantity
-from datetime import datetime
-# from astropy.cosmology import WMAP9
 import logging
 import textwrap
-
-# print('test')
-
-# logging.basicConfig(level=logging.DEBUG)
 
 DIGITS = 10          # number of significant digits in the scientific notation
 REQUIRE_UNDERSCORE = False
@@ -59,9 +39,8 @@ for con in conList:
         failList.append(con)
 
 # Define more units/derived constants
-all_units = {
-    'Length': ['m', 'cm', 'mm', 'um', 'nm', 'Angstrom', 'km', 'au', 'AU',
-               'pc', 'kpc', 'Mpc', 'lyr',],
+more_units = {
+    'Length': ['m', 'cm', 'mm', 'um', 'nm', 'Angstrom', 'km', 'au', 'AU', 'pc', 'kpc', 'Mpc', 'lyr',],
     'Mass': ['kg', 'g', 'M_sun', 'Msun'],
     'Density': ['mpcc'],
     'Time': ['s', 'yr', 'Myr', 'Gyr',],
@@ -74,54 +53,51 @@ all_units = {
     'Astronomy': ['Lsun', 'Jy', 'mJy', 'MJy'],
     'Composite': ['m2', 'm3', 'cm2', 'cm3', 's2', 'pc2', 'pc3']
     }
-# The following units are not avaiable in astropy.units and I will define
-# them by hand
-user_units = ['deg', 'Ang', 'mpcc', 'm2', 'm3', 'cm2', 'cm3', 's2', 'pc2',
-              'pc3', 'arcsec2', 'Msun']
+# The following units are not avaiable in astropy.units and I have to define them myself
+user_units = ['deg', 'Ang', 'mpcc', 'm2', 'm3', 'cm2', 'cm3', 's2', 'pc2', 'pc3', 'arcsec2', 'Msun']
 # The following units are already defined as physical constants
 _unit_skip = ['au', 'pc', 'M_sun']
-for _key in all_units.keys():
-    for _unit in all_units[_key]:
+for _key in more_units.keys():
+    for _unit in more_units[_key]:
         if _unit not in _unit_skip + user_units:
             locals()[_unit] = eval("U.{}".format(_unit))
-# define some derived units by hand
-esu = e.esu
-Ang = U.def_unit('Ang', 0.1 * nm)
-mpcc = U.def_unit('mpcc', m_p / cm**3)
-Msun = M_sun
-m2 = m**2
-m3 = m**3
-cm2 = cm**2
-cm3 = cm**3
-s2 = s**2
-pc2 = pc**2
-pc3 = pc**3
-# degree = pi / 180. * radian
-degrees = pi / 180
-# deg = degrees    # Error: SympifyError: <function deg at 0x7fe6d9403af0>
-arcsec2 = arcsec**2
-Gauss = g**(1/2) * cm**(-1/2) * s**(-1)
 
-# TRANSFORMATIONS = standard_transformations +\
-#     (implicit_multiplication,) +\
-#     (convert_xor,)
-TRANSFORMATIONS = (convert_xor,) + standard_transformations +\
-    (implicit_multiplication,)
+# Function to define derived units globally
+def define_derived_units():
+    global esu, Ang, mpcc, Msun, m2, m3, cm2, cm3, s2, pc2, pc3, degrees, arcsec2, Gauss
+    esu = e.esu
+    Ang = U.def_unit('Ang', 0.1 * nm)
+    mpcc = U.def_unit('mpcc', m_p / cm**3)
+    Msun = M_sun
+    m2 = m**2
+    m3 = m**3
+    cm2 = cm**2
+    cm3 = cm**3
+    s2 = s**2
+    pc2 = pc**2
+    pc3 = pc**3
+    degrees = pi / 180
+    arcsec2 = arcsec**2
+    Gauss = g**(1/2) * cm**(-1/2) * s**(-1)
+
+# Call the function to define derived units
+define_derived_units()
+
+TRANSFORMATIONS = (convert_xor,) + standard_transformations + (implicit_multiplication,)
 
 IS_SCI = 0
 F_FMT = '{{:.{}e}}'.format(DIGITS-1) if IS_SCI else "{{:#.{}g}}".format(DIGITS)
+
 
 class EvalError(Exception):
     """Error in variable assignment"""
     pass
 
+
 class UnitConversionError(Exception):
     """Error in variable assignment"""
     pass
 
-# user-defined functions
-def logten(x):
-    return np.log10(x)
 
 def parse_and_eval(expr, local_vars_={}):
     """
@@ -156,6 +132,7 @@ def parse_and_eval(expr, local_vars_={}):
         raise EvalError(_e)
 
     return inp_expr, ret
+
 
 def calculate(inp, delimiter='\n'):
 
@@ -238,6 +215,7 @@ def calculate(inp, delimiter='\n'):
         #         ret_loc = ret.to(userunit)
     return parsed_expr, Ret, ret, ret2
 
+
 def convert(quant, userunit):
     """ Convert quant to specified unit """
 
@@ -259,10 +237,7 @@ def convert(quant, userunit):
             return F_FMT.format(ret_loc)
         else:
             return F_FMT.format(ret_loc.value) + " " + str(ret_loc._unit)
-        # except UnitConversionError as _e:
-        #     UnitConversionError(_e)
-        # except ValueError as _e:
-        #     UnitConversionError(_e)
+
 
 def readline_input(prompt, prefill=''):
    readline.set_startup_hook(lambda: readline.insert_text(prefill))
@@ -270,6 +245,7 @@ def readline_input(prompt, prefill=''):
       return input(prompt)
    finally:
       readline.set_startup_hook()
+
 
 def main(withcolor=True):
     print("""===============================================
