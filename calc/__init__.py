@@ -57,6 +57,7 @@ more_units = {
 user_units = ['deg', 'Ang', 'mpcc', 'm2', 'm3', 'cm2', 'cm3', 's2', 'pc2', 'pc3', 'arcsec2', 'Msun']
 # The following units are already defined as physical constants
 _unit_skip = ['au', 'pc', 'M_sun']
+# Define units that are not already defined in astropy.units
 for _key in more_units.keys():
     for _unit in more_units[_key]:
         if _unit not in _unit_skip + user_units:
@@ -83,8 +84,10 @@ def define_derived_units():
 # Call the function to define derived units
 define_derived_units()
 
+# Define transformations
 TRANSFORMATIONS = (convert_xor,) + standard_transformations + (implicit_multiplication,)
 
+# Define format strings
 IS_SCI = 0
 F_FMT = '{{:.{}e}}'.format(DIGITS-1) if IS_SCI else "{{:#.{}g}}".format(DIGITS)
 
@@ -207,12 +210,6 @@ def calculate(inp, delimiter='\n'):
                 ret2 = F_FMT.format(Ret.cgs)
         except Exception as _e:
             ret2 = textwrap.fill(str(_e), 80)
-        # user units
-        # if userunit != "":
-        #     if unit in user_units:
-        #         ret_loc = ret.to(eval(userunit))
-        #     else:
-        #         ret_loc = ret.to(userunit)
     return parsed_expr, Ret, ret, ret2
 
 
@@ -281,14 +278,6 @@ https://github.com/chongchonghe/acap/blob/master/docs/constants.md
     ret_raw = None
     while True:
         count += 1
-        # inp = input("Input: ")
-        # print(c_diag + "=============================================")
-        # print(c_diag + f"Input[{count}]:" + c_end, end=' ')
-        # # multiple line
-        # sentinel = ''
-        # inp = '\n'.join(iter(input, sentinel))
-        # inp = inp.replace(';', '\n')
-        # single line
         pre = c_diag + f"Input[{count}]: " + c_end + "\n"
         if default == '':
             inp = input(pre)
@@ -349,15 +338,6 @@ https://github.com/chongchonghe/acap/blob/master/docs/constants.md
             print(c_error + "Uncaught error: " + str(_e) + c_end)
             print()
             continue
-        # # print()
-        # userunit = input(c_diag + "In unit (press enter to skip): " + c_end)
-        # try:
-        #     tmp = convert(ret_raw, userunit)
-        #     if tmp is not None:
-        #         print(tmp)
-        # except UnitConversionError as _e:
-        #     print(c_error + "Error:" + str(_e) + c_end)
-        # print()
 
 
 if __name__ == '__main__':
