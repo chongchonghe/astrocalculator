@@ -9,7 +9,7 @@ README = (HERE / "README.md").read_text()
 
 setup(
     name='AstroCalculator',
-    version='0.2.0',
+    version='0.2.1',
     author='ChongChong He',
     author_email='chongchong.he@anu.edu.au',
     description='A locally hosted Flask application for astronomical calculations.',
