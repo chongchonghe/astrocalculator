@@ -137,7 +137,7 @@ def parse_and_eval(expr, local_vars_={}):
     return inp_expr, ret
 
 
-def calculate(inp, delimiter='\n'):
+def calculate(inp, delimiter=','):
 
     if inp == "":
         return None, None
@@ -244,6 +244,19 @@ def readline_input(prompt, prefill=''):
       readline.set_startup_hook()
 
 
+def parse_input(inp):
+    inp = inp.replace('\n', ', ')
+    inp = inp.replace(';', ',')
+    return inp
+
+
+def execute_calculation(inp):
+    inp_parsed = parse_input(inp)
+    expr, ret_raw, ret_si, ret_cgs = calculate(inp_parsed)
+    output = "Parsed input = {}\nResult (SI)  = {}\nResult (cgs) = {}".format(expr, ret_si, ret_cgs)
+    print(output)
+
+
 def main(withcolor=True):
     print("""===============================================
 A Calculator for Astrophysicists and Physicists
@@ -320,7 +333,7 @@ https://github.com/chongchonghe/acap/blob/master/docs/constants.md
                 continue
         try:
             inp = inp.replace(';', ',')
-            expr, ret_raw, ret_si, ret_cgs = calculate(inp, ',')
+            expr, ret_raw, ret_si, ret_cgs = calculate(inp)
             print(c_diag + "Parsed input =" + c_end, end=' ')
             print(expr)
             # print()
