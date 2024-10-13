@@ -1,0 +1,5 @@
+include README.md
+include LICENSE
+recursive-include astrocalculator/templates *.html
+recursive-include astrocalculator/static *.css
+recursive-include docs *.md

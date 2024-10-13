@@ -8,18 +8,31 @@ HERE = pathlib.Path(__file__).parent
 README = (HERE / "README.md").read_text()
 
 setup(
-    name='astrocalculator',
-    version='0.1.4',
-    description='AstroCalculator, a Calculator for Astronomers and Physicists',
+    name='AstroCalculator',
+    version='0.2.1',
+    author='ChongChong He',
+    author_email='chongchong.he@anu.edu.au',
+    description='A locally hosted Flask application for astronomical calculations.',
     long_description=README,
-    long_description_content_type="text/markdown",
+    long_description_content_type='text/markdown',
     url='https://github.com/chongchonghe/acap.git',
-    author='Chong-Chong He',
-    author_email='che1234@umd.edu',
-    license="MIT",
-    # packages=find_packages(),
-    packages=["calc"],
-    # entry_points={'console_scripts': ['calc=calc:main']},
-    entry_points={'console_scripts': ['calc=calc.__init__:main']},
-    install_requires=['sympy>=1.6', 'astropy>=4.0'],
+    packages=find_packages(),
+    include_package_data=True,  # Includes files from MANIFEST.in
+    install_requires=[
+        'flask>=2.0.0',
+        'sympy>=1.8',
+        'astropy>=4.0',
+        'gunicorn>=20.0.0',  # Added Gunicorn
+    ],
+    entry_points={
+        'console_scripts': [
+            'calc=astrocalculator.app:start_server',
+        ],
+    },
+    classifiers=[
+        'Programming Language :: Python :: 3',
+        'License :: OSI Approved :: MIT License',  # Ensure compliance with your license
+        'Operating System :: OS Independent',
+    ],
+    python_requires='>=3.6',
 )
