@@ -253,8 +253,10 @@ def parse_input(inp):
 def execute_calculation(inp):
     inp_parsed = parse_input(inp)
     expr, ret_raw, ret_si, ret_cgs = calculate(inp_parsed)
-    output = "Parsed input = {}\nResult (SI)  = {}\nResult (cgs) = {}".format(expr, ret_si, ret_cgs)
-    print(output)
+    parsed_input = expr
+    result_si = ret_si
+    result_cgs = ret_cgs
+    return parsed_input, result_si, result_cgs
 
 
 def main(withcolor=True):
