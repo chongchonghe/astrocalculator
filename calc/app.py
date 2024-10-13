@@ -30,4 +30,4 @@ def open_browser():
 
 if __name__ == '__main__':
     threading.Timer(1.25, open_browser).start()
-    app.run(debug=True, use_reloader=False)
+    app.run(debug=False, use_reloader=False)
