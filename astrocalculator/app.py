@@ -1,5 +1,4 @@
 import sys
-print(sys.path)  # Add this line at the top
 import webbrowser
 import threading
 from flask import Flask, render_template, request
