@@ -6,6 +6,7 @@ Date: 2020-06-20
 """
 
 import sys
+import re
 from math import pi, inf, log, log10, log2
 from numpy import sin, arcsin, cos, arccos, tan, arctan, sinh, arctanh, cosh, arccosh, arcsinh, cosh, arccosh, tanh, arctanh, sqrt, exp, float64
 import readline
@@ -17,6 +18,9 @@ from astropy.units.core import UnitConversionError, CompositeUnit
 from astropy.units.quantity import Quantity
 import logging
 import textwrap
+
+# logging.basicConfig(level=logging.DEBUG)
+
 
 DIGITS = 10          # number of significant digits in the scientific notation
 REQUIRE_UNDERSCORE = False
@@ -145,9 +149,6 @@ def calculate(inp, delimiter=','):
     if inp == "":
         return 0, '', '', '', ''
 
-    # removing tracing '\n'
-    inp = inp.strip()
-
     # eval all but the last line
     local_vars = {}
     logging.debug("here #200")
@@ -250,7 +251,13 @@ def readline_input(prompt, prefill=''):
       readline.set_startup_hook()
 
 
-def parse_input(inp):
+def parse_input(inp0):
+
+    # removing tracing '\n'
+    inp = inp0.strip()
+    # remove empty lines
+    inp = re.sub(r'\n+', '\n', inp)
+
     inp = inp.replace('\n', ', ')
     inp = inp.replace(';', ',')
     return inp
@@ -258,6 +265,8 @@ def parse_input(inp):
 
 def execute_calculation(inp, units=None):
     inp_parsed = parse_input(inp)
+    logging.debug("inp_parsed = \n{}".format(inp_parsed))
+    print(inp_parsed)
     err, expr, ret_raw, ret_si, ret_cgs = calculate(inp_parsed)
     if err == 1:
         return expr, ret_raw, '', ''
