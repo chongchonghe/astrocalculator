@@ -93,7 +93,7 @@ button:hover {
 .examples {
     background-color: #ffffff; /* Light background for examples */
     color: #333333; /* Dark text color for readability */
-    margin-top: 2em;
+    margin-top: 1em; /* Reduced space before Example Inputs */
     padding: 1em;
     border-radius: 4px;
 }
@@ -113,5 +113,5 @@ button:hover {
 .examples code {
     color: #000000; /* Dark text color for code */
     font-family: 'Courier New', Courier, monospace;
-    font-weight: 550;
+    font-weight: 550; /* Thicker font weight for example text */
 }
