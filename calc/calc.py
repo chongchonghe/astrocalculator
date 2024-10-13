@@ -264,7 +264,7 @@ def execute_calculation(inp, units=None):
     result_user_units = 'none'
     if units is not None:
         userunit = units.strip()
-        if userunit == 'degree':
+        if userunit in ['degree', 'arcmin', 'arcsec']:
             try:
                 result_user_units = convert(ret_raw, userunit)
             except Exception as _e:
