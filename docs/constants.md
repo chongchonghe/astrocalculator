@@ -45,19 +45,19 @@ The following constants are available as float point numbers, identical to the v
 The following units are available:
 
 ```python
-all_units = {
-    'Length': ['m', 'cm', 'mm', 'um', 'nm', 'Angstrom', 'km', 'au', 'AU',
-               'pc', 'kpc', 'Mpc', 'lyr',],
-    'Mass': ['kg', 'g', 'M_sun', 'Msun'],
-    'Density': ['mpcc'],
-    'Time': ['s', 'yr', 'Myr', 'Gyr',],
-    'Energy': ['J', 'erg', 'eV', 'keV', 'MeV', 'GeV'],
-    'Power': ['W'],
-    'Pressure': ['Pa', 'bar', 'mbar'],
-    'Frequency': ['Hz', 'kHz', 'MHz', 'GHz',],
-    'Temperature': ['K',],
-    'Angular size': ['degrees', 'radian', 'arcmin', 'arcsec', 'arcsec2'],
-    'Astronomy': ['Lsun', 'Jy', 'mJy', 'MJy'],
-    'Composite': ['m2', 'm3', 'cm2', 'cm3', 's2', 'pc2', 'pc3']
+{
+  'Length': ['m', 'cm', 'mm', 'um', 'nm', 'Angstrom', 'km', 'au', 'AU', 'pc', 'kpc', 'Mpc', 'lyr',],
+  'Mass': ['kg', 'g', 'M_sun', 'Msun'],
+  'Density': ['mpcc'],
+  'Time': ['s', 'yr', 'Myr', 'Gyr',],
+  'Energy': ['J', 'erg', 'eV', 'keV', 'MeV', 'GeV'],
+  'Power': ['W'],
+  'Pressure': ['Pa', 'bar', 'mbar'],
+  'Frequency': ['Hz', 'kHz', 'MHz', 'GHz',],
+  'EM': ['esu', 'Gauss'],
+  'Temperature': ['K',],
+  'Angular size': ['deg', 'radian', 'arcmin', 'arcsec', 'arcsec2', 'sr'],
+  'Astronomy': ['Lsun', 'Jy', 'mJy', 'MJy', 'a_rad'],
+  'Composite': ['m2', 'm3', 'cm2', 'cm3', 's2', 'pc2', 'pc3']
 }
 ```
