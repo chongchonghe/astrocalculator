@@ -4,14 +4,24 @@ from calc import execute_calculation
 app = Flask(__name__)
 
 @app.route('/', methods=['GET', 'POST'])
-def calculate():
+def index():
+    calculation = ''
+    parsed_input = None
+    result_si = None
+    result_cgs = None
+    result_user_units = None
+    user_units = None
+
     if request.method == 'POST':
-        inp = request.form['calculation']
-        # Assume execute_calculation returns a tuple (parsed_input, result_si, result_cgs)
-        parsed_input, result_si, result_cgs = execute_calculation(inp)
-        return render_template('index.html', parsed_input=parsed_input, result_si=result_si, result_cgs=result_cgs, calculation=inp)
-    else:
-        return render_template('index.html')
+        calculation = request.form.get('calculation', '')
+        user_units = request.form.get('user_units', None)  # Get user-defined units
+
+        # Execute the calculation and get results
+        parsed_input, result_si, result_cgs, result_user_units = execute_calculation(calculation, user_units)
+
+    return render_template('index.html', calculation=calculation, parsed_input=parsed_input,
+                           result_si=result_si, result_cgs=result_cgs, 
+                           result_user_units=result_user_units, user_units=user_units)
 
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', port=5001, debug=True)  # Updated host and port
+    app.run(debug=True)

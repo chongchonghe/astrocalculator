@@ -22,7 +22,8 @@
         <form method="post">
             <label for="calculation">Enter calculation:</label>
             <textarea id="calculation" name="calculation" rows="5" style="resize: vertical;" required>{{ calculation if calculation else '' }}</textarea>
-            <button type="submit" class="mt-3">Calculate</button>
+            <p><strong>User units:</strong> <input type="text" id="user_units" name="user_units" value="{{ user_units if user_units else '' }}"></p>
+            <button type="submit" class="mt-1">Calculate</button>
         </form>
         {% if parsed_input %}
         <div class="result">
@@ -30,6 +31,7 @@
             <p><strong>Parsed Input:</strong> {{ parsed_input }}</p>
             <p><strong>Result (SI):</strong> {{ result_si }}</p>
             <p><strong>Result (cgs):</strong> {{ result_cgs }}</p>
+            <p><strong>Result (user):</strong> {{ result_user_units }}</p>
         </div>
         {% endif %}
     </div>

@@ -250,13 +250,25 @@ def parse_input(inp):
     return inp
 
 
-def execute_calculation(inp):
+def execute_calculation(inp, units=None):
     inp_parsed = parse_input(inp)
     expr, ret_raw, ret_si, ret_cgs = calculate(inp_parsed)
     parsed_input = expr
     result_si = ret_si
     result_cgs = ret_cgs
-    return parsed_input, result_si, result_cgs
+    if units is not None:
+        userunit = units.strip()
+        try:
+            result_user_units = convert(ret_raw, userunit)
+        except UnitConversionError as _e:
+            print("Error: " + str(_e))
+            result_user_units = None
+        except ValueError as _e:
+            print("Error: " + str(_e))
+            result_user_units = None
+    else:
+        result_user_units = None
+    return parsed_input, result_si, result_cgs, result_user_units
 
 
 def main(withcolor=True):
