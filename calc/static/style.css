@@ -89,3 +89,29 @@ button:hover {
   white-space: nowrap; /* Prevent text wrapping */
   z-index: 10; /* Ensure tooltip appears above other elements */
 }
+
+.examples {
+    background-color: #ffffff; /* Light background for examples */
+    color: #333333; /* Dark text color for readability */
+    margin-top: 2em;
+    padding: 1em;
+    border-radius: 4px;
+}
+
+.examples h2 {
+    color: #333333; /* Dark text for the header */
+}
+
+.examples pre {
+    background-color: #007bff33; /* Light background for code blocks to match button */
+    color: #1c1c1c; /* Light text color for code */
+    padding: 0.5em;
+    border-radius: 4px;
+    overflow-x: auto;
+}
+
+.examples code {
+    color: #000000; /* Dark text color for code */
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: 550;
+}
