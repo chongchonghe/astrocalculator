@@ -3,7 +3,7 @@
 ## About
 
 AstroCalculator is a calculator for astronomers and physicists written in Python.  
-Author: Chong-Chong He (che1234@umd.edu)
+Author: ChongChong He (chongchong.he@anu.edu.au)
 
 ## Installation
 
@@ -17,7 +17,7 @@ pip install astrocalculator
 
 ## How to use
 
-Start the program with `calc`. You will see a command line interface where you can type in your inputs. A input can be 1) a single variable or constant like `k_B`, 2) an expression like `m_e c^2`, or 3) a list of variable assignments followed by a final expression to evaluate, e.g. `M = 1.4 M_sun, R = 10 km, sqrt(2 G M / R)`. 
+Start the program with `calc`. This will start a web server and open a browser window where you can type in your inputs. A input can be one of the following: 1) a single variable or constant like `k_B`, 2) an expression like `m_e c^2`, or 3) a list of variable assignments followed by a final expression to evaluate, e.g. `M = 1.4 M_sun, R = 10 km, sqrt(2 G M / R)`. 
 
 Another way is to use it as a Python module in your script or interactively in iPython. Put the following in your code:
 
@@ -47,7 +47,7 @@ Parsed input = c**2*m_e
 Result (SI)  = 8.1871e-14 m N
 Result (cgs) = 8.1871e-07 erg
 
-Input[3]: in MeV
+User units: MeV
 
 0.51100 MeV
 
@@ -57,14 +57,13 @@ Parsed input = sqrt(2*G*M*1/R)
 Result (SI)  = 1.9277e+08 m / s
 Result (cgs) = 1.9277e+10 cm / s
 
-Input[5]: in km/s
+User units: km/s
 
 1.9277e+05 km / s
 ```
 
 ## Todos
 
-- [ ] parse keyword 'in' at the last line and automatically change User Unit.
 - [ ] Add latex preview
 
 ## References
@@ -73,4 +72,3 @@ Input[5]: in km/s
 - https://docs.astropy.org/en/stable/constants/
 - https://www.lidavidm.me/blog/posts/2013-09-15-implicit-parsing-in-sympy.html
 - https://stackoverflow.com/questions/62507535/python-suppress-expansion-of-exponential-notation-in-parse-expr-sympy
-
