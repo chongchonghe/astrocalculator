@@ -1,7 +1,9 @@
+import sys
+print(sys.path)  # Add this line at the top
 import webbrowser
 import threading
 from flask import Flask, render_template, request
-from calc import execute_calculation
+from .calc import execute_calculation  # Updated relative import
 
 app = Flask(__name__)
 
@@ -28,6 +30,9 @@ def index():
 def open_browser():
     webbrowser.open_new("http://127.0.0.1:5000/")
 
-if __name__ == '__main__':
-    threading.Timer(1.25, open_browser).start()
+def start_server():
+    threading.Timer(1.0, open_browser).start()
     app.run(debug=False, use_reloader=False)
+
+if __name__ == '__main__':
+    start_server()
