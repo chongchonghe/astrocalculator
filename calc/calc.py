@@ -49,7 +49,7 @@ more_units = {
     'Pressure': ['Pa', 'bar', 'mbar'],
     'Frequency': ['Hz', 'kHz', 'MHz', 'GHz',],
     'Temperature': ['K',],
-    'Angular size': ['deg', 'radian', 'arcmin', 'arcsec', 'arcsec2'],
+    'Angular size': ['deg', 'radian', 'arcmin', 'arcsec', 'arcsec2', 'sr'],
     'Astronomy': ['Lsun', 'Jy', 'mJy', 'MJy'],
     'Composite': ['m2', 'm3', 'cm2', 'cm3', 's2', 'pc2', 'pc3']
     }
@@ -65,7 +65,7 @@ for _key in more_units.keys():
 
 # Function to define derived units globally
 def define_derived_units():
-    global esu, Ang, mpcc, Msun, m2, m3, cm2, cm3, s2, pc2, pc3, degrees, arcsec2, Gauss
+    global esu, Ang, mpcc, Msun, m2, m3, cm2, cm3, s2, pc2, pc3, degree, arcsec2, Gauss
     esu = e.esu
     Ang = U.def_unit('Ang', 0.1 * nm)
     mpcc = U.def_unit('mpcc', m_p / cm**3)
@@ -77,7 +77,7 @@ def define_derived_units():
     s2 = s**2
     pc2 = pc**2
     pc3 = pc**3
-    degrees = pi / 180
+    degree = pi / 180
     arcsec2 = arcsec**2
     Gauss = g**(1/2) * cm**(-1/2) * s**(-1)
 
@@ -111,7 +111,7 @@ def parse_and_eval(expr, local_vars_={}):
         EvalError
     """
 
-    logging.debug("here #800")
+    inp_expr = expr
     for item in local_vars_:
         locals()[item] = local_vars_[item]
     try:
@@ -261,16 +261,22 @@ def execute_calculation(inp, units=None):
     err, expr, ret_raw, ret_si, ret_cgs = calculate(inp_parsed)
     if err == 1:
         return expr, ret_raw, '', ''
+    result_user_units = 'none'
     if units is not None:
         userunit = units.strip()
-        try:
-            result_user_units = convert(ret_raw, userunit)
-        except UnitConversionError as _e:
-            result_user_units = "Error: " + str(_e)
-        except ValueError as _e:
-            result_user_units = "Error: " + str(_e)
-    else:
-        result_user_units = None
+        if userunit == 'degree':
+            try:
+                result_user_units = convert(ret_raw, userunit)
+            except Exception as _e:
+                try:
+                    result_user_units = convert(ret_raw * radian, userunit)
+                except Exception as _e:
+                    result_user_units = "Error: " + str(_e)
+        else:
+            try:
+                result_user_units = convert(ret_raw, userunit)
+            except Exception as _e:
+                result_user_units = "Error: " + str(_e)
     return expr, ret_si, ret_cgs, result_user_units
 
 
@@ -374,7 +380,11 @@ if __name__ == '__main__':
     _withcolor = not "-nc" in sys.argv[1:]
     # main(withcolor=_withcolor)
 
-    parsed_input, result_si, result_cgs, result_user_units = execute_calculation(sys.argv[1])
+    units = None
+    expr = sys.argv[1]
+    if len(sys.argv) > 2:
+        units = sys.argv[2]
+    parsed_input, result_si, result_cgs, result_user_units = execute_calculation(expr, units)
     print(parsed_input)
     print(result_si)
     print(result_cgs)
