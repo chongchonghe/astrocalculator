@@ -51,7 +51,7 @@
         <form method="post">
             <label for="calculation">Enter calculation:</label>
             <textarea id="calculation" name="calculation" rows="5" style="resize: vertical;" required>{{ calculation if calculation else '' }}</textarea>
-            <p><strong>User units:</strong> <input type="text" id="user_units" name="user_units" value="{{ user_units if user_units else '' }}"></p>
+            <p>User units: <input type="text" id="user_units" name="user_units" value="{{ user_units if user_units else '' }}"></p>
             <button type="submit" class="mt-1">Calculate</button>
         </form>
         {% if parsed_input %}
