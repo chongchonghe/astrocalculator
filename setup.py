@@ -9,10 +9,10 @@ README = (HERE / "README.md").read_text()
 
 setup(
     name='AstroCalculator',
-    version='0.2.1',
+    version='0.3.0',
     author='ChongChong He',
     author_email='chongchong.he@anu.edu.au',
-    description='A locally hosted Flask application for astronomical calculations.',
+    description='A locally hosted terminal+web application for astrophysical calculations.',
     long_description=README,
     long_description_content_type='text/markdown',
     url='https://github.com/chongchonghe/acap.git',
@@ -26,7 +26,8 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'calc=astrocalculator.app:start_server',
+            'calcweb=astrocalculator.app:start_server',
+            'calc=astrocalculator.calc:main'
         ],
     },
     classifiers=[
