@@ -14,6 +14,9 @@ from __future__ import annotations
 import logging
 import sys
 import textwrap
+import json
+import os
+from datetime import datetime
 from math import pi, inf, log, log10, log2
 from typing import Any, Dict, List, Optional, Tuple, Union
 import numpy as np
@@ -38,6 +41,13 @@ F_FMT = f'{{:.{DIGITS-1}e}}' if IS_SCI else f'{{:#.{DIGITS}g}}'
 
 # Define transformations for sympy parsing
 TRANSFORMATIONS = (convert_xor,) + standard_transformations + (implicit_multiplication,)
+
+# Directory for saved history
+USER_DATA_DIR = os.path.expanduser("~/.cache/astrocalculator")
+HISTORY_DIR = os.path.join(USER_DATA_DIR, "history")
+
+# Ensure directories exist
+os.makedirs(HISTORY_DIR, exist_ok=True)
 
 
 class EvalError(Exception):
@@ -184,7 +194,7 @@ class AstroCalculator:
         except Exception as error_msg:
             raise EvalError(error_msg)
     
-    def calculate(self, inp: str, delimiter: str = ',') -> Tuple[Optional[str], Optional[Any], Optional[str], Optional[str]]:
+    def calculate(self, inp: str, delimiter: str = ',') -> Tuple[Optional[str], Optional[Any], Optional[str], Optional[str], Optional[str]]:
         """Calculate results from input string with support for multiple expressions.
         
         Args:
@@ -192,47 +202,59 @@ class AstroCalculator:
             delimiter: Delimiter for separating multiple expressions
             
         Returns:
-            Tuple of (parsed_expression, raw_result, si_result, cgs_result)
+            Tuple of (parsed_expression, raw_result, si_result, cgs_result, target_unit)
+            where target_unit is the unit to convert to if 'in unit' is specified
         """
         if not inp.strip():
-            return None, None, None, None
+            return None, None, None, None, None
         
         # Remove trailing whitespace
         inp = inp.strip()
         
-        # Handle variable assignments
-        if delimiter in inp:
-            lines = inp.split(delimiter)
-            n_line = len(lines)
+        # Check if there's an 'in unit' part at the end
+        target_unit = None
+        if ' in ' in inp:
+            # Extract the target unit
+            parts = inp.split(' in ')
+            if len(parts) == 2:
+                inp = parts[0].strip()
+                target_unit = parts[1].strip()
+        
+        # Handle variable assignments. If a delimiter is found, all but the last line are variable assignments.
+        exp_to_eval = None
+        
+        lines = inp.split(delimiter)
+        n_line = len(lines)
+        
+        for count, line in enumerate(lines):
+            line = line.strip()
+
+            # if last line, set the first part (before =) as exp_to_eval
+            if count == n_line - 1:
+                exp_to_eval = line.split('=')[0].strip()
+
+            if not line or '=' not in line:
+                continue
+                
+            items = line.split('=')
+            if len(items) > 2:
+                raise EvalError('Multiple equal signs found in variable assignment')
             
-            for count, line in enumerate(lines):
-                if count >= n_line - 1:  # last line
-                    inp = line.strip()
-                    break
-                
-                line = line.strip()
-                if not line or '=' not in line:
-                    continue
-                    
-                items = line.split('=')
-                if len(items) > 2:
-                    raise EvalError('Multiple equal signs found in variable assignment')
-                
-                var, value = items
-                var = var.strip()
-                
-                # Check variable name validity
-                if REQUIRE_UNDERSCORE and var[0] != '_':
-                    raise EvalError("Assigned variable must begin with _ (underscore)")
-                if ' ' in var:
-                    raise EvalError('Variable should not have space in it')
-                
-                # Evaluate and store in local namespace
-                _, result = self.parse_and_eval(value)
-                self.local_namespace[var] = result
+            var, value = items
+            var = var.strip()
+            
+            # Check variable name validity
+            if REQUIRE_UNDERSCORE and var[0] != '_':
+                raise EvalError("Assigned variable must begin with _ (underscore)")
+            if ' ' in var:
+                raise EvalError('Variable should not have space in it')
+            
+            # Evaluate and store in local namespace
+            _, result = self.parse_and_eval(value)
+            self.local_namespace[var] = result
         
         # Evaluate the final expression
-        parsed_expr, raw_result = self.parse_and_eval(inp)
+        parsed_expr, raw_result = self.parse_and_eval(exp_to_eval)
         
         # Format results
         si_result = None
@@ -262,7 +284,7 @@ class AstroCalculator:
             except Exception as e:
                 cgs_result = textwrap.fill(str(e), 80)
         
-        return parsed_expr, raw_result, si_result, cgs_result
+        return parsed_expr, raw_result, si_result, cgs_result, target_unit
     
     def convert(self, quant, unit_name: str) -> Optional[str]:
         """Convert a quantity to the specified unit.
@@ -344,10 +366,96 @@ def execute_calculation(inp: str) -> None:
     """
     calculator = AstroCalculator()
     inp_parsed = parse_input(inp)
-    expr, ret_raw, ret_si, ret_cgs = calculator.calculate(inp_parsed)
+    expr, ret_raw, ret_si, ret_cgs, target_unit = calculator.calculate(inp_parsed)
     output = f"Parsed input = {expr}\nResult (SI)  = {ret_si}\nResult (cgs) = {ret_cgs}"
+    
+    # If a target unit was specified, convert the result
+    if target_unit and ret_raw is not None:
+        try:
+            converted = calculator.convert(ret_raw, target_unit)
+            if converted is not None:
+                output += f"\nConverted to {target_unit} = {converted}"
+        except UnitConversionError as e:
+            output += f"\nError converting to {target_unit}: {str(e)}"
+    
     print(output)
 
+
+def save_session(history: List[str], session_name: Optional[str] = None) -> str:
+    """
+    Save the command history to a file.
+    
+    Args:
+        history: List of command history
+        session_name: Optional name for the history file
+        
+    Returns:
+        Path to the saved history file
+    """
+    if not session_name:
+        # Generate a timestamp-based name if none provided
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        session_name = f"history_{timestamp}"
+    
+    # Ensure .json extension
+    if not session_name.endswith(".json"):
+        session_name += ".json"
+    
+    # Full path to the history file
+    history_path = os.path.join(HISTORY_DIR, session_name)
+    
+    # Prepare history data
+    history_data = {
+        "history": history,
+        "timestamp": datetime.now().isoformat()
+    }
+    
+    # Write to file
+    with open(history_path, 'w') as f:
+        json.dump(history_data, f, indent=2)
+    
+    return history_path
+
+
+def list_history_files() -> List[str]:
+    """
+    List all saved history files.
+    
+    Returns:
+        List of history file names
+    """
+    if not os.path.exists(HISTORY_DIR):
+        return []
+    
+    # Get all JSON files in the history directory
+    history_files = [f for f in os.listdir(HISTORY_DIR) if f.endswith(".json")]
+    return sorted(history_files)
+
+
+def load_history(history_file: str) -> List[str]:
+    """
+    Load command history from a file.
+    
+    Args:
+        history_file: Path to the history file
+        
+    Returns:
+        List of command history entries
+    """
+    # If just the name was provided, construct the full path
+    if not os.path.isabs(history_file):
+        if not history_file.endswith(".json"):
+            history_file += ".json"
+        history_file = os.path.join(HISTORY_DIR, history_file)
+    
+    try:
+        with open(history_file, 'r') as f:
+            history_data = json.load(f)
+        
+        history = history_data.get("history", [])
+        return history
+    except (FileNotFoundError, json.JSONDecodeError) as e:
+        raise ValueError(f"Failed to load history: {str(e)}")
 
 def main(withcolor: bool = True) -> None:
     """Main function to run the calculator.
@@ -363,12 +471,17 @@ Examples:
 >>> m_p
 
 >>> m_e c^2
->>>
->>> in eV
 
->>> M = 1.4 M_sun, R = 10 km, sqrt(2 G M / R)
->>>
->>> in km/s
+>>> m_e c^2 in eV
+
+>>> M = 1.4 M_sun, R = 10 km, sqrt(2 G M / R) in km/s
+
+Special commands:
+- save [name]  : Save command history
+- history      : List all saved history files
+- history [name] : Display commands from a specific history file
+- help         : Show help
+- q            : Quit
 
 For available constants and units, check
 https://github.com/chongchonghe/acap/blob/master/docs/constants.md
@@ -413,32 +526,84 @@ https://github.com/chongchonghe/acap/blob/master/docs/constants.md
             line = line.rstrip(',;')
             input_lines.append(line)
 
-            if line.startswith('in '):
+            if line.startswith('in ') or line == 'q' or line.startswith('save ') or line.startswith('history'):
                 break
         
         # Combine all lines with commas
         inp = ', '.join(input_lines)
-        history.append(inp)
-        print()
-
+        
         if not inp:
             continue
         if inp == 'q':
             return
-        if inp[0] == '!':
-            if len(inp) == 1:
-                idx = count - 1
-            else:
+        
+        # Handle special commands
+        if inp.startswith('save '):
+            # Extract history name (if provided)
+            parts = inp.split(' ', 1)
+            history_name = parts[1].strip() if len(parts) > 1 and parts[1].strip() else None
+            
+            try:
+                # Save the history
+                saved_path = save_session(history, history_name)
+                print(f"History saved to {os.path.basename(saved_path)}")
+            except Exception as e:
+                print(c_error + f"Error saving history: {str(e)}" + c_end)
+            
+            print()
+            continue
+            
+        elif inp.startswith('history'):
+            parts = inp.split(' ', 1)
+            
+            # If a specific history file is provided, display its contents
+            if len(parts) > 1 and parts[1].strip():
+                history_name = parts[1].strip()
                 try:
-                    idx = int(inp.split('!')[1])
-                except ValueError:
-                    print()
-                    continue
-            default = history[idx - 1]
+                    # Load history from the specified file
+                    cmds = load_history(history_name)
+                    
+                    if not cmds:
+                        print(f"No commands found in history file '{history_name}'")
+                    else:
+                        print(f"Commands in '{history_name}':")
+                        for cmd in cmds:
+                            print(cmd)
+                except Exception as e:
+                    print(c_error + f"Error loading history: {str(e)}" + c_end)
+            else:
+                # List all saved history files
+                history_files = list_history_files()
+                
+                if not history_files:
+                    print("No saved history files found")
+                else:
+                    print("Saved history files:")
+                    for i, h_file in enumerate(history_files, 1):
+                        # Remove .json extension for display
+                        display_name = h_file[:-5] if h_file.endswith(".json") else h_file
+                        print(f"{i}. {display_name}")
+            
+            print()
+            continue
+            
+        elif inp == 'help':
+            print("""Commands:
+- save [name]  : Save command history
+- history      : List all saved history files
+- history [name] : Display commands from a specific history file
+- help         : Show this help
+- q            : Quit calculator
+- in [unit]    : Convert last result to specified unit
+""")
             print()
             continue
         
-        # Handle unit conversion request
+        # Add to history for normal commands
+        history.append(inp)
+        print()
+        
+        # Handle unit conversion request (standalone)
         if len(inp) > 3 and inp[:3] == 'in ':
             if ret_raw is None:
                 continue
@@ -457,13 +622,24 @@ https://github.com/chongchonghe/acap/blob/master/docs/constants.md
         # Handle calculation
         try:
             inp = inp.replace(';', ',')
-            expr, ret_raw, ret_si, ret_cgs = calculator.calculate(inp)
+            expr, ret_raw, ret_si, ret_cgs, target_unit = calculator.calculate(inp)
             print(c_diag + "Parsed input =" + c_end, end=' ')
             print(expr)
             print(c_diag + "Result (SI)  =" + c_end, end=' ')
             print(ret_si)
             print(c_diag + "Result (cgs) =" + c_end, end=' ')
             print(ret_cgs)
+            
+            # If a target unit was specified, display the conversion
+            if target_unit and ret_raw is not None:
+                try:
+                    converted = calculator.convert(ret_raw, target_unit)
+                    if converted is not None:
+                        print(c_diag + f"In {target_unit} =" + c_end, end=' ')
+                        print(converted)
+                except UnitConversionError as e:
+                    print(c_error + f"Error converting to {target_unit}: {str(e)}" + c_end)
+            
             print()
         except EvalError as e:
             print(c_error + "Error: " + str(e) + c_end)
