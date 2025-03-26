@@ -302,10 +302,7 @@ https://github.com/chongchonghe/acap/blob/master/docs/constants.md
             else:
                 line = readline_input(pre if not input_lines else "", default).strip()
                 default = ''
-            
-            # Handle SHIFT-ENTER (empty string with length 1)
-            if len(line) == 1 and ord(line) == 0:
-                break
+            line = line.strip()
                 
             # Handle empty line
             if not line.strip():
