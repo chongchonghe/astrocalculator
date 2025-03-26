@@ -184,7 +184,7 @@ class AstroCalculator:
         except Exception as error_msg:
             raise EvalError(error_msg)
     
-    def calculate(self, inp: str, delimiter: str = ',') -> Tuple[Optional[str], Optional[Any], Optional[str], Optional[str]]:
+    def calculate(self, inp: str, delimiter: str = ',') -> Tuple[Optional[str], Optional[Any], Optional[str], Optional[str], Optional[str]]:
         """Calculate results from input string with support for multiple expressions.
         
         Args:
@@ -192,13 +192,23 @@ class AstroCalculator:
             delimiter: Delimiter for separating multiple expressions
             
         Returns:
-            Tuple of (parsed_expression, raw_result, si_result, cgs_result)
+            Tuple of (parsed_expression, raw_result, si_result, cgs_result, target_unit)
+            where target_unit is the unit to convert to if 'in unit' is specified
         """
         if not inp.strip():
-            return None, None, None, None
+            return None, None, None, None, None
         
         # Remove trailing whitespace
         inp = inp.strip()
+        
+        # Check if there's an 'in unit' part at the end
+        target_unit = None
+        if ' in ' in inp:
+            # Extract the target unit
+            parts = inp.split(' in ')
+            if len(parts) == 2:
+                inp = parts[0].strip()
+                target_unit = parts[1].strip()
         
         # Handle variable assignments
         if delimiter in inp:
@@ -262,7 +272,7 @@ class AstroCalculator:
             except Exception as e:
                 cgs_result = textwrap.fill(str(e), 80)
         
-        return parsed_expr, raw_result, si_result, cgs_result
+        return parsed_expr, raw_result, si_result, cgs_result, target_unit
     
     def convert(self, quant, unit_name: str) -> Optional[str]:
         """Convert a quantity to the specified unit.
@@ -344,8 +354,18 @@ def execute_calculation(inp: str) -> None:
     """
     calculator = AstroCalculator()
     inp_parsed = parse_input(inp)
-    expr, ret_raw, ret_si, ret_cgs = calculator.calculate(inp_parsed)
+    expr, ret_raw, ret_si, ret_cgs, target_unit = calculator.calculate(inp_parsed)
     output = f"Parsed input = {expr}\nResult (SI)  = {ret_si}\nResult (cgs) = {ret_cgs}"
+    
+    # If a target unit was specified, convert the result
+    if target_unit and ret_raw is not None:
+        try:
+            converted = calculator.convert(ret_raw, target_unit)
+            if converted is not None:
+                output += f"\nConverted to {target_unit} = {converted}"
+        except UnitConversionError as e:
+            output += f"\nError converting to {target_unit}: {str(e)}"
+    
     print(output)
 
 
@@ -438,7 +458,7 @@ https://github.com/chongchonghe/acap/blob/master/docs/constants.md
             print()
             continue
         
-        # Handle unit conversion request
+        # Handle unit conversion request (standalone)
         if len(inp) > 3 and inp[:3] == 'in ':
             if ret_raw is None:
                 continue
@@ -457,13 +477,24 @@ https://github.com/chongchonghe/acap/blob/master/docs/constants.md
         # Handle calculation
         try:
             inp = inp.replace(';', ',')
-            expr, ret_raw, ret_si, ret_cgs = calculator.calculate(inp)
+            expr, ret_raw, ret_si, ret_cgs, target_unit = calculator.calculate(inp)
             print(c_diag + "Parsed input =" + c_end, end=' ')
             print(expr)
             print(c_diag + "Result (SI)  =" + c_end, end=' ')
             print(ret_si)
             print(c_diag + "Result (cgs) =" + c_end, end=' ')
             print(ret_cgs)
+            
+            # If a target unit was specified, display the conversion
+            if target_unit and ret_raw is not None:
+                try:
+                    converted = calculator.convert(ret_raw, target_unit)
+                    if converted is not None:
+                        print(c_diag + f"In {target_unit} =" + c_end, end=' ')
+                        print(converted)
+                except UnitConversionError as e:
+                    print(c_error + f"Error converting to {target_unit}: {str(e)}" + c_end)
+            
             print()
         except EvalError as e:
             print(c_error + "Error: " + str(e) + c_end)
