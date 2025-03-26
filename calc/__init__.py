@@ -1,12 +1,21 @@
 #!/usr/bin/env python
-""" calculator.py
-A Calculator for Astronomers and Physicists.
+"""AstroCalculator - A Calculator for Astronomers and Physicists.
+
+This module provides a command-line calculator with support for physical constants
+and units from astropy. It allows users to perform calculations with physical
+quantities, convert between units, and access various astronomical and physical constants.
+
 Author: Chong-Chong He (che1234@umd.edu)
 Date: 2020-06-20
 """
 
+from __future__ import annotations
+
+import logging
 import sys
+import textwrap
 from math import pi, inf, log, log10, log2
+from typing import Any, Dict, List, Optional, Tuple, Union
 from numpy import sin, arcsin, cos, arccos, tan, arctan, sinh, arctanh, cosh, arccosh, arcsinh, cosh, arccosh, tanh, arctanh, sqrt, exp, float64
 import readline
 from sympy import evaluate
@@ -15,8 +24,6 @@ from astropy import units as U
 from astropy import constants
 from astropy.units.core import UnitConversionError, CompositeUnit
 from astropy.units.quantity import Quantity
-import logging
-import textwrap
 
 DIGITS = 10          # number of significant digits in the scientific notation
 REQUIRE_UNDERSCORE = False
@@ -43,7 +50,7 @@ more_units = {
     'Length': ['m', 'cm', 'mm', 'um', 'nm', 'Angstrom', 'km', 'au', 'AU', 'pc', 'kpc', 'Mpc', 'lyr',],
     'Mass': ['kg', 'g', 'M_sun', 'Msun'],
     'Density': ['mpcc'],
-    'Time': ['s', 'yr', 'Myr', 'Gyr',],
+    'Time': ['s', 'yr', 'Myr', 'Gyr'],
     'Energy': ['J', 'erg', 'eV', 'keV', 'MeV', 'GeV'],
     'Power': ['W'],
     'Pressure': ['Pa', 'bar', 'mbar'],
@@ -52,7 +59,7 @@ more_units = {
     'Angular size': ['deg', 'radian', 'arcmin', 'arcsec', 'arcsec2'],
     'Astronomy': ['Lsun', 'Jy', 'mJy', 'MJy'],
     'Composite': ['m2', 'm3', 'cm2', 'cm3', 's2', 'pc2', 'pc3']
-    }
+}
 # The following units are not avaiable in astropy.units and I have to define them myself
 user_units = ['deg', 'Ang', 'mpcc', 'm2', 'm3', 'cm2', 'cm3', 's2', 'pc2', 'pc3', 'arcsec2', 'Msun']
 # The following units are already defined as physical constants
@@ -274,10 +281,11 @@ Examples:
 >>>
 >>> in km/s
 
-For avaiable constants and units, check
+For available constants and units, check
 https://github.com/chongchonghe/acap/blob/master/docs/constants.md
 ===============================================""")
     print()
+    
     if withcolor:
         c_diag = '\33[92m'
         c_error = '\033[91m'
@@ -286,16 +294,18 @@ https://github.com/chongchonghe/acap/blob/master/docs/constants.md
         c_diag = ''
         c_error = ''
         c_end = ''
+        
     count = 0
     default = ''
-    history = []
+    history: List[str] = []
     ret_raw = None
+    
     while True:
         count += 1
         pre = c_diag + f"Input[{count}]: " + c_end + "\n"
         
-        # Collect multiple lines until empty line or SHIFT-ENTER
-        input_lines = []
+        # Collect multiple lines until empty line
+        input_lines: List[str] = []
         while True:
             if default == '':
                 line = input(pre if not input_lines else "")
@@ -320,9 +330,6 @@ https://github.com/chongchonghe/acap/blob/master/docs/constants.md
         history.append(inp)
         print()
 
-        # print(inp)
-        # continue
-        
         if not inp:
             continue
         if inp == 'q':
