@@ -14,6 +14,9 @@ from __future__ import annotations
 import logging
 import sys
 import textwrap
+import json
+import os
+from datetime import datetime
 from math import pi, inf, log, log10, log2
 from typing import Any, Dict, List, Optional, Tuple, Union
 import numpy as np
@@ -38,6 +41,13 @@ F_FMT = f'{{:.{DIGITS-1}e}}' if IS_SCI else f'{{:#.{DIGITS}g}}'
 
 # Define transformations for sympy parsing
 TRANSFORMATIONS = (convert_xor,) + standard_transformations + (implicit_multiplication,)
+
+# Directory for saved history
+USER_DATA_DIR = os.path.expanduser("~/.astrocalculator")
+HISTORY_DIR = os.path.join(USER_DATA_DIR, "history")
+
+# Ensure directories exist
+os.makedirs(HISTORY_DIR, exist_ok=True)
 
 
 class EvalError(Exception):
@@ -369,6 +379,82 @@ def execute_calculation(inp: str) -> None:
     print(output)
 
 
+def save_session(history: List[str], session_name: Optional[str] = None) -> str:
+    """
+    Save the command history to a file.
+    
+    Args:
+        history: List of command history
+        session_name: Optional name for the history file
+        
+    Returns:
+        Path to the saved history file
+    """
+    if not session_name:
+        # Generate a timestamp-based name if none provided
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        session_name = f"history_{timestamp}"
+    
+    # Ensure .json extension
+    if not session_name.endswith(".json"):
+        session_name += ".json"
+    
+    # Full path to the history file
+    history_path = os.path.join(HISTORY_DIR, session_name)
+    
+    # Prepare history data
+    history_data = {
+        "history": history,
+        "timestamp": datetime.now().isoformat()
+    }
+    
+    # Write to file
+    with open(history_path, 'w') as f:
+        json.dump(history_data, f, indent=2)
+    
+    return history_path
+
+
+def list_history_files() -> List[str]:
+    """
+    List all saved history files.
+    
+    Returns:
+        List of history file names
+    """
+    if not os.path.exists(HISTORY_DIR):
+        return []
+    
+    # Get all JSON files in the history directory
+    history_files = [f for f in os.listdir(HISTORY_DIR) if f.endswith(".json")]
+    return sorted(history_files)
+
+
+def load_history(history_file: str) -> List[str]:
+    """
+    Load command history from a file.
+    
+    Args:
+        history_file: Path to the history file
+        
+    Returns:
+        List of command history entries
+    """
+    # If just the name was provided, construct the full path
+    if not os.path.isabs(history_file):
+        if not history_file.endswith(".json"):
+            history_file += ".json"
+        history_file = os.path.join(HISTORY_DIR, history_file)
+    
+    try:
+        with open(history_file, 'r') as f:
+            history_data = json.load(f)
+        
+        history = history_data.get("history", [])
+        return history
+    except (FileNotFoundError, json.JSONDecodeError) as e:
+        raise ValueError(f"Failed to load history: {str(e)}")
+
 def main(withcolor: bool = True) -> None:
     """Main function to run the calculator.
     
@@ -383,12 +469,17 @@ Examples:
 >>> m_p
 
 >>> m_e c^2
->>>
->>> in eV
 
->>> M = 1.4 M_sun, R = 10 km, sqrt(2 G M / R)
->>>
->>> in km/s
+>>> m_e c^2 in eV
+
+>>> M = 1.4 M_sun, R = 10 km, sqrt(2 G M / R) in km/s
+
+Special commands:
+- save [name]  : Save command history
+- history      : List all saved history files
+- history [name] : Display commands from a specific history file
+- help         : Show help
+- q            : Quit
 
 For available constants and units, check
 https://github.com/chongchonghe/acap/blob/master/docs/constants.md
@@ -433,30 +524,82 @@ https://github.com/chongchonghe/acap/blob/master/docs/constants.md
             line = line.rstrip(',;')
             input_lines.append(line)
 
-            if line.startswith('in '):
+            if line.startswith('in ') or line == 'q' or line.startswith('save ') or line.startswith('history'):
                 break
         
         # Combine all lines with commas
         inp = ', '.join(input_lines)
-        history.append(inp)
-        print()
-
+        
         if not inp:
             continue
         if inp == 'q':
             return
-        if inp[0] == '!':
-            if len(inp) == 1:
-                idx = count - 1
-            else:
-                try:
-                    idx = int(inp.split('!')[1])
-                except ValueError:
-                    print()
-                    continue
-            default = history[idx - 1]
+        
+        # Handle special commands
+        if inp.startswith('save '):
+            # Extract history name (if provided)
+            parts = inp.split(' ', 1)
+            history_name = parts[1].strip() if len(parts) > 1 and parts[1].strip() else None
+            
+            try:
+                # Save the history
+                saved_path = save_session(history, history_name)
+                print(f"History saved to {os.path.basename(saved_path)}")
+            except Exception as e:
+                print(c_error + f"Error saving history: {str(e)}" + c_end)
+            
             print()
             continue
+            
+        elif inp.startswith('history'):
+            parts = inp.split(' ', 1)
+            
+            # If a specific history file is provided, display its contents
+            if len(parts) > 1 and parts[1].strip():
+                history_name = parts[1].strip()
+                try:
+                    # Load history from the specified file
+                    cmds = load_history(history_name)
+                    
+                    if not cmds:
+                        print(f"No commands found in history file '{history_name}'")
+                    else:
+                        print(f"Commands in '{history_name}':")
+                        for cmd in cmds:
+                            print(cmd)
+                except Exception as e:
+                    print(c_error + f"Error loading history: {str(e)}" + c_end)
+            else:
+                # List all saved history files
+                history_files = list_history_files()
+                
+                if not history_files:
+                    print("No saved history files found")
+                else:
+                    print("Saved history files:")
+                    for i, h_file in enumerate(history_files, 1):
+                        # Remove .json extension for display
+                        display_name = h_file[:-5] if h_file.endswith(".json") else h_file
+                        print(f"{i}. {display_name}")
+            
+            print()
+            continue
+            
+        elif inp == 'help':
+            print("""Commands:
+- save [name]  : Save command history
+- history      : List all saved history files
+- history [name] : Display commands from a specific history file
+- help         : Show this help
+- q            : Quit calculator
+- in [unit]    : Convert last result to specified unit
+""")
+            print()
+            continue
+        
+        # Add to history for normal commands
+        history.append(inp)
+        print()
         
         # Handle unit conversion request (standalone)
         if len(inp) > 3 and inp[:3] == 'in ':
