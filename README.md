@@ -3,7 +3,7 @@
 ## About
 
 AstroCalculator is a calculator for astronomers and physicists written in Python.  
-Author: Chong-Chong He (che1234@umd.edu)
+Author: ChongChong He (chongchong.he@anu.edu.au)
 
 ## Installation
 

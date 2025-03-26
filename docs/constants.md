@@ -57,7 +57,7 @@ all_units = {
     'Frequency': ['Hz', 'kHz', 'MHz', 'GHz',],
     'Temperature': ['K',],
     'Angular size': ['degrees', 'radian', 'arcmin', 'arcsec', 'arcsec2'],
-    'Astronomy': ['Lsun', 'Jy', 'mJy', 'MJy'],
+    'Astronomy': ['Lsun', 'Jy', 'mJy', 'MJy', 'a_rad'],
     'Composite': ['m2', 'm3', 'cm2', 'cm3', 's2', 'pc2', 'pc3']
 }
 ```
