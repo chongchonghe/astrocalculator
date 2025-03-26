@@ -8,14 +8,14 @@ HERE = pathlib.Path(__file__).parent
 README = (HERE / "README.md").read_text()
 
 setup(
-    name='astrocalculator',
-    version='0.1.4',
+    name='AstroCalculator',
+    version='0.3.0',
     description='AstroCalculator, a Calculator for Astronomers and Physicists',
     long_description=README,
     long_description_content_type="text/markdown",
     url='https://github.com/chongchonghe/acap.git',
     author='Chong-Chong He',
-    author_email='che1234@umd.edu',
+    author_email='chongchong.he@anu.edu.au',
     license="MIT",
     # packages=find_packages(),
     packages=["calc"],
