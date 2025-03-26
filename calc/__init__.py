@@ -293,14 +293,40 @@ https://github.com/chongchonghe/acap/blob/master/docs/constants.md
     while True:
         count += 1
         pre = c_diag + f"Input[{count}]: " + c_end + "\n"
-        if default == '':
-            inp = input(pre)
-        else:
-            inp = readline_input(pre, default).strip()
-        default = ''
+        
+        # Collect multiple lines until empty line or SHIFT-ENTER
+        input_lines = []
+        while True:
+            if default == '':
+                line = input(pre if not input_lines else "")
+            else:
+                line = readline_input(pre if not input_lines else "", default).strip()
+                default = ''
+            
+            # Handle SHIFT-ENTER (empty string with length 1)
+            if len(line) == 1 and ord(line) == 0:
+                break
+                
+            # Handle empty line
+            if not line.strip():
+                break
+                
+            # Remove trailing comma or semicolon
+            line = line.rstrip(',;')
+            input_lines.append(line)
+
+            if line.startswith('in '):
+                break
+        
+        # Combine all lines with commas
+        inp = ', '.join(input_lines)
         history.append(inp)
         print()
-        if inp == "":
+
+        # print(inp)
+        # continue
+        
+        if not inp:
             continue
         if inp == 'q':
             return
@@ -337,10 +363,8 @@ https://github.com/chongchonghe/acap/blob/master/docs/constants.md
             expr, ret_raw, ret_si, ret_cgs = calculate(inp)
             print(c_diag + "Parsed input =" + c_end, end=' ')
             print(expr)
-            # print()
             print(c_diag + "Result (SI)  =" + c_end, end=' ')
             print(ret_si)
-            # print()
             print(c_diag + "Result (cgs) =" + c_end, end=' ')
             print(ret_cgs)
             print()
