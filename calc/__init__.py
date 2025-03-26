@@ -220,39 +220,41 @@ class AstroCalculator:
                 inp = parts[0].strip()
                 target_unit = parts[1].strip()
         
-        # Handle variable assignments
-        if delimiter in inp:
-            lines = inp.split(delimiter)
-            n_line = len(lines)
+        # Handle variable assignments. If a delimiter is found, all but the last line are variable assignments.
+        exp_to_eval = None
+        
+        lines = inp.split(delimiter)
+        n_line = len(lines)
+        
+        for count, line in enumerate(lines):
+            line = line.strip()
+
+            # if last line, set the first part (before =) as exp_to_eval
+            if count == n_line - 1:
+                exp_to_eval = line.split('=')[0].strip()
+
+            if not line or '=' not in line:
+                continue
+                
+            items = line.split('=')
+            if len(items) > 2:
+                raise EvalError('Multiple equal signs found in variable assignment')
             
-            for count, line in enumerate(lines):
-                if count >= n_line - 1:  # last line
-                    inp = line.strip()
-                    break
-                
-                line = line.strip()
-                if not line or '=' not in line:
-                    continue
-                    
-                items = line.split('=')
-                if len(items) > 2:
-                    raise EvalError('Multiple equal signs found in variable assignment')
-                
-                var, value = items
-                var = var.strip()
-                
-                # Check variable name validity
-                if REQUIRE_UNDERSCORE and var[0] != '_':
-                    raise EvalError("Assigned variable must begin with _ (underscore)")
-                if ' ' in var:
-                    raise EvalError('Variable should not have space in it')
-                
-                # Evaluate and store in local namespace
-                _, result = self.parse_and_eval(value)
-                self.local_namespace[var] = result
+            var, value = items
+            var = var.strip()
+            
+            # Check variable name validity
+            if REQUIRE_UNDERSCORE and var[0] != '_':
+                raise EvalError("Assigned variable must begin with _ (underscore)")
+            if ' ' in var:
+                raise EvalError('Variable should not have space in it')
+            
+            # Evaluate and store in local namespace
+            _, result = self.parse_and_eval(value)
+            self.local_namespace[var] = result
         
         # Evaluate the final expression
-        parsed_expr, raw_result = self.parse_and_eval(inp)
+        parsed_expr, raw_result = self.parse_and_eval(exp_to_eval)
         
         # Format results
         si_result = None
