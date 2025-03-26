@@ -16,256 +16,345 @@ import sys
 import textwrap
 from math import pi, inf, log, log10, log2
 from typing import Any, Dict, List, Optional, Tuple, Union
-from numpy import sin, arcsin, cos, arccos, tan, arctan, sinh, arctanh, cosh, arccosh, arcsinh, cosh, arccosh, tanh, arctanh, sqrt, exp, float64
+import numpy as np
 import readline
 from sympy import evaluate
-from sympy.parsing.sympy_parser import parse_expr, standard_transformations, implicit_multiplication, convert_xor
-from astropy import units as U
+from sympy.parsing.sympy_parser import (
+    parse_expr,
+    standard_transformations,
+    implicit_multiplication,
+    convert_xor,
+)
+from astropy import units as u
 from astropy import constants
 from astropy.units.core import UnitConversionError, CompositeUnit
 from astropy.units.quantity import Quantity
 
+# Configuration constants
 DIGITS = 10          # number of significant digits in the scientific notation
 REQUIRE_UNDERSCORE = False
-
-# Define constants that are avialable in astropy.units
-conList = ['G', 'N_A', 'R', 'Ryd', 'a0', 'alpha', 'atm', 'b_wien', 'c', 'g0',
-           'h', 'hbar', 'k_B', 'm_e', 'm_n', 'm_p', 'e', 'eps0', 'mu0', 'muB',
-           'sigma_T', 'sigma_sb', 'u', 'GM_earth', 'GM_jup', 'GM_sun',
-           'L_bol0', 'L_sun', 'M_earth', 'M_jup', 'M_sun', 'R_earth', 'R_jup',
-           'R_sun', 'au', 'kpc', 'pc']
-conList.sort(key=lambda y: y.lower())
-
-# Some EM constants is unable to load because different cgs system
-# has different values. They are included in failList.
-failList = []
-for con in conList:
-    try:
-        locals()[con] = getattr(constants, con)
-    except:
-        failList.append(con)
-
-# Define more units/derived constants
-more_units = {
-    'Length': ['m', 'cm', 'mm', 'um', 'nm', 'Angstrom', 'km', 'au', 'AU', 'pc', 'kpc', 'Mpc', 'lyr',],
-    'Mass': ['kg', 'g', 'M_sun', 'Msun'],
-    'Density': ['mpcc'],
-    'Time': ['s', 'yr', 'Myr', 'Gyr'],
-    'Energy': ['J', 'erg', 'eV', 'keV', 'MeV', 'GeV'],
-    'Power': ['W'],
-    'Pressure': ['Pa', 'bar', 'mbar'],
-    'Frequency': ['Hz', 'kHz', 'MHz', 'GHz',],
-    'Temperature': ['K',],
-    'Angular size': ['deg', 'radian', 'arcmin', 'arcsec', 'arcsec2'],
-    'Astronomy': ['Lsun', 'Jy', 'mJy', 'MJy'],
-    'Composite': ['m2', 'm3', 'cm2', 'cm3', 's2', 'pc2', 'pc3']
-}
-# The following units are not avaiable in astropy.units and I have to define them myself
-user_units = ['deg', 'Ang', 'mpcc', 'm2', 'm3', 'cm2', 'cm3', 's2', 'pc2', 'pc3', 'arcsec2', 'Msun']
-# The following units are already defined as physical constants
-_unit_skip = ['au', 'pc', 'M_sun']
-# Define units that are not already defined in astropy.units
-for _key in more_units.keys():
-    for _unit in more_units[_key]:
-        if _unit not in _unit_skip + user_units:
-            locals()[_unit] = eval("U.{}".format(_unit))
-
-# Function to define derived units globally
-def define_derived_units():
-    global esu, Ang, mpcc, Msun, m2, m3, cm2, cm3, s2, pc2, pc3, degrees, arcsec2, Gauss, a_rad
-    esu = e.esu
-    Ang = U.def_unit('Ang', 0.1 * nm)
-    mpcc = U.def_unit('mpcc', m_p / cm**3)
-    Msun = M_sun
-    m2 = m**2
-    m3 = m**3
-    cm2 = cm**2
-    cm3 = cm**3
-    s2 = s**2
-    pc2 = pc**2
-    pc3 = pc**3
-    degrees = pi / 180
-    arcsec2 = arcsec**2
-    Gauss = g**(1/2) * cm**(-1/2) * s**(-1)
-    a_rad = 4. * sigma_sb / c
-
-# Call the function to define derived units
-define_derived_units()
-
-# Define transformations
-TRANSFORMATIONS = (convert_xor,) + standard_transformations + (implicit_multiplication,)
-
-# Define format strings
 IS_SCI = 0
-F_FMT = '{{:.{}e}}'.format(DIGITS-1) if IS_SCI else "{{:#.{}g}}".format(DIGITS)
+F_FMT = f'{{:.{DIGITS-1}e}}' if IS_SCI else f'{{:#.{DIGITS}g}}'
+
+# Define transformations for sympy parsing
+TRANSFORMATIONS = (convert_xor,) + standard_transformations + (implicit_multiplication,)
 
 
 class EvalError(Exception):
-    """Error in variable assignment"""
+    """Exception raised when there's an error in variable evaluation."""
     pass
 
 
-class UnitConversionError(Exception):
-    """Error in variable assignment"""
-    pass
+class AstroCalculator:
+    """Calculator for astronomical and physical calculations with unit support."""
 
-
-def parse_and_eval(expr, local_vars_={}):
-    """
-    Return:
-        parsed_input, output
-
-    Raise:
-        EvalError
-    """
-
-    logging.debug("here #800")
-    for item in local_vars_:
-        locals()[item] = local_vars_[item]
-    try:
-        # with evaluate(False):     # TODO: confirm this is okay. I remove this
-        # line in order to fix an error: ValueError: Abs(22*1) is not an integer
-        logging.debug("expr = {}".format(expr))
-        inp_expr = parse_expr(expr, transformations=TRANSFORMATIONS,
-                              evaluate=False)
-        logging.debug("inp_expr = {}".format(inp_expr))
-        inp_expr = str(inp_expr)
-        # logging.info(repr("Parsed inp = {}".format(inp_expr)))
-    except Exception as error_msg:
-        logging.debug("here #801")
-        raise EvalError(error_msg)
-
-    logging.debug("here #810")
-    # get the results
-    try:
-        ret = eval(inp_expr)
-    except Exception as _e:
-        raise EvalError(_e)
-
-    return inp_expr, ret
-
-
-def calculate(inp, delimiter=','):
-
-    if inp == "":
-        return None, None
-
-    # removing tracing '\n'
-    inp = inp.strip()
-
-    # eval all but the last line
-    local_vars = {}
-    logging.debug("here #200")
-    if delimiter in inp:
-        lines = inp.split(delimiter)  # this ensures a list
-        n_line = len(lines)
-        logging.info('Lines:')
-        logging.debug("here #201")
-        for count, line in enumerate(lines):
-            logging.info(repr(line))
-            if count >= n_line - 1:  # last line
-                inp = line
-                break
-            # remove spaces
-            logging.debug("here #202")
-            line = line.strip()
-            items = line.split('=')
-            if len(items) > 2:
-                raise EvalError('Multiple equal signs found in variable assignment')
-            if len(items) == 1:
-                continue
-            var, value = items
-            var = var.strip()
-            logging.debug("here #203")
-            if REQUIRE_UNDERSCORE and var[0] != '_':
-                raise EvalError("Assigned variable must begin with _ (underscore")
-            if ' ' in var:
-                raise EvalError('Variable should not have space in it')
-            parsed_expr, ret = parse_and_eval(value, local_vars)
-            local_vars[var] = ret
-
-    # eval the last line
-    logging.debug("here #250")
-    parsed_expr, Ret = parse_and_eval(inp, local_vars)
-    ret = None                  # in SI unit
-    ret2 = None                 # in cgs unit
-
-    # Display results
-    # F_FMT = '{{:.{}e}}'.format(DIGITS-1) if IS_SCI else '{}'
-    logging.debug("here #300")
-    # F_FMT = '{{:.{}e}}'.format(DIGITS-1) if IS_SCI else "{{:.{}g}}".format(DIGITS)
-    if type(Ret) in [int, float, float64]: # has no units
-        logging.debug("here #400")
-        if type(Ret) is not int:
-            ret = F_FMT.format(Ret)
-        else:
-            ret = Ret
-        ret2 = ret
-    else: # has units
-        # SI units
-        if type(Ret.si) is Quantity:
-            ret = F_FMT.format(Ret.si)
-        else:
-            # Physical constants. Display full description.
-            ret = '\n' + str(Ret.si)
-        # CGS units
+    # Units not available in astropy.units that require custom definitions
+    user_units = ['deg', 'Ang', 'mpcc', 'm2', 'm3', 'cm2', 'cm3', 's2', 'pc2', 'pc3', 'arcsec2', 'Msun']
+    
+    def __init__(self):
+        """Initialize the calculator with constants and units."""
+        self.local_namespace = {}
+        self._initialize_constants()
+        self._initialize_units()
+        
+    def _initialize_constants(self):
+        """Initialize physical constants from astropy."""
+        # Define constants available in astropy.units
+        con_list = [
+            'G', 'N_A', 'R', 'Ryd', 'a0', 'alpha', 'atm', 'b_wien', 'c', 'g0',
+            'h', 'hbar', 'k_B', 'm_e', 'm_n', 'm_p', 'e', 'eps0', 'mu0', 'muB',
+            'sigma_T', 'sigma_sb', 'GM_earth', 'GM_jup', 'GM_sun',
+            'L_bol0', 'L_sun', 'M_earth', 'M_jup', 'M_sun', 'R_earth', 'R_jup',
+            'R_sun', 'au', 'kpc', 'pc'
+        ]
+        con_list.sort(key=lambda y: y.lower())
+        
+        # Load constants into the namespace
+        fail_list = []
+        for con in con_list:
+            try:
+                self.local_namespace[con] = getattr(constants, con)
+            except AttributeError:
+                fail_list.append(con)
+        
+        # Add math and numpy functions to namespace
+        for func_name in ['sin', 'arcsin', 'cos', 'arccos', 'tan', 'arctan', 
+                          'sinh', 'arctanh', 'cosh', 'arccosh', 'arcsinh', 
+                          'tanh', 'arctanh', 'sqrt', 'exp']:
+            self.local_namespace[func_name] = getattr(np, func_name)
+        
+        # Add math constants
+        self.local_namespace['pi'] = pi
+        self.local_namespace['inf'] = inf
+        self.local_namespace['log'] = log
+        self.local_namespace['log10'] = log10
+        self.local_namespace['log2'] = log2
+    
+    def _initialize_units(self):
+        """Initialize unit definitions from astropy and derived units."""
+        # Define unit categories
+        more_units = {
+            'Length': ['m', 'cm', 'mm', 'um', 'nm', 'Angstrom', 'km', 'au', 'AU', 'pc', 'kpc', 'Mpc', 'lyr'],
+            'Mass': ['kg', 'g', 'M_sun', 'Msun'],
+            'Density': ['mpcc'],
+            'Time': ['s', 'yr', 'Myr', 'Gyr'],
+            'Energy': ['J', 'erg', 'eV', 'keV', 'MeV', 'GeV'],
+            'Power': ['W'],
+            'Pressure': ['Pa', 'bar', 'mbar'],
+            'Frequency': ['Hz', 'kHz', 'MHz', 'GHz'],
+            'Temperature': ['K'],
+            'Angular size': ['deg', 'radian', 'arcmin', 'arcsec', 'arcsec2'],
+            'Astronomy': ['Lsun', 'Jy', 'mJy', 'MJy'],
+            'Composite': ['m2', 'm3', 'cm2', 'cm3', 's2', 'pc2', 'pc3']
+        }
+        
+        # Units already defined as physical constants
+        unit_skip = ['au', 'pc', 'M_sun']
+        
+        # Add basic astropy units to namespace
+        for key in more_units.keys():
+            for unit_name in more_units[key]:
+                if unit_name not in unit_skip + self.user_units:
+                    try:
+                        self.local_namespace[unit_name] = getattr(u, unit_name)
+                    except AttributeError:
+                        pass
+        
+        # Define derived units
+        self._define_derived_units()
+    
+    def _define_derived_units(self):
+        """Define derived units that are combinations of basic units."""
+        # Access constants from the namespace
+        e = self.local_namespace['e']
+        m_p = self.local_namespace['m_p']
+        M_sun = self.local_namespace['M_sun']
+        sigma_sb = self.local_namespace['sigma_sb']
+        c = self.local_namespace['c']
+        
+        # Access basic units
+        m = u.m
+        cm = u.cm
+        nm = u.nm
+        s = u.s
+        pc = self.local_namespace['pc']
+        arcsec = u.arcsec
+        g = u.g
+        
+        # Define derived units
+        self.local_namespace['esu'] = e.esu
+        self.local_namespace['Ang'] = u.def_unit('Ang', 0.1 * nm)
+        self.local_namespace['mpcc'] = u.def_unit('mpcc', m_p / cm**3)
+        self.local_namespace['Msun'] = M_sun
+        self.local_namespace['m2'] = m**2
+        self.local_namespace['m3'] = m**3
+        self.local_namespace['cm2'] = cm**2
+        self.local_namespace['cm3'] = cm**3
+        self.local_namespace['s2'] = s**2
+        self.local_namespace['pc2'] = pc**2
+        self.local_namespace['pc3'] = pc**3
+        self.local_namespace['degrees'] = pi / 180
+        self.local_namespace['arcsec2'] = arcsec**2
+        self.local_namespace['Gauss'] = g**(1/2) * cm**(-1/2) * s**(-1)
+        self.local_namespace['a_rad'] = 4. * sigma_sb / c
+    
+    def parse_and_eval(self, expr: str) -> Tuple[str, Any]:
+        """Parse and evaluate a mathematical expression.
+        
+        Args:
+            expr: Mathematical expression to evaluate
+            
+        Returns:
+            Tuple containing (parsed_expression, result)
+            
+        Raises:
+            EvalError: If there's an error in parsing or evaluating the expression
+        """
+        logging.debug(f"Evaluating expression: {expr}")
+        
         try:
-            if type(Ret.cgs) is CompositeUnit:
-                logging.debug("here #410")
-                ret2 = Ret.cgs
+            # Parse the expression using sympy
+            inp_expr = parse_expr(expr, transformations=TRANSFORMATIONS, evaluate=False)
+            inp_expr_str = str(inp_expr)
+            
+            # Evaluate the parsed expression with our namespace
+            result = eval(inp_expr_str, globals(), self.local_namespace)
+            return inp_expr_str, result
+            
+        except Exception as error_msg:
+            raise EvalError(error_msg)
+    
+    def calculate(self, inp: str, delimiter: str = ',') -> Tuple[Optional[str], Optional[Any], Optional[str], Optional[str]]:
+        """Calculate results from input string with support for multiple expressions.
+        
+        Args:
+            inp: Input string containing expressions to evaluate
+            delimiter: Delimiter for separating multiple expressions
+            
+        Returns:
+            Tuple of (parsed_expression, raw_result, si_result, cgs_result)
+        """
+        if not inp.strip():
+            return None, None, None, None
+        
+        # Remove trailing whitespace
+        inp = inp.strip()
+        
+        # Handle variable assignments
+        if delimiter in inp:
+            lines = inp.split(delimiter)
+            n_line = len(lines)
+            
+            for count, line in enumerate(lines):
+                if count >= n_line - 1:  # last line
+                    inp = line.strip()
+                    break
+                
+                line = line.strip()
+                if not line or '=' not in line:
+                    continue
+                    
+                items = line.split('=')
+                if len(items) > 2:
+                    raise EvalError('Multiple equal signs found in variable assignment')
+                
+                var, value = items
+                var = var.strip()
+                
+                # Check variable name validity
+                if REQUIRE_UNDERSCORE and var[0] != '_':
+                    raise EvalError("Assigned variable must begin with _ (underscore)")
+                if ' ' in var:
+                    raise EvalError('Variable should not have space in it')
+                
+                # Evaluate and store in local namespace
+                _, result = self.parse_and_eval(value)
+                self.local_namespace[var] = result
+        
+        # Evaluate the final expression
+        parsed_expr, raw_result = self.parse_and_eval(inp)
+        
+        # Format results
+        si_result = None
+        cgs_result = None
+        
+        if isinstance(raw_result, (int, float, np.float64)):
+            # Handle numeric results without units
+            if not isinstance(raw_result, int):
+                si_result = F_FMT.format(raw_result)
             else:
-                logging.debug("here #415")
-                ret2 = F_FMT.format(Ret.cgs)
-        except Exception as _e:
-            ret2 = textwrap.fill(str(_e), 80)
-    return parsed_expr, Ret, ret, ret2
-
-
-def convert(quant, userunit):
-    """ Convert quant to specified unit """
-
-    if userunit == '':
-        return
-    # F_FMT = '{{:.{}e}}'.format(DIGITS-1) if IS_SCI else "{{:.{}g}}".format(DIGITS+1)
-    if type(quant) is int:
-        return quant
-    elif type(quant) in [float, float64]:
-        return F_FMT.format(quant)
-    else:
-        if userunit in user_units:
-            ret_loc = quant.to(eval(userunit))
+                si_result = raw_result
+            cgs_result = si_result
         else:
-            ret_loc = quant.to(userunit)
-        if type(ret_loc) is int:
-            return ret_loc.format(quant)
-        elif type(ret_loc) is float:
-            return F_FMT.format(ret_loc)
+            # Handle results with units
+            if isinstance(raw_result.si, Quantity):
+                si_result = F_FMT.format(raw_result.si)
+            else:
+                # Physical constants. Display full description.
+                si_result = '\n' + str(raw_result.si)
+            
+            # CGS units
+            try:
+                if isinstance(raw_result.cgs, CompositeUnit):
+                    cgs_result = raw_result.cgs
+                else:
+                    cgs_result = F_FMT.format(raw_result.cgs)
+            except Exception as e:
+                cgs_result = textwrap.fill(str(e), 80)
+        
+        return parsed_expr, raw_result, si_result, cgs_result
+    
+    def convert(self, quant, unit_name: str) -> Optional[str]:
+        """Convert a quantity to the specified unit.
+        
+        Args:
+            quant: Quantity to convert
+            unit_name: Target unit name
+            
+        Returns:
+            Formatted string with the converted value
+        """
+        if not unit_name:
+            return None
+            
+        if isinstance(quant, int):
+            return quant
+        elif isinstance(quant, (float, np.float64)):
+            return F_FMT.format(quant)
         else:
-            return F_FMT.format(ret_loc.value) + " " + str(ret_loc._unit)
+            # Handle unit conversion for quantities
+            try:
+                # Check if it's a user-defined unit
+                if unit_name in self.user_units:
+                    converted = quant.to(self.local_namespace[unit_name])
+                else:
+                    # Try to get from astropy units
+                    # unit = getattr(u, unit_name)
+                    # converted = quant.to(unit)
+
+                    converted = quant.to(unit_name)
+                
+                if isinstance(converted, int):
+                    return converted
+                elif isinstance(converted, float):
+                    return F_FMT.format(converted)
+                else:
+                    return f"{F_FMT.format(converted.value)} {converted._unit}"
+                    
+            except (AttributeError, UnitConversionError) as e:
+                raise UnitConversionError(str(e))
 
 
-def readline_input(prompt, prefill=''):
-   readline.set_startup_hook(lambda: readline.insert_text(prefill))
-   try:
-      return input(prompt)
-   finally:
-      readline.set_startup_hook()
+def readline_input(prompt: str, prefill: str = '') -> str:
+    """Get input with readline support for history and prefill.
+    
+    Args:
+        prompt: Prompt string to display
+        prefill: Text to prefill in the input line
+        
+    Returns:
+        User input string
+    """
+    readline.set_startup_hook(lambda: readline.insert_text(prefill))
+    try:
+        return input(prompt)
+    finally:
+        readline.set_startup_hook()
 
 
-def parse_input(inp):
+def parse_input(inp: str) -> str:
+    """Parse input string to standardize format.
+    
+    Args:
+        inp: Raw input string
+        
+    Returns:
+        Parsed input string
+    """
     inp = inp.replace('\n', ', ')
     inp = inp.replace(';', ',')
     return inp
 
 
-def execute_calculation(inp):
+def execute_calculation(inp: str) -> None:
+    """Execute a calculation and print results.
+    
+    Args:
+        inp: Input string with calculation
+    """
+    calculator = AstroCalculator()
     inp_parsed = parse_input(inp)
-    expr, ret_raw, ret_si, ret_cgs = calculate(inp_parsed)
-    output = "Parsed input = {}\nResult (SI)  = {}\nResult (cgs) = {}".format(expr, ret_si, ret_cgs)
+    expr, ret_raw, ret_si, ret_cgs = calculator.calculate(inp_parsed)
+    output = f"Parsed input = {expr}\nResult (SI)  = {ret_si}\nResult (cgs) = {ret_cgs}"
     print(output)
 
 
-def main(withcolor=True):
+def main(withcolor: bool = True) -> None:
+    """Main function to run the calculator.
+    
+    Args:
+        withcolor: Whether to use colored output
+    """
     print("""===============================================
 A Calculator for Astrophysicists and Physicists
 Author: Chong-Chong He (che1234@umd.edu)
@@ -286,6 +375,7 @@ https://github.com/chongchonghe/acap/blob/master/docs/constants.md
 ===============================================""")
     print()
     
+    # Set up color codes if enabled
     if withcolor:
         c_diag = '\33[92m'
         c_error = '\033[91m'
@@ -294,7 +384,8 @@ https://github.com/chongchonghe/acap/blob/master/docs/constants.md
         c_diag = ''
         c_error = ''
         c_end = ''
-        
+    
+    calculator = AstroCalculator()
     count = 0
     default = ''
     history: List[str] = []
@@ -315,7 +406,7 @@ https://github.com/chongchonghe/acap/blob/master/docs/constants.md
             line = line.strip()
                 
             # Handle empty line
-            if not line.strip():
+            if not line:
                 break
                 
             # Remove trailing comma or semicolon
@@ -346,25 +437,27 @@ https://github.com/chongchonghe/acap/blob/master/docs/constants.md
             default = history[idx - 1]
             print()
             continue
-        if len(inp) > 3:
-            if inp[:3] == 'in ':  # do unit conversion of previous result
-                if ret_raw is None:
-                    # previous return is None, skip
-                    continue
-                userunit = inp[3:].strip()
-                try:
-                    tmp = convert(ret_raw, userunit)
-                    if tmp is not None:
-                        print(tmp)
-                except UnitConversionError as _e:
-                    print(c_error + "Error: " + str(_e) + c_end)
-                except ValueError as _e:
-                    print(c_error + "Error: " + str(_e) + c_end)
-                print()
+        
+        # Handle unit conversion request
+        if len(inp) > 3 and inp[:3] == 'in ':
+            if ret_raw is None:
                 continue
+            userunit = inp[3:].strip()
+            try:
+                converted = calculator.convert(ret_raw, userunit)
+                if converted is not None:
+                    print(converted)
+            except UnitConversionError as e:
+                print(c_error + "Error: " + str(e) + c_end)
+            except ValueError as e:
+                print(c_error + "Error: " + str(e) + c_end)
+            print()
+            continue
+        
+        # Handle calculation
         try:
             inp = inp.replace(';', ',')
-            expr, ret_raw, ret_si, ret_cgs = calculate(inp)
+            expr, ret_raw, ret_si, ret_cgs = calculator.calculate(inp)
             print(c_diag + "Parsed input =" + c_end, end=' ')
             print(expr)
             print(c_diag + "Result (SI)  =" + c_end, end=' ')
@@ -372,16 +465,16 @@ https://github.com/chongchonghe/acap/blob/master/docs/constants.md
             print(c_diag + "Result (cgs) =" + c_end, end=' ')
             print(ret_cgs)
             print()
-        except EvalError as _e:
-            print(c_error + "Error: " + str(_e) + c_end)
+        except EvalError as e:
+            print(c_error + "Error: " + str(e) + c_end)
             print()
             continue
-        except Exception as _e:
-            print(c_error + "Uncaught error: " + str(_e) + c_end)
+        except Exception as e:
+            print(c_error + "Uncaught error: " + str(e) + c_end)
             print()
             continue
 
 
 if __name__ == '__main__':
-    _withcolor = not "-nc" in sys.argv[1:]
+    _withcolor = "-nc" not in sys.argv[1:]
     main(withcolor=_withcolor)
