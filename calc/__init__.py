@@ -43,7 +43,7 @@ F_FMT = f'{{:.{DIGITS-1}e}}' if IS_SCI else f'{{:#.{DIGITS}g}}'
 TRANSFORMATIONS = (convert_xor,) + standard_transformations + (implicit_multiplication,)
 
 # Directory for saved history
-USER_DATA_DIR = os.path.expanduser("~/.astrocalculator")
+USER_DATA_DIR = os.path.expanduser("~/.cache/astrocalculator")
 HISTORY_DIR = os.path.join(USER_DATA_DIR, "history")
 
 # Ensure directories exist
