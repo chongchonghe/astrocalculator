@@ -5,8 +5,8 @@ This module provides a command-line calculator with support for physical constan
 and units from astropy. It allows users to perform calculations with physical
 quantities, convert between units, and access various astronomical and physical constants.
 
-Author: Chong-Chong He (che1234@umd.edu)
-Date: 2020-06-20
+Author: Chong-Chong He (chongchong.he@anu.edu.au)
+Last updated: 2025-06-21
 """
 
 from __future__ import annotations
@@ -457,7 +457,8 @@ def load_history(history_file: str) -> List[str]:
     except (FileNotFoundError, json.JSONDecodeError) as e:
         raise ValueError(f"Failed to load history: {str(e)}")
 
-def main(withcolor: bool = True) -> None:
+
+def main_interactive() -> None:
     """Main function to run the calculator.
 
     Args:
@@ -487,6 +488,8 @@ For available constants and units, check
 https://github.com/chongchonghe/acap/blob/master/docs/constants.md
 ===============================================""")
     print()
+
+    withcolor = True
 
     # Set up color codes if enabled
     if withcolor:
@@ -651,6 +654,52 @@ https://github.com/chongchonghe/acap/blob/master/docs/constants.md
             continue
 
 
+def main_non_interactive() -> None:
+    """Main function to run the calculator.
+
+    Args:
+        withcolor: Whether to use colored output
+    """
+
+    withcolor = False
+    input = sys.argv[1]
+
+    # Set up color codes if enabled
+    if withcolor:
+        c_diag = '\33[92m'
+        c_error = '\033[91m'
+        c_end = '\033[m'
+    else:
+        c_diag = ''
+        c_error = ''
+        c_end = ''
+
+    calculator = AstroCalculator()
+    inputs = input.strip().split('\n')
+    # print(inputs)
+    for inp in inputs[:-1]:
+        calculator.calculate(inp)
+    last_inputs = inputs[-1].replace(';', ',').split(',')
+    for last_input in last_inputs:
+        expr, ret_raw, _, ret_cgs, target_unit = calculator.calculate(last_input)
+        # If a target unit was specified, display the conversion
+        if target_unit and ret_raw is not None:
+            try:
+                converted = calculator.convert(ret_raw, target_unit)
+                if converted is not None:
+                    print(c_diag + f"{expr} =" + c_end, end=' ')
+                    print(converted)
+            except UnitConversionError as e:
+                print(c_error + f"Error converting to {target_unit}: {str(e)}" + c_end)
+        else:
+            print(f"{expr} = {ret_cgs}")
+
+
 if __name__ == '__main__':
-    _withcolor = "-nc" not in sys.argv[1:]
-    main(withcolor=_withcolor)
+
+    # _withcolor = "-nc" not in sys.argv[1:]
+
+    if len(sys.argv) == 1:
+        main_interactive()
+    else:
+        main_non_interactive()

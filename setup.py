@@ -20,6 +20,6 @@ setup(
     # packages=find_packages(),
     packages=["calc"],
     # entry_points={'console_scripts': ['calc=calc:main']},
-    entry_points={'console_scripts': ['calc=calc.__init__:main']},
+    entry_points={'console_scripts': ['calc=calc.__init__:main_interactive', 'calceval=calc.__init__:main_non_interactive']},
     install_requires=['sympy>=1.6', 'astropy>=4.0'],
 )
