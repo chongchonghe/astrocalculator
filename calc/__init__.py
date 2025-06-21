@@ -797,12 +797,9 @@ https://github.com/chongchonghe/acap/blob/master/docs/constants.md
             continue
 
 
-def main_non_interactive() -> None:
-    """Main function to run the calculator in non-interactive mode."""
+def calc_strings(input):
 
     withcolor = False
-    input = sys.argv[1]
-
     # Set up color codes if enabled
     if withcolor:
         c_diag = '\33[92m'
@@ -844,6 +841,24 @@ def main_non_interactive() -> None:
                     print(c_error + f"Error converting to {target_unit}: {str(e)}" + c_end)
         else:
             print(f"{expr} = {ret_cgs}")
+
+
+def main_non_interactive() -> None:
+    """Main function to run the calculator in non-interactive mode."""
+
+    input = sys.argv[1]
+    calc_strings(input)
+
+
+def main_eval_file() -> None:
+
+    fn = sys.argv[1]
+    with open(fn, 'r') as f:
+        lines = f.readlines()
+    input = '\n'.join(lines)
+
+    # print(input)
+    calc_strings(input)
 
 
 if __name__ == '__main__':
