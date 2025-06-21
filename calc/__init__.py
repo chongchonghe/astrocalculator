@@ -815,13 +815,20 @@ def main_non_interactive() -> None:
 
     calculator = get_cached_calculator()
     inputs = input.strip().split('\n')
-    
-    # Process all but the last input (variable assignments)
-    for inp in inputs[:-1]:
-        calculator.calculate(inp)
-    
-    # Process the last input (the expression to evaluate)
-    last_inputs = inputs[-1].replace(';', ',').split(',')
+
+    n_inputs = len(inputs)
+    if n_inputs == 1:
+        input1 = inputs[0].replace(';', ',')
+        firsts = ','.join(input1.split(',')[:-1])
+        calculator.calculate(firsts)
+        last_inputs = [input1.split(',')[-1]]
+    else:
+        # Process all but the last input (variable assignments)
+        for inp in inputs[:-1]:
+            calculator.calculate(inp)
+        # Process the last input (the expression to evaluate)
+        last_inputs = inputs[-1].replace(';', ',').split(',')
+
     for last_input in last_inputs:
         expr, ret_raw, _, ret_cgs, target_unit = calculator.calculate(last_input)
         # If a target unit was specified, display the conversion
