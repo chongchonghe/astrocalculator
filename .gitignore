@@ -1,4 +1,7 @@
 .venv/
+.agent/
+.agents/
+.claude/
 
 .idea/
 build/
