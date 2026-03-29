@@ -99,7 +99,23 @@ def get_prompt_session():
     if _prompt_session is None:
         from prompt_toolkit import PromptSession
         from prompt_toolkit.history import InMemoryHistory
-        _prompt_session = PromptSession(history=InMemoryHistory())
+        from prompt_toolkit.key_binding import KeyBindings
+
+        kb = KeyBindings()
+
+        @kb.add('enter')
+        def _(event):
+            b = event.current_buffer
+            if not b.text.strip() or b.text.endswith('\n'):
+                b.validate_and_handle()
+            else:
+                b.insert_text('\n')
+
+        _prompt_session = PromptSession(
+            history=InMemoryHistory(),
+            key_bindings=kb,
+            multiline=True
+        )
     return _prompt_session
 
 def get_console():
@@ -473,23 +489,6 @@ def get_cached_calculator():
     return _cached_calculator
 
 
-def prompt_input(prompt: str, prefill: str = '') -> str:
-    """Get input with prompt_toolkit support for history and prefill.
-
-    Args:
-        prompt: Prompt string to display
-        prefill: Text to prefill in the input line
-
-    Returns:
-        User input string
-    """
-    session = get_prompt_session()
-    try:
-        return session.prompt(prompt, default=prefill)
-    except (KeyboardInterrupt, EOFError):
-        return "q"
-
-
 def parse_input(inp: str) -> str:
     """Parse input string to standardize format.
 
@@ -649,32 +648,15 @@ For available constants and units, check
         count += 1
         pre = HTML(f"<ansigreen>Input[{count}]: </ansigreen>\n")
 
-        # Collect multiple lines until empty line
-        input_lines: List[str] = []
-        while True:
-            if default == '':
-                try:
-                    line = get_prompt_session().prompt(pre if not input_lines else "")
-                except (KeyboardInterrupt, EOFError):
-                    line = "q"
-            else:
-                line = prompt_input(pre if not input_lines else "", default).strip()
-                default = ''
-            line = line.strip()
+        try:
+            raw_inp = get_prompt_session().prompt(pre, default=default)
+            default = ''
+        except (KeyboardInterrupt, EOFError):
+            raw_inp = "q"
 
-            # Handle empty line
-            if not line:
-                break
-
-            # Remove trailing comma or semicolon
-            line = line.rstrip(',;')
-            input_lines.append(line)
-
-            if line.startswith('in ') or line == 'q' or line.startswith('save ') or line.startswith('history'):
-                break
-
-        # Combine all lines with commas
-        inp = ', '.join(input_lines)
+        # Process multiline input: split by newline, strip whitespace, remove trailing commas
+        lines = [line.strip().rstrip(',;') for line in raw_inp.split('\n') if line.strip()]
+        inp = ', '.join(lines)
 
         if not inp:
             continue
