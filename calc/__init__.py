@@ -615,7 +615,7 @@ def main_interactive() -> None:
     console = get_console()
     console.print("""[bold cyan]===============================================[/bold cyan]
 [bold white]A Calculator for Astrophysicists and Physicists[/bold white]
-Author: Chong-Chong He ([cyan]che1234@umd.edu[/cyan])
+Author: Chong-Chong He ([cyan]chongchong.he@anu.edu.au[/cyan])
 
 [bold yellow]Examples:[/bold yellow]
 >>> m_p
@@ -627,12 +627,12 @@ Author: Chong-Chong He ([cyan]che1234@umd.edu[/cyan])
 >>> M = 1.4 M_sun, R = 10 km, sqrt(2 G M / R) in km/s
 
 [bold yellow]Special commands:[/bold yellow]
-- save \[[name]  : Save command history
-- history      : List all saved history files
-- history \[[name] : Display commands from a specific history file
-- clear        : Clear all saved variables
-- help         : Show help
-- q            : Quit
+- save [name]    : Save command history
+- history        : List all saved history files
+- history [name] : Display commands from a specific history file
+- clear          : Clear all saved variables
+- help           : Show help
+- q              : Quit
 
 For available constants and units, check
 [link=https://github.com/chongchonghe/acap/blob/master/docs/constants.md]https://github.com/chongchonghe/acap/blob/master/docs/constants.md[/link]
@@ -722,13 +722,13 @@ For available constants and units, check
 
         elif inp == 'help':
             console.print("""[bold cyan]Commands:[/bold cyan]
-  [yellow]- save \[[name][/yellow]  : Save command history
-  [yellow]- history[/yellow]      : List all saved history files
-  [yellow]- history \[[name][/yellow] : Display commands from a specific history file
-  [yellow]- clear[/yellow]        : Clear all saved variables
-  [yellow]- help[/yellow]         : Show this help
-  [yellow]- q[/yellow]            : Quit calculator
-  [yellow]- in \[[unit][/yellow]    : Convert last result to specified unit""")
+  [yellow]- save [name]   [/yellow] : Save command history
+  [yellow]- history       [/yellow] : List all saved history files
+  [yellow]- history [name][/yellow] : Display commands from a specific history file
+  [yellow]- clear         [/yellow] : Clear all saved variables
+  [yellow]- help          [/yellow] : Show this help
+  [yellow]- q             [/yellow] : Quit calculator
+  [yellow]- in [unit]     [/yellow] : Convert last result to specified unit""")
             console.print()
             continue
 
