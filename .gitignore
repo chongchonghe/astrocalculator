@@ -1,3 +1,5 @@
+artifacts/
+
 .venv/
 .agent/
 .agents/
