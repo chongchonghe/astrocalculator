@@ -9,7 +9,7 @@ README = (HERE / "README.md").read_text()
 
 setup(
     name='AstroCalculator',
-    version='0.3.0',
+    version='0.4.0',
     description='AstroCalculator, a Calculator for Astronomers and Physicists',
     long_description=README,
     long_description_content_type="text/markdown",
@@ -22,5 +22,5 @@ setup(
     # entry_points={'console_scripts': ['calc=calc:main']},
     entry_points={'console_scripts': ['calc=calc.__init__:main_interactive', 'calceval=calc.__init__:main_non_interactive', 
                                       'calcevalfile=calc.__init__:main_eval_file']},
-    install_requires=['sympy>=1.6', 'astropy>=4.0'],
+    install_requires=['sympy>=1.6', 'astropy>=4.0', 'rich>=10.0', 'prompt_toolkit>=3.0'],
 )

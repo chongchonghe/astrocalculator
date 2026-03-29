@@ -17,7 +17,7 @@ pip install astrocalculator
 
 ## How to use
 
-Start the program with `calc`. You will see a command line interface where you can type in your inputs. A input can be 1) a single variable or constant like `k_B`, 2) an expression like `m_e c^2`, or 3) a list of variable assignments followed by a final expression to evaluate, e.g. `M = 1.4 M_sun, R = 10 km, sqrt(2 G M / R)`. 
+Start the program with `calc`. You will see a modernized, color-coded interactive command line interface powered by `rich` and `prompt_toolkit`. An input can be 1) a single variable or constant like `k_B`, 2) an expression like `m_e c^2`, or 3) a list of variable assignments followed by a final expression to evaluate, e.g. `M = 1.4 M_sun, R = 10 km, sqrt(2 G M / R)`. 
 
 Another way is to use it as a Python module in your script or interactively in iPython. Put the following in your code:
 
@@ -64,7 +64,6 @@ Input[5]: in km/s
 
 ## Todos
 
-- [ ] parse keyword 'in' at the last line and automatically change User Unit.
 - [ ] Add latex preview
 
 ## References

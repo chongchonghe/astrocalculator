@@ -40,8 +40,9 @@ _numpy = None
 _astropy_units = None
 _astropy_constants = None
 _sympy_parser = None
-_readline = None
+_prompt_session = None
 _cached_calculator = None
+_console = None
 
 
 def get_numpy():
@@ -92,13 +93,22 @@ def get_sympy_parser():
     return _sympy_parser
 
 
-def get_readline():
-    """Lazy import of readline."""
-    global _readline
-    if _readline is None:
-        import readline
-        _readline = readline
-    return _readline
+def get_prompt_session():
+    """Lazy import of prompt_toolkit session."""
+    global _prompt_session
+    if _prompt_session is None:
+        from prompt_toolkit import PromptSession
+        from prompt_toolkit.history import InMemoryHistory
+        _prompt_session = PromptSession(history=InMemoryHistory())
+    return _prompt_session
+
+def get_console():
+    """Lazy import of rich console."""
+    global _console
+    if _console is None:
+        from rich.console import Console
+        _console = Console()
+    return _console
 
 
 class EvalError(Exception):
@@ -463,8 +473,8 @@ def get_cached_calculator():
     return _cached_calculator
 
 
-def readline_input(prompt: str, prefill: str = '') -> str:
-    """Get input with readline support for history and prefill.
+def prompt_input(prompt: str, prefill: str = '') -> str:
+    """Get input with prompt_toolkit support for history and prefill.
 
     Args:
         prompt: Prompt string to display
@@ -473,12 +483,11 @@ def readline_input(prompt: str, prefill: str = '') -> str:
     Returns:
         User input string
     """
-    readline = get_readline()
-    readline.set_startup_hook(lambda: readline.insert_text(prefill))
+    session = get_prompt_session()
     try:
-        return input(prompt)
-    finally:
-        readline.set_startup_hook()
+        return session.prompt(prompt, default=prefill)
+    except (KeyboardInterrupt, EOFError):
+        return "q"
 
 
 def parse_input(inp: str) -> str:
@@ -603,11 +612,13 @@ def main_interactive() -> None:
     Args:
         withcolor: Whether to use colored output
     """
-    print("""===============================================
-A Calculator for Astrophysicists and Physicists
-Author: Chong-Chong He (che1234@umd.edu)
+    from prompt_toolkit.formatted_text import HTML
+    console = get_console()
+    console.print("""[bold cyan]===============================================[/bold cyan]
+[bold white]A Calculator for Astrophysicists and Physicists[/bold white]
+Author: Chong-Chong He ([cyan]che1234@umd.edu[/cyan])
 
-Examples:
+[bold yellow]Examples:[/bold yellow]
 >>> m_p
 
 >>> m_e c^2
@@ -616,29 +627,17 @@ Examples:
 
 >>> M = 1.4 M_sun, R = 10 km, sqrt(2 G M / R) in km/s
 
-Special commands:
-- save [name]  : Save command history
+[bold yellow]Special commands:[/bold yellow]
+- save \\\[name]  : Save command history
 - history      : List all saved history files
-- history [name] : Display commands from a specific history file
+- history \\\[name] : Display commands from a specific history file
 - help         : Show help
 - q            : Quit
 
 For available constants and units, check
-https://github.com/chongchonghe/acap/blob/master/docs/constants.md
-===============================================""")
-    print()
-
-    withcolor = True
-
-    # Set up color codes if enabled
-    if withcolor:
-        c_diag = '\33[92m'
-        c_error = '\033[91m'
-        c_end = '\033[m'
-    else:
-        c_diag = ''
-        c_error = ''
-        c_end = ''
+[link=https://github.com/chongchonghe/acap/blob/master/docs/constants.md]https://github.com/chongchonghe/acap/blob/master/docs/constants.md[/link]
+[bold cyan]===============================================[/bold cyan]""")
+    console.print()
 
     calculator = AstroCalculator(use_cache=True)
     count = 0
@@ -648,15 +647,18 @@ https://github.com/chongchonghe/acap/blob/master/docs/constants.md
 
     while True:
         count += 1
-        pre = c_diag + f"Input[{count}]: " + c_end + "\n"
+        pre = HTML(f"<ansigreen>Input[{count}]: </ansigreen>\n")
 
         # Collect multiple lines until empty line
         input_lines: List[str] = []
         while True:
             if default == '':
-                line = input(pre if not input_lines else "")
+                try:
+                    line = get_prompt_session().prompt(pre if not input_lines else "")
+                except (KeyboardInterrupt, EOFError):
+                    line = "q"
             else:
-                line = readline_input(pre if not input_lines else "", default).strip()
+                line = prompt_input(pre if not input_lines else "", default).strip()
                 default = ''
             line = line.strip()
 
@@ -688,11 +690,11 @@ https://github.com/chongchonghe/acap/blob/master/docs/constants.md
             try:
                 # Save the history
                 saved_path = save_session(history, history_name)
-                print(f"History saved to {os.path.basename(saved_path)}")
+                console.print(f"[bold green]History saved to {os.path.basename(saved_path)}[/bold green]")
             except Exception as e:
-                print(c_error + f"Error saving history: {str(e)}" + c_end)
+                console.print(f"[bold red]Error saving history: {str(e)}[/bold red]")
 
-            print()
+            console.print()
             continue
 
         elif inp.startswith('history'):
@@ -706,39 +708,38 @@ https://github.com/chongchonghe/acap/blob/master/docs/constants.md
                     cmds = load_history(history_name)
 
                     if not cmds:
-                        print(f"No commands found in history file '{history_name}'")
+                        console.print(f"[yellow]No commands found in history file '{history_name}'[/yellow]")
                     else:
-                        print(f"Commands in '{history_name}':")
+                        console.print(f"[bold cyan]Commands in '{history_name}':[/bold cyan]")
                         for cmd in cmds:
-                            print(cmd)
+                            console.print(f"  {cmd}")
                 except Exception as e:
-                    print(c_error + f"Error loading history: {str(e)}" + c_end)
+                    console.print(f"[bold red]Error loading history: {str(e)}[/bold red]")
             else:
                 # List all saved history files
                 history_files = list_history_files()
 
                 if not history_files:
-                    print("No saved history files found")
+                    console.print("[yellow]No saved history files found[/yellow]")
                 else:
-                    print("Saved history files:")
+                    console.print("[bold cyan]Saved history files:[/bold cyan]")
                     for i, h_file in enumerate(history_files, 1):
                         # Remove .json extension for display
                         display_name = h_file[:-5] if h_file.endswith(".json") else h_file
-                        print(f"{i}. {display_name}")
+                        console.print(f"  [cyan]{i}.[/cyan] {display_name}")
 
-            print()
+            console.print()
             continue
 
         elif inp == 'help':
-            print("""Commands:
-- save [name]  : Save command history
-- history      : List all saved history files
-- history [name] : Display commands from a specific history file
-- help         : Show this help
-- q            : Quit calculator
-- in [unit]    : Convert last result to specified unit
-""")
-            print()
+            console.print("""[bold cyan]Commands:[/bold cyan]
+  [yellow]- save \\\[name][/yellow]  : Save command history
+  [yellow]- history[/yellow]      : List all saved history files
+  [yellow]- history \\\[name][/yellow] : Display commands from a specific history file
+  [yellow]- help[/yellow]         : Show this help
+  [yellow]- q[/yellow]            : Quit calculator
+  [yellow]- in \\\[unit][/yellow]    : Convert last result to specified unit""")
+            console.print()
             continue
 
         # Add to history for normal commands
@@ -757,43 +758,39 @@ https://github.com/chongchonghe/acap/blob/master/docs/constants.md
             except Exception as e:
                 from astropy.units.core import UnitConversionError
                 if isinstance(e, UnitConversionError):
-                    print(c_error + "Error: " + str(e) + c_end)
+                    console.print(f"[bold red]Error: {str(e)}[/bold red]")
                 else:
-                    print(c_error + "Error: " + str(e) + c_end)
-            print()
+                    console.print(f"[bold red]Error: {str(e)}[/bold red]")
+            console.print()
             continue
 
         # Handle calculation
         try:
             inp = inp.replace(';', ',')
             expr, ret_raw, ret_si, ret_cgs, target_unit = calculator.calculate(inp)
-            print(c_diag + "Parsed input =" + c_end, end=' ')
-            print(expr)
-            print(c_diag + "Result (SI)  =" + c_end, end=' ')
-            print(ret_si)
-            print(c_diag + "Result (cgs) =" + c_end, end=' ')
-            print(ret_cgs)
+            console.print(f"[bold green]Parsed input =[/bold green] {expr}")
+            console.print(f"[bold green]Result (SI)  =[/bold green] {ret_si}")
+            console.print(f"[bold green]Result (cgs) =[/bold green] {ret_cgs}")
 
             # If a target unit was specified, display the conversion
             if target_unit and ret_raw is not None:
                 try:
                     converted = calculator.convert(ret_raw, target_unit)
                     if converted is not None:
-                        print(c_diag + f"In {target_unit} =" + c_end, end=' ')
-                        print(converted)
+                        console.print(f"[bold green]In {target_unit} =[/bold green] {converted}")
                 except Exception as e:
                     from astropy.units.core import UnitConversionError
                     if isinstance(e, UnitConversionError):
-                        print(c_error + f"Error converting to {target_unit}: {str(e)}" + c_end)
+                        console.print(f"[bold red]Error converting to {target_unit}: {str(e)}[/bold red]")
 
-            print()
+            console.print()
         except EvalError as e:
-            print(c_error + "Error: " + str(e) + c_end)
-            print()
+            console.print(f"[bold red]Error: {str(e)}[/bold red]")
+            console.print()
             continue
         except Exception as e:
-            print(c_error + "Uncaught error: " + str(e) + c_end)
-            print()
+            console.print(f"[bold red]Uncaught error: {str(e)}[/bold red]")
+            console.print()
             continue
 
 
