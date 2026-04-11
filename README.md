@@ -64,6 +64,8 @@ Input[5]: in km/s
 
 ## Todos
 
+- [ ] Rename package name and executable to `acalc`
+- [ ] Publish to homebrew: `brew install acalc`
 - [ ] Add latex preview
 
 ## References
