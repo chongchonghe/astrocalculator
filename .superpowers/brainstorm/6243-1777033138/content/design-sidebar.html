@@ -1,0 +1,102 @@
+<h2>Design — Section 2: Sidebar Components</h2>
+<p class="subtitle">The sidebar is the home for discoverability. Three tabbed panels + a shared search bar at top.</p>
+
+<div class="section">
+  <h3>Sidebar Structure</h3>
+  <div style="background: #f8fafc; padding: 16px; border-radius: 8px;">
+    <div class="mockup" style="max-width: 280px;">
+      <div class="mockup-body" style="padding: 8px; font-size: 13px; background: #fff;">
+        <input class="mock-input" placeholder="Search constants (G, Planck, proton...)" style="width:100%;margin-bottom:8px;">
+
+        <div style="display:flex;gap:0;margin-bottom:8px;border-bottom:2px solid #e0e0e0;">
+          <div style="padding:4px 8px;border-bottom:2px solid #3182ce;margin-bottom:-2px;font-weight:600;color:#3182ce;">Constants</div>
+          <div style="padding:4px 8px;color:#888;">Units</div>
+          <div style="padding:4px 8px;color:#888;">Equations</div>
+          <div style="padding:4px 8px;color:#888;">History</div>
+        </div>
+
+        <div style="font-size:11px;max-height:280px;overflow-y:auto;">
+          <div style="display:flex;justify-content:space-between;padding:4px 6px;border-bottom:1px solid #f0f0f0;">
+            <span><strong>G</strong></span><span style="font-size:10px;color:#888;">Gravitational const</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:4px 6px;border-bottom:1px solid #f0f0f0;">
+            <span><strong>c</strong></span><span style="font-size:10px;color:#888;">Speed of light</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:4px 6px;border-bottom:1px solid #f0f0f0;">
+            <span><strong>h</strong></span><span style="font-size:10px;color:#888;">Planck constant</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:4px 6px;border-bottom:1px solid #f0f0f0;">
+            <span><strong>k_B</strong></span><span style="font-size:10px;color:#888;">Boltzmann const</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:4px 6px;border-bottom:1px solid #f0f0f0;">
+            <span><strong>m_e</strong></span><span style="font-size:10px;color:#888;">Electron mass</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:4px 6px;border-bottom:1px solid #f0f0f0;">
+            <span><strong>m_p</strong></span><span style="font-size:10px;color:#888;">Proton mass</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:4px 6px;border-bottom:1px solid #f0f0f0;">
+            <span><strong>M_sun</strong></span><span style="font-size:10px;color:#888;">Solar mass</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>SearchBar</h3>
+  <div class="options">
+    <div class="option" style="cursor:default;border:none;">
+      <div class="content">
+        <p>Global search across constants, units, and equation templates. Matches against both <strong>symbol</strong> ("G") and <strong>physical name</strong> ("gravitational constant", "Planck", "proton mass"). Results update on each keystroke (filters a preloaded JSON dataset, no Pyodide needed — instant).</p>
+        <p style="margin-top:6px;font-size:13px;color:#666;">Example: typing "energy" would match: Boltzmann constant (k_B, energy/temperature), Rydberg constant (Ryd, energy), eV (electronvolt), MeV, GeV, Stefan-Boltzmann law (template).</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>ConstantsTable</h3>
+  <div class="options">
+    <div class="option" style="cursor:default;border:none;">
+      <div class="content">
+        <p>Scrollable table with columns: <strong>Symbol | Name | Value | Unit | Uncertainty</strong>. Clicking a row inserts the symbol into the expression editor at cursor position. Filtered by search. Data comes from a bundled JSON snapshot of all astropy constants (generated at build time).</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>UnitsTable</h3>
+  <div class="options">
+    <div class="option" style="cursor:default;border:none;">
+      <div class="content">
+        <p>Grouped by category (Length, Mass, Time, Energy, etc.). Each row shows the unit name. Clicking inserts the unit into the editor. Simple reference — no value computation needed until the unit is used in an expression.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>EquationTemplates</h3>
+  <div class="options">
+    <div class="option" style="cursor:default;border:none;">
+      <div class="content">
+        <p>A preset list of common astrophysics equations (escape velocity, Schwarzschild radius, Kepler's 3rd law, Eddington luminosity, etc.). Each template shows:</p>
+        <ul style="margin-left:16px;">
+          <li>The equation in readable form (rendered with KaTeX)</li>
+          <li>Named parameters with placeholder values</li>
+          <li>An <strong>"Add" button</strong> that inserts the full expression as a multi-line input: variable assignments for each parameter prefilled with default values, followed by the equation itself</li>
+        </ul>
+        <p style="margin-top:4px;">Example — clicking "Add" on Escape Velocity inserts:</p>
+        <div style="background:#f8fafc;padding:8px;border-radius:4px;font-family:monospace;font-size:12px;">
+          M = 1.4 M_sun<br>
+          R = 10 km<br>
+          sqrt(2 G M / R) in km/s
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p style="margin-top: 16px;">Does the sidebar design look right?</p>

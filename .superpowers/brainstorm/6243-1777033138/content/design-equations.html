@@ -1,0 +1,86 @@
+<h2>Design — Section 4: Equations Folder &amp; Data Flow</h2>
+<p class="subtitle">Equation templates are defined as markdown files in a project folder, loaded at build time, and rendered as clickable templates in the sidebar.</p>
+
+<div class="section">
+  <h3>Equations Folder Structure</h3>
+  <div style="background:#f8fafc;padding:12px;border-radius:6px;font-family:monospace;font-size:13px;">
+    equations/<br>
+    ├── <strong>escape-velocity.md</strong><br>
+    ├── <strong>schwarzschild-radius.md</strong><br>
+    ├── <strong>kepler-third-law.md</strong><br>
+    ├── <strong>eddington-luminosity.md</strong><br>
+    ├── <strong>free-fall-time.md</strong><br>
+    └── ...
+  </div>
+</div>
+
+<div class="section">
+  <h3>Markdown File Format</h3>
+  <p>Each file uses YAML frontmatter for structured data + markdown body for the rendered LaTeX description:</p>
+  <div style="background:#f8fafc;padding:12px;border-radius:6px;font-family:monospace;font-size:12px;white-space:pre-wrap;">---
+title: Escape Velocity
+category: Mechanics
+tags: [velocity, gravity, compact objects]
+params:
+  - symbol: M
+    default: "1.4 M_sun"
+    description: Mass of the object
+  - symbol: R
+    default: "10 km"
+    description: Radius
+expression: "sqrt(2 G M / R) in km/s"
+---
+
+The escape velocity from a body of mass $M$ and radius $R$ is:
+
+$$v_{\rm esc} = \sqrt{\frac{2GM}{R}}$$
+
+For a neutron star ($1.4\,M_\odot$, $10\,{\rm km}$), $v_{\rm esc} \approx 0.6c$.</div>
+</div>
+
+<div class="section">
+  <h3>How It Works</h3>
+  <div class="options">
+    <div class="option" style="cursor:default;border:none;">
+      <div class="content">
+        <h3>1. Build-time ingestion</h3>
+        <p>A Vite plugin or build script reads all <code>.md</code> files from <code>equations/</code>, parses the YAML frontmatter, and generates a JSON manifest bundled into the app. No runtime file loading needed.</p>
+      </div>
+    </div>
+    <div class="option" style="cursor:default;border:none;">
+      <div class="content">
+        <h3>2. Sidebar rendering</h3>
+        <p>The Equations tab shows a searchable list. Each item displays the <strong>title</strong> + <strong>rendered LaTeX equation</strong> (via KaTeX). Clicking expands it to show parameter descriptions.</p>
+      </div>
+    </div>
+    <div class="option" style="cursor:default;border:none;">
+      <div class="content">
+        <h3>3. "Add" button</h3>
+        <p>Clicking <strong>Add</strong> takes the <code>params</code> (as variable assignments — one per line) and the <code>expression</code>, and inserts them into the editor. The editor's content is replaced (if empty) or appended (if already has content).</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>Constants JSON (build-time snapshot)</h3>
+  <div class="options">
+    <div class="option" style="cursor:default;border:none;">
+      <div class="content">
+        <p>A build script runs astropy to dump all supported constants into <code>src/data/constants.json</code>:</p>
+        <div style="background:#f8fafc;padding:8px;border-radius:4px;font-family:monospace;font-size:12px;margin-top:4px;">
+          [<br>
+          &nbsp;&nbsp;{"symbol":"G","name":"Gravitational constant","value":6.6743e-11,<br>
+          &nbsp;&nbsp;&nbsp;"unit":"m^3/(kg s^2)","uncertainty":1.5e-15,"ref":"CODATA 2018"},<br>
+          &nbsp;&nbsp;{"symbol":"c","name":"Speed of light","value":2.99792458e8,<br>
+          &nbsp;&nbsp;&nbsp;"unit":"m/s","uncertainty":0,"ref":"CODATA 2018"},<br>
+          &nbsp;&nbsp;...<br>
+          ]
+        </div>
+        <p style="margin-top:6px;">This JSON is what powers the SearchBar, ConstantsTable, and autocomplete — all instant, no Pyodide needed. The Pyodide engine is only invoked when the user <em>evaluates</em> an expression, which gives the authoritative numeric result.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p style="margin-top: 16px;">Does the equations folder format and data flow make sense?</p>

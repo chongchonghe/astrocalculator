@@ -1,0 +1,88 @@
+<h2>Three architectural approaches</h2>
+<p class="subtitle">All use React + Vite + Pyodide. They differ in layout structure and how the user interacts with constants, units, and history.</p>
+
+<div class="cards">
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="mockup">
+        <div class="mockup-header">Approach A: Calculator-First</div>
+        <div class="mockup-body" style="padding: 8px;">
+          <div class="mock-nav" style="font-size: 12px;">AstroCalc &nbsp; | &nbsp; <span style="text-decoration: underline;">Constants</span> &nbsp; <span style="text-decoration: underline;">Units</span></div>
+          <div style="padding: 10px;">
+            <textarea class="mock-input" style="width:100%;height:48px;resize:none;" placeholder="e.g. M = 1.4 M_sun, R = 10 km&#10;sqrt(2 G M / R) in km/s"></textarea>
+            <button class="mock-button" style="margin-top:6px;">Calculate</button>
+            <div class="placeholder" style="margin-top:8px;min-height:40px;">= 1.9277e+05 km/s</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A: Calculator-First</h3>
+      <p>Expression input as the hero element. Constants and units open as full-page overlays/modals. Minimal, focused on the calculation.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="mockup">
+        <div class="mockup-header">Approach B: Studio</div>
+        <div class="mockup-body" style="display:flex;padding:0;">
+          <div class="mock-sidebar" style="width:160px;font-size:11px;padding:6px;">
+            <strong>Constants</strong>
+            <input class="mock-input" placeholder="Search..." style="width:100%;margin:4px 0;font-size:10px;">
+            <div style="font-size:10px;">G &nbsp; 6.674e-11<br>N_A &nbsp; 6.022e23<br>c &nbsp; 2.998e8<br>h &nbsp; 6.626e-34<br>k_B &nbsp; 1.381e-23<br>m_e &nbsp; 9.109e-31<br>m_p &nbsp; 1.673e-27<br>M_sun &nbsp; 1.989e30</div>
+          </div>
+          <div class="mock-content" style="flex:1;padding:8px;">
+            <textarea class="mock-input" style="width:100%;height:48px;resize:none;" placeholder="m_e c^2 in MeV"></textarea>
+            <button class="mock-button" style="margin-top:4px;">Calculate</button>
+            <div class="placeholder" style="margin-top:6px;min-height:30px;">= 0.5110 MeV</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B: Studio (Recommended)</h3>
+      <p>Persistent sidebar with searchable constants and units tables. Main area for expression input and results. Best for discoverability.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="mockup">
+        <div class="mockup-header">Approach C: Split Workspace</div>
+        <div class="mockup-body" style="display:flex;padding:0;">
+          <div style="flex:1;padding:6px;border-right:1px solid #e0e0e0;">
+            <strong>Editor</strong>
+            <textarea class="mock-input" style="width:100%;height:80px;resize:none;font-size:11px;" placeholder="Expression..."></textarea>
+            <div class="placeholder" style="margin-top:4px;min-height:24px;font-size:11px;">Result</div>
+            <div style="margin-top:6px;font-size:10px;">
+              <strong>Templates ▸</strong><br>
+              Schwarzschild radius<br>
+              Escape velocity<br>
+              Kepler's 3rd law
+            </div>
+          </div>
+          <div style="width:180px;padding:6px;font-size:11px;">
+            <strong>Reference</strong>
+            <input class="mock-input" placeholder="Search..." style="width:100%;margin:4px 0;font-size:10px;">
+            <div style="font-size:10px;">Constants<br>Units<br>History<br>Saved</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C: Split Workspace</h3>
+      <p>Left side for the editor + equation templates. Right side for reference panels. More powerful but more complex UI with more panels to manage.</p>
+    </div>
+  </div>
+</div>
+
+<div class="pros-cons" style="margin-top:16px;">
+  <div class="pros"><h4>Why B (Studio)?</h4><ul>
+    <li>Constants/units table always visible — solves discoverability directly</li>
+    <li>Searchable sidebar makes finding constants fast</li>
+    <li>Single-page layout is easy to understand</li>
+    <li>Natural room for equation templates (tabs in sidebar)</li>
+    <li>Still focused enough for quick calculations</li>
+  </ul></div>
+</div>

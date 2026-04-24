@@ -1,0 +1,61 @@
+<h2>Design — Section 4 (Revised): Equations Format</h2>
+<p class="subtitle">Updated: multiple named expressions per equation file, each with its own "Add" button.</p>
+
+<div class="section">
+  <h3>Updated Markdown File Format</h3>
+  <div style="background:#f8fafc;padding:12px;border-radius:6px;font-family:monospace;font-size:12px;white-space:pre-wrap;">---
+title: Escape Velocity
+category: Mechanics
+tags: [velocity, gravity, compact objects]
+params:
+  - symbol: M
+    default: "1.4 M_sun"
+    description: Mass of the object
+  - symbol: R
+    default: "10 km"
+    description: Radius
+expressions:
+  - name: "Escape velocity"
+    expression: "sqrt(2 G M / R) in km/s"
+  - name: "Circular velocity"
+    expression: "sqrt(G M / R) in km/s"
+    description: "Circular orbital velocity, 1/√2 times escape velocity"
+---
+
+The escape velocity from a body of mass $M$ and radius $R$ is:
+
+$$v_{\rm esc} = \sqrt{\frac{2GM}{R}}$$</div>
+</div>
+
+<div class="section">
+  <h3>How it renders in the sidebar</h3>
+  <div style="background: #f8fafc; padding: 16px; border-radius: 8px;">
+    <div class="mockup" style="max-width: 300px;">
+      <div class="mockup-body" style="padding: 10px; background: #fff; font-size: 12px;">
+        <div style="font-weight:600;margin-bottom:4px;">Escape Velocity</div>
+        <div style="font-size:11px;color:#888;margin-bottom:6px;">Mechanics</div>
+        <div style="font-size:11px;margin-bottom:6px;font-family:serif;">
+          v<sub>esc</sub> = √(2GM/R)
+        </div>
+        <div style="font-size:10px;color:#666;margin-bottom:4px;">Parameters: M, R</div>
+
+        <div style="border-top:1px solid #e0e0e0;margin-top:6px;padding-top:6px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+            <span style="font-size:11px;"><strong>Escape velocity</strong></span>
+            <button class="mock-button" style="font-size:10px;padding:2px 8px;">Add</button>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <div>
+              <span style="font-size:11px;"><strong>Circular velocity</strong></span>
+              <div style="font-size:9px;color:#888;">Circular orbital velocity, 1/√2 times escape velocity</div>
+            </div>
+            <button class="mock-button" style="font-size:10px;padding:2px 8px;">Add</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p style="margin-top:8px;">Each expression gets its own <strong>Add</strong> button. The description (if provided) appears as helper text below the expression name. Clicking "Add" inserts only that expression's params + expression into the editor.</p>
+</div>
+
+<p style="margin-top: 16px;">Does the revised format look right?</p>

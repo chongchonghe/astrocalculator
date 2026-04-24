@@ -1,0 +1,45 @@
+<h2>Design — Section 6: Offline &amp; Local Use</h2>
+<p class="subtitle">Two modes: local development (faster, always offline) and deployed with service worker (offline after first visit).</p>
+
+<div class="section">
+  <h3>Option 1: Local Dev Server (fastest)</h3>
+  <div style="background:#f8fafc;padding:12px;border-radius:6px;font-family:monospace;font-size:12px;">
+    npm run dev &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# vite dev — loads Pyodide from local disk<br>
+    # → http://localhost:5173 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# fully offline, near-instant Pyodide load
+  </div>
+  <p style="margin-top:8px;">Pyodide WASM files are pulled from <code>node_modules/pyodide/</code> — no network at all. Load time drops to ~1-2s instead of 3-8s.</p>
+</div>
+
+<div class="section">
+  <h3>Option 2: Production Build, Served Locally</h3>
+  <div style="background:#f8fafc;padding:12px;border-radius:6px;font-family:monospace;font-size:12px;">
+    npm run build &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# vite build → dist/<br>
+    npm run preview &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# or: python -m http.server -d dist/<br>
+    # → http://localhost:8080 &nbsp; &nbsp; &nbsp; &nbsp;# fully offline, optimized build
+  </div>
+</div>
+
+<div class="section">
+  <h3>Option 3: Deployed + Service Worker (offline after first visit)</h3>
+  <div class="options">
+    <div class="option" style="cursor:default;border:none;">
+      <div class="content">
+        <p>Add the <strong>Vite PWA plugin</strong> (<code>vite-plugin-pwa</code>) with a service worker strategy. On first visit at the GitHub Pages URL, the service worker caches:</p>
+        <ul style="margin-left:16px;margin-top:4px;">
+          <li>All app JS/CSS/HTML (~200KB)</li>
+          <li>Pyodide WASM (~30MB — cached as a single chunk)</li>
+          <li>Constants/units JSON (~50KB)</li>
+        </ul>
+        <p style="margin-top:4px;">Subsequent visits: <strong>instant load, fully offline</strong>. The service worker serves everything from cache. The app only re-fetches when you ship a new version (cache-busted by filename hashes).</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>Recommended setup</h3>
+  <p><strong>For daily use:</strong> run the local dev server — fastest Pyodide load, zero network.</p>
+  <p><strong>For sharing / quick access:</strong> use the GitHub Pages URL with service worker. First visit is slow (~5s), every visit after is instant and offline-capable.</p>
+</div>
+
+<p style="margin-top: 16px;">All three modes work. Local is the best experience. The deployed version gets close after the first load. Does this cover what you need?</p>

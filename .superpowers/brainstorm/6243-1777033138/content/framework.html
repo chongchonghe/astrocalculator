@@ -1,0 +1,39 @@
+<h2>Which frontend framework?</h2>
+<p class="subtitle">GitHub Pages means static output. Pyodide means a heavy WASM dependency. The framework should be lightweight to offset Pyodide's size.</p>
+
+<div class="cards">
+  <div class="card" data-choice="react" onclick="toggleSelect(this)">
+    <div class="card-body">
+      <h3>React (with Vite)</h3>
+      <p>Most popular, massive ecosystem. Easy to find components for tables, autocomplete, and equation rendering. Vite keeps the dev experience fast.</p>
+      <div class="pros-cons">
+        <div class="pros"><ul><li>Huge ecosystem (headless table, combobox, LaTeX renderers)</li><li>Well-tested with Pyodide in production</li><li>Easy to hire/contribute</li></ul></div>
+        <div class="cons"><ul><li>~40KB gzipped (React + ReactDOM)</li><li>Can be overkill for a single-page calculator</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" data-choice="svelte" onclick="toggleSelect(this)">
+    <div class="card-body">
+      <h3>Svelte</h3>
+      <p>Compiles away at build time — no runtime library. Very small bundle. Reactive by default with minimal boilerplate.</p>
+      <div class="pros-cons">
+        <div class="pros"><ul><li>Tiny output (~2KB overhead)</li><li>Less JS shipped = more room for Pyodide</li><li>Simple, readable syntax</li></ul></div>
+        <div class="cons"><ul><li>Smaller ecosystem</li><li>Fewer Pyodide integration examples</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" data-choice="vanilla" onclick="toggleSelect(this)">
+    <div class="card-body">
+      <h3>Vanilla JS + Web Components</h3>
+      <p>No framework at all. Use native web components and ES modules. Lightest possible approach.</p>
+      <div class="pros-cons">
+        <div class="pros"><ul><li>Zero framework overhead</li><li>No build step complexity</li><li>No dependency churn</li></ul></div>
+        <div class="cons"><ul><li>More boilerplate for reactive state</li><li>Must build table/autocomplete from scratch</li><li>Harder to add features over time</li></ul></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p style="margin-top: 20px;">Given your plan to add equation templates, prefilled parameters, and browsable constant tables over time, <strong>React</strong> is my recommendation — the ecosystem will save you time on each new feature.</p>

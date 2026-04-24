@@ -1,0 +1,86 @@
+<h2>Design — Section 3: Main Panel &amp; Expression Editor</h2>
+<p class="subtitle">The right side of the Studio layout — where the actual calculation happens.</p>
+
+<div class="section">
+  <h3>ExpressionEditor</h3>
+  <div class="mockup" style="margin-bottom: 12px;">
+    <div class="mockup-body" style="padding: 12px; background: #fff; font-family: monospace; font-size: 13px;">
+      <div style="color:#888;margin-bottom:4px;">Multi-line expression editor</div>
+      <div style="min-height:80px;padding:8px;border:1px solid #d0d0d0;border-radius:4px;background:#fafafa;line-height:1.6;">
+        <span style="color:#999;">1</span> <span>M = 1.4 M_sun</span><br>
+        <span style="color:#999;">2</span> <span>R = 10 km</span><br>
+        <span style="color:#999;">3</span> <span style="color:#3182ce;">sqrt(2 G M / R) in km/s</span>
+      </div>
+    </div>
+  </div>
+  <div class="options">
+    <div class="option" style="cursor:default;border:none;">
+      <div class="content">
+        <h3>Multi-line textarea (not single-line input)</h3>
+        <p>A <code>&lt;textarea&gt;</code> that supports multiple lines. Each line is a variable assignment or the final expression. This directly mirrors the current CLI's multi-line input model but with proper text editing (cursor movement, select, copy/paste, undo).</p>
+      </div>
+    </div>
+    <div class="option" style="cursor:default;border:none;">
+      <div class="content">
+        <h3>Keyboard shortcuts</h3>
+        <ul style="margin-left:16px;">
+          <li><strong>Cmd+Enter</strong> — evaluate expression</li>
+          <li><strong>Cmd+K</strong> — focus search bar in sidebar</li>
+          <li><strong>Escape</strong> — clear editor</li>
+        </ul>
+      </div>
+    </div>
+    <div class="option" style="cursor:default;border:none;">
+      <div class="content">
+        <h3>Autocomplete overlay</h3>
+        <p>As the user types, a dropdown appears below the cursor showing matching constants, units, and functions. Selecting one inserts it. This complements the sidebar — you don't need to leave the editor to find a constant. Searches the same JSON dataset as the sidebar.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>ResultDisplay</h3>
+  <div class="mockup" style="margin-bottom: 12px;">
+    <div class="mockup-body" style="padding: 12px; background: #fff; font-size: 13px;">
+      <div style="display:flex;gap:16px;">
+        <div style="flex:1;background:#f0fdf4;padding:10px;border-radius:6px;">
+          <div style="font-size:11px;color:#888;margin-bottom:2px;">PARSED</div>
+          <div style="font-family:monospace;">sqrt(2*G*M*1/R)</div>
+        </div>
+        <div style="flex:1;background:#eff6ff;padding:10px;border-radius:6px;">
+          <div style="font-size:11px;color:#888;margin-bottom:2px;">RESULT (SI)</div>
+          <div style="font-family:monospace;">1.9277e+08 m / s</div>
+        </div>
+        <div style="flex:1;background:#fffbeb;padding:10px;border-radius:6px;">
+          <div style="font-size:11px;color:#888;margin-bottom:2px;">RESULT (CGS)</div>
+          <div style="font-family:monospace;">1.9277e+10 cm / s</div>
+        </div>
+      </div>
+      <div style="background:#faf5ff;padding:10px;border-radius:6px;margin-top:8px;" id="conv-row">
+        <div style="font-size:11px;color:#888;margin-bottom:2px;">IN km/s</div>
+        <div style="font-family:monospace;">1.9277e+05 km / s</div>
+      </div>
+    </div>
+  </div>
+  <div class="options">
+    <div class="option" style="cursor:default;border:none;">
+      <div class="content">
+        <p>Three result cards (Parsed, SI, CGS) displayed after evaluation. If the expression contains an <code>in &lt;unit&gt;</code> clause, a fourth card shows the converted value. Each card has a <strong>copy button</strong> to copy the value.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>HistoryPanel (sidebar tab)</h3>
+  <div class="options">
+    <div class="option" style="cursor:default;border:none;">
+      <div class="content">
+        <p>The 4th sidebar tab. Shows the last N calculations (stored in <code>localStorage</code>). Each entry shows the original expression and result. Clicking an entry <strong>reloads it into the editor</strong>. A "Clear" button at the bottom. No server-side storage — local only, private to the browser.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p style="margin-top: 16px;">Does the main panel and editor design look right?</p>

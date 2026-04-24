@@ -1,0 +1,92 @@
+<h2>Design — Section 4 (Revised): Equations Format v3</h2>
+<p class="subtitle">Each expression optionally carries its own <code>latex</code> string. Sidebar shows the LaTeX-rendered equation below the name, or falls back to a plain code string.</p>
+
+<div class="section">
+  <h3>Updated Markdown File Format</h3>
+  <div style="background:#f8fafc;padding:12px;border-radius:6px;font-family:monospace;font-size:12px;white-space:pre-wrap;">---
+title: Escape Velocity
+category: Mechanics
+tags: [velocity, gravity, compact objects]
+params:
+  - symbol: M
+    default: "1.4 M_sun"
+    description: Mass of the object
+  - symbol: R
+    default: "10 km"
+    description: Radius
+expressions:
+  - name: "Escape velocity"
+    expression: "sqrt(2 G M / R) in km/s"
+    latex: "v_{\\rm esc} = \\sqrt{\\frac{2GM}{R}}"
+  - name: "Circular velocity"
+    expression: "sqrt(G M / R) in km/s"
+    latex: "v_{\\rm circ} = \\sqrt{\\frac{GM}{R}}"
+    description: "Circular orbital velocity, 1/√2 times escape velocity"
+  - name: "Free-fall timescale"
+    expression: "1 / sqrt(G rho)"
+    description: "No LaTeX provided — renders as code"
+---
+
+(optional markdown body — not parsed for sidebar display)</div>
+</div>
+
+<div class="section">
+  <h3>How it renders in the sidebar</h3>
+  <div style="background: #f8fafc; padding: 16px; border-radius: 8px;">
+    <div class="mockup" style="max-width: 320px;">
+      <div class="mockup-body" style="padding: 12px; background: #fff; font-size: 13px;">
+        <div style="font-weight:600;margin-bottom:2px;">Escape Velocity</div>
+        <div style="font-size:11px;color:#888;margin-bottom:6px;">Mechanics · M, R</div>
+
+        <!-- Expression with LaTeX -->
+        <div style="border-top:1px solid #eee;padding:8px 0;">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+            <div style="flex:1;">
+              <div style="color:#888;font-size:11px;margin-bottom:2px;">Escape velocity</div>
+              <div style="font-family:serif;font-size:16px;margin-bottom:2px;">v<sub>esc</sub> = √(2GM/R)</div>
+            </div>
+            <button class="mock-button" style="font-size:10px;padding:2px 8px;margin-left:8px;">Add</button>
+          </div>
+        </div>
+
+        <!-- Expression with LaTeX + description -->
+        <div style="border-top:1px solid #eee;padding:8px 0;">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+            <div style="flex:1;">
+              <div style="color:#888;font-size:11px;margin-bottom:2px;">Circular velocity</div>
+              <div style="font-family:serif;font-size:16px;margin-bottom:2px;">v<sub>circ</sub> = √(GM/R)</div>
+              <div style="font-size:10px;color:#888;">Circular orbital velocity, 1/√2 times escape velocity</div>
+            </div>
+            <button class="mock-button" style="font-size:10px;padding:2px 8px;margin-left:8px;">Add</button>
+          </div>
+        </div>
+
+        <!-- Expression without LaTeX — falls back to code string -->
+        <div style="border-top:1px solid #eee;padding:8px 0;">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+            <div style="flex:1;">
+              <div style="color:#888;font-size:11px;margin-bottom:2px;">Free-fall timescale</div>
+              <div style="font-family:monospace;font-size:12px;color:#555;">1 / sqrt(G rho)</div>
+              <div style="font-size:10px;color:#888;">No LaTeX provided — renders as code</div>
+            </div>
+            <button class="mock-button" style="font-size:10px;padding:2px 8px;margin-left:8px;">Add</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>Rendering rules</h3>
+  <table style="width:100%;border-collapse:collapse;font-size:13px;">
+    <tr style="border-bottom:1px solid #e0e0e0;"><th style="text-align:left;padding:6px;">Field</th><th style="text-align:left;padding:6px;">How it renders</th></tr>
+    <tr style="border-bottom:1px solid #e0e0e0;"><td style="padding:6px;font-family:monospace;">name</td><td style="padding:6px;">Grey label above the equation</td></tr>
+    <tr style="border-bottom:1px solid #e0e0e0;"><td style="padding:6px;font-family:monospace;">latex</td><td style="padding:6px;">Rendered as display math via KaTeX below the name</td></tr>
+    <tr style="border-bottom:1px solid #e0e0e0;"><td style="padding:6px;font-family:monospace;">expression</td><td style="padding:6px;">What gets inserted into the editor on "Add" (never shown)</td></tr>
+    <tr style="border-bottom:1px solid #e0e0e0;"><td style="padding:6px;font-family:monospace;">description</td><td style="padding:6px;">Optional helper text below the equation</td></tr>
+    <tr style="border-bottom:1px solid #e0e0e0;"><td style="padding:6px;"><em>no latex</em></td><td style="padding:6px;">Displays <code>expression</code> as a monospace code string instead</td></tr>
+  </table>
+</div>
+
+<p style="margin-top: 16px;">Does this format look right?</p>

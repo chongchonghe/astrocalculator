@@ -1,0 +1,50 @@
+<h2>Design — Section 1: Architecture &amp; Component Tree</h2>
+<p class="subtitle">React + Vite, single-page static app hosted on GitHub Pages. Pyodide runs the Python engine in-browser.</p>
+
+<div class="section">
+  <h3>Component Tree</h3>
+  <div style="background: #f8fafc; padding: 16px; border-radius: 8px; font-family: monospace; font-size: 13px; line-height: 1.6;">
+    App<br>
+    ├── <strong>PyodideProvider</strong> &nbsp; <span style="color:#888;">// loads Pyodide, exposes calculator context</span><br>
+    │<br>
+    ├── <strong>Header</strong><br>
+    │<br>
+    └── <strong>StudioLayout</strong><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;├── <strong>Sidebar</strong><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├── <strong>SearchBar</strong><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├── <strong>ConstantsTable</strong><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├── <strong>UnitsTable</strong><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;└── <strong>EquationTemplates</strong><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;│<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;└── <strong>MainPanel</strong><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── <strong>ExpressionEditor</strong><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── <strong>ResultDisplay</strong><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── <strong>HistoryPanel</strong>
+  </div>
+</div>
+
+<div class="section">
+  <h3>Key Design Decisions</h3>
+  <div class="options">
+    <div class="option" style="cursor:default;border:none;">
+      <div class="content">
+        <h3>PyodideProvider (React Context)</h3>
+        <p>Loads Pyodide once via a web worker (keeps UI responsive during 3-8s cold load). Exposes a <code>useCalculator()</code> hook that provides <code>evaluate(expr)</code> and <code>convert(qty, unit)</code>. All components access the engine through this hook — no prop drilling.</p>
+      </div>
+    </div>
+    <div class="option" style="cursor:default;border:none;">
+      <div class="content">
+        <h3>Constants/Units as static JSON + Pyodide</h3>
+        <p>The constants and units tables are populated from a bundled JSON file (fast, no WASM needed for browsing). But numeric values are computed live by Pyodide when a constant is used in an expression — no drift between displayed data and calculation results.</p>
+      </div>
+    </div>
+    <div class="option" style="cursor:default;border:none;">
+      <div class="content">
+        <h3>Implicit multiplication preserved</h3>
+        <p>The existing <code>m_e c^2</code> syntax works unchanged. The expression is sent to Pyodide which runs the existing <code>simple_eval</code> / sympy parser. No new parsing code to write.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p style="margin-top: 16px;">Does this architecture and component breakdown look right so far?</p>

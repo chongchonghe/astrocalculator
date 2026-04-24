@@ -1,0 +1,40 @@
+<h2>How should the calculator engine run in the browser?</h2>
+<p class="subtitle">GitHub Pages can only serve static files — no Python runtime, no server. Three ways to bridge the gap:</p>
+
+<div class="cards">
+  <div class="card" data-choice="pyodide" onclick="toggleSelect(this)">
+    <div class="card-body">
+      <h3>Option A: Pyodide (Python → WASM)</h3>
+      <p>Compile the full Python scientific stack (sympy, astropy, numpy) to WebAssembly. The existing <code>AstroCalculator</code> class runs natively in the browser with minimal code changes.</p>
+      <div class="pros-cons">
+        <div class="pros"><ul><li>Keep 90%+ of existing Python code</li><li>Full astropy constants/units database</li><li>Exact same results as CLI version</li></ul></div>
+        <div class="cons"><ul><li>~25-40MB initial download (cached after first visit)</li><li>3-8 second cold-start load time</li><li>Heavier than native JS</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" data-choice="port-ts" onclick="toggleSelect(this)">
+    <div class="card-body">
+      <h3>Option B: Port to TypeScript</h3>
+      <p>Rewrite the expression parser in TS, bundle a precompiled constants database as JSON, and implement unit conversion manually for the supported unit set.</p>
+      <div class="pros-cons">
+        <div class="pros"><ul><li>Fast load (< 1MB, instant)</li><li>No Python dependency</li><li>Better TypeScript tooling (tree-shaking, static types)</li></ul></div>
+        <div class="cons"><ul><li>Lose astropy's full unit system</li><li>Must reimplement implicit multiplication parser</li><li>Ongoing maintenance burden to keep constants/units in sync</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" data-choice="mathjs" onclick="toggleSelect(this)">
+    <div class="card-body">
+      <h3>Option C: math.js + Custom Extensions</h3>
+      <p>Use the <code>math.js</code> library (which already has an expression parser, implicit multiplication, and unit support) and extend it with astro-specific constants and units.</p>
+      <div class="pros-cons">
+        <div class="pros"><ul><li>Expression parser + units built in</li><li>Well-maintained, good docs</li><li>Moderate bundle size (~200KB gzipped)</li></ul></div>
+        <div class="cons"><ul><li>Unit system is less sophisticated than astropy</li><li>Mismatch in results vs. Python CLI version</li><li>Still need to map all constants manually</li></ul></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h3 style="margin-top: 20px;">Recommendation</h3>
+<p>I'd suggest <strong>Option A (Pyodide)</strong> despite the larger download. The user base (astronomers) is patient with load times if the results are trustworthy. Keeping the exact same <code>astropy</code> constants and units means calculations produce the same numbers as the CLI — this is critical for scientific credibility. The 25-40MB WASM payload is cached by the browser, so it's a one-time cost per update.</p>

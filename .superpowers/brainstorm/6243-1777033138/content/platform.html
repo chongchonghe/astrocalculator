@@ -1,0 +1,87 @@
+<h2>Which platform should the new AstroCalculator target?</h2>
+<p class="subtitle">The current version is a CLI tool. Each option below trades off different aspects of UX, portability, and development effort.</p>
+
+<div class="cards">
+  <div class="card" data-choice="web" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="mockup">
+        <div class="mockup-header">Web App (React / Next.js)</div>
+        <div class="mockup-body">
+          <div class="mock-nav">astrocalc.app</div>
+          <div style="padding: 12px;">
+            <input class="mock-input" placeholder="e.g. m_e c^2 in eV" style="width: 100%;">
+            <div style="margin-top: 10px; display: flex; gap: 8px;">
+              <button class="mock-button">Calculate</button>
+              <button class="mock-button">History</button>
+              <button class="mock-button">Constants</button>
+            </div>
+            <div class="placeholder" style="margin-top: 12px; min-height: 60px;">Result: 8.1871e-14 J (0.5110 MeV)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Web Application</h3>
+      <p>Browser-based calculator with a rich GUI, searchable constants browser, unit picker, and history sidebar. Accessible anywhere without install.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="desktop" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="mockup">
+        <div class="mockup-header">Desktop App (Electron / Tauri)</div>
+        <div class="mockup-body">
+          <div style="display: flex;">
+            <div class="mock-sidebar" style="width: 140px;">History
+              <div style="font-size: 10px; margin-top: 8px;">m_e c^2<br>G M_sun / R_sun^2</div>
+            </div>
+            <div class="mock-content" style="flex: 1; padding: 12px;">
+              <input class="mock-input" placeholder="Expression..." style="width: 100%;">
+              <div class="placeholder" style="margin-top: 10px; min-height: 40px;">= 1.9277e+08 m/s</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Desktop Application</h3>
+      <p>Native-feeling desktop app with system tray, offline-first, keyboard shortcuts, and full OS integration. Install via brew/direct download.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="cli-v2" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="mockup">
+        <div class="mockup-header">Enhanced Terminal (Textual / Ink)</div>
+        <div class="mockup-body" style="background: #1a1a2e; color: #e0e0e0; font-family: monospace; padding: 12px;">
+          <div style="color: #0f0;">calc&gt;</div>
+          <div>┌─ Constants ──────────────────────────┐</div>
+          <div>│ G   6.6743e-11  m^3/kg/s^2           │</div>
+          <div>│ c   2.9979e+08  m/s                  │</div>
+          <div>│ m_e 9.1094e-31  kg                   │</div>
+          <div>└──────────────────────────────────────┘</div>
+          <div style="margin-top: 4px;"><span style="color: #0f0;">&gt;</span> m_e c^2 <span style="color: #888;">= 8.1871e-14 J = 0.5110 MeV</span></div>
+          <div style="color: #0f0; margin-top: 4px;">calc&gt;</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Enhanced Terminal (TUI)</h3>
+      <p>Keeps the terminal UX but upgrades to a full TUI framework (Textual/Ink) with panels, keyboard nav, and richer interactivity. Purely keyboard-driven.</p>
+    </div>
+  </div>
+</div>
+
+<h3 style="margin-top: 24px;">Key trade-offs</h3>
+<div class="pros-cons">
+  <div class="pros"><h4>Web App</h4><ul><li>Zero install for users</li><li>Rich visual design possible</li><li>Easy to share/bookmark calculations</li><li>Works on any device</li></ul></div>
+  <div class="cons"><h4>Web App</h4><ul><li>Requires hosting/deployment</li><li>Needs frontend + backend skills</li><li>Internet dependency</li></ul></div>
+</div>
+<div class="pros-cons">
+  <div class="pros"><h4>Desktop App</h4><ul><li>Full OS integration</li><li>Offline by default</li><li>brew install possible</li></ul></div>
+  <div class="cons"><h4>Desktop App</h4><ul><li>Larger binary/install</li><li>Cross-platform testing burden</li><li>Electron is heavy</li></ul></div>
+</div>
+<div class="pros-cons">
+  <div class="pros"><h4>Enhanced TUI</h4><ul><li>Stays in terminal (astronomers' home)</li><li>Fastest to develop</li><li>Keep existing Python code</li><li>SSH-friendly</li></ul></div>
+  <div class="cons"><h4>Enhanced TUI</h4><ul><li>Limited visual polish</li><li>Harder to browse constants</li><li>Mouse support limited</li></ul></div>
+</div>

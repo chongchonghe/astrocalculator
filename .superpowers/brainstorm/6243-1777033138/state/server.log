@@ -1,0 +1,18 @@
+{"type":"server-started","port":63943,"host":"127.0.0.1","url_host":"localhost","url":"http://localhost:63943","screen_dir":"/Users/u1149259/git/astrocalculator/.superpowers/brainstorm/6243-1777033138/content","state_dir":"/Users/u1149259/git/astrocalculator/.superpowers/brainstorm/6243-1777033138/state"}
+{"type":"screen-added","file":"/Users/u1149259/git/astrocalculator/.superpowers/brainstorm/6243-1777033138/content/platform.html"}
+{"type":"screen-added","file":"/Users/u1149259/git/astrocalculator/.superpowers/brainstorm/6243-1777033138/content/computation.html"}
+{"type":"screen-added","file":"/Users/u1149259/git/astrocalculator/.superpowers/brainstorm/6243-1777033138/content/waiting.html"}
+{"type":"screen-added","file":"/Users/u1149259/git/astrocalculator/.superpowers/brainstorm/6243-1777033138/content/framework.html"}
+{"source":"user-event","type":"click","text":"React (with Vite)\n      Most popular, massive ecosystem. Easy to find components for tables, autocomplete, and equation rendering. Vite keeps the dev experience fast.\n      \n        Huge ecosystem (headless table, combobox, LaTeX renderers)Well-tested with Pyodide in productionEasy to hire/contribute\n        ~40KB gzipped (React + ReactDOM)Can be overkill for a single-page calculator","choice":"react","id":null,"timestamp":1777034278297}
+{"source":"user-event","type":"click","text":"React (with Vite)\n      Most popular, massive ecosystem. Easy to find components for tables, autocomplete, and equation rendering. Vite keeps the dev experience fast.\n      \n        Huge ecosystem (headless table, combobox, LaTeX renderers)Well-tested with Pyodide in productionEasy to hire/contribute\n        ~40KB gzipped (React + ReactDOM)Can be overkill for a single-page calculator","choice":"react","id":null,"timestamp":1777034285521}
+{"type":"screen-added","file":"/Users/u1149259/git/astrocalculator/.superpowers/brainstorm/6243-1777033138/content/approaches.html"}
+{"type":"screen-added","file":"/Users/u1149259/git/astrocalculator/.superpowers/brainstorm/6243-1777033138/content/design-architecture.html"}
+{"type":"screen-added","file":"/Users/u1149259/git/astrocalculator/.superpowers/brainstorm/6243-1777033138/content/design-sidebar.html"}
+{"type":"screen-added","file":"/Users/u1149259/git/astrocalculator/.superpowers/brainstorm/6243-1777033138/content/design-main.html"}
+{"type":"screen-added","file":"/Users/u1149259/git/astrocalculator/.superpowers/brainstorm/6243-1777033138/content/design-equations.html"}
+{"type":"screen-added","file":"/Users/u1149259/git/astrocalculator/.superpowers/brainstorm/6243-1777033138/content/design-equations-v2.html"}
+{"type":"screen-added","file":"/Users/u1149259/git/astrocalculator/.superpowers/brainstorm/6243-1777033138/content/design-equations-v3.html"}
+{"type":"screen-added","file":"/Users/u1149259/git/astrocalculator/.superpowers/brainstorm/6243-1777033138/content/design-build.html"}
+{"type":"screen-added","file":"/Users/u1149259/git/astrocalculator/.superpowers/brainstorm/6243-1777033138/content/design-offline.html"}
+{"type":"screen-updated","file":"/Users/u1149259/git/astrocalculator/.superpowers/brainstorm/6243-1777033138/content/design-equations-v2.html"}
+{"type":"screen-updated","file":"/Users/u1149259/git/astrocalculator/.superpowers/brainstorm/6243-1777033138/content/design-equations-v3.html"}

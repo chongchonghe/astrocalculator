@@ -1,0 +1,103 @@
+<h2>Design — Section 5: Build, Deploy &amp; Pyodide Loading</h2>
+<p class="subtitle">Final section: how it all comes together from source to production.</p>
+
+<div class="section">
+  <h3>Project File Structure</h3>
+  <div style="background:#f8fafc;padding:12px;border-radius:6px;font-family:monospace;font-size:12px;line-height:1.6;">
+    astrocalculator-web/<br>
+    ├── <strong>equations/</strong> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# markdown definition files<br>
+    │&nbsp;&nbsp;├── escape-velocity.md<br>
+    │&nbsp;&nbsp;└── ...<br>
+    ├── <strong>scripts/</strong><br>
+    │&nbsp;&nbsp;├── dump-constants.py &nbsp; &nbsp; &nbsp;# generates src/data/constants.json<br>
+    │&nbsp;&nbsp;└── dump-units.py &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # generates src/data/units.json<br>
+    ├── <strong>src/</strong><br>
+    │&nbsp;&nbsp;├── <strong>data/</strong><br>
+    │&nbsp;&nbsp;│&nbsp;&nbsp;├── constants.json &nbsp; &nbsp; &nbsp;# bundled (build artifact)<br>
+    │&nbsp;&nbsp;│&nbsp;&nbsp;└── units.json &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # bundled (build artifact)<br>
+    │&nbsp;&nbsp;├── <strong>engine/</strong><br>
+    │&nbsp;&nbsp;│&nbsp;&nbsp;├── calculator.py &nbsp; &nbsp; &nbsp; &nbsp;# the existing AstroCalculator class<br>
+    │&nbsp;&nbsp;│&nbsp;&nbsp;└── worker.ts &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# web worker that loads Pyodide + runs calculator<br>
+    │&nbsp;&nbsp;├── <strong>components/</strong><br>
+    │&nbsp;&nbsp;│&nbsp;&nbsp;├── Header.tsx<br>
+    │&nbsp;&nbsp;│&nbsp;&nbsp;├── Sidebar.tsx<br>
+    │&nbsp;&nbsp;│&nbsp;&nbsp;├── ExpressionEditor.tsx<br>
+    │&nbsp;&nbsp;│&nbsp;&nbsp;├── ResultDisplay.tsx<br>
+    │&nbsp;&nbsp;│&nbsp;&nbsp;└── ...<br>
+    │&nbsp;&nbsp;├── App.tsx<br>
+    │&nbsp;&nbsp;└── main.tsx<br>
+    ├── package.json<br>
+    └── vite.config.ts &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # includes markdown→JSON plugin
+  </div>
+</div>
+
+<div class="section">
+  <h3>Pyodide Loading Flow</h3>
+  <div style="background:#f8fafc;padding:16px;border-radius:8px;font-size:14px;">
+    <ol style="margin-left:16px;line-height:1.8;">
+      <li>User opens the page. A <strong>loading spinner</strong> shows "Loading scientific engine..."</li>
+      <li>A <strong>web worker</strong> starts downloading Pyodide + sympy + astropy + numpy (~30MB). The UI stays responsive — the sidebar, search, and autocomplete all work from the bundled JSON, so the user can browse constants even before Pyodide is ready.</li>
+      <li>Once loaded (~3-8s cold, instant on subsequent visits thanks to service worker cache), the spinner disappears. The expression editor becomes active.</li>
+      <li>When the user hits <strong>Cmd+Enter</strong>, the expression is sent to the worker via <code>postMessage</code>. The worker runs the existing Python <code>AstroCalculator.calculate()</code> and returns the result.</li>
+      <li>The result is displayed in the result cards. The editor remains editable during computation.</li>
+    </ol>
+  </div>
+</div>
+
+<div class="section">
+  <h3>Deployment (GitHub Pages)</h3>
+  <div class="options">
+    <div class="option" style="cursor:default;border:none;">
+      <div class="content">
+        <p>Vite builds to <code>dist/</code> — static HTML + JS + WASM assets. A GitHub Action runs on push to <code>main</code>:</p>
+        <ol style="margin-left:16px;margin-top:4px;">
+          <li>Checkout + install deps</li>
+          <li>Run <code>dump-constants.py</code> and <code>dump-units.py</code> to regenerate JSON</li>
+          <li>Run <code>vite build</code></li>
+          <li>Deploy to <code>gh-pages</code> branch (via <code>peaceiris/actions-gh-pages</code> or similar)</li>
+        </ol>
+        <p style="margin-top:6px;">Users access it at <code>https://&lt;username&gt;.github.io/astrocalculator-web/</code>.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>What's Preserved from the CLI</h3>
+  <div class="options">
+    <div class="option" style="cursor:default;border:none;">
+      <div class="content">
+        <ul style="margin-left:16px;">
+          <li>Same expression syntax — implicit multiplication, <code>^</code> for exponentiation, <code>in &lt;unit&gt;</code></li>
+          <li>Same <code>AstroCalculator</code> Python class — identical calculation results</li>
+          <li>Variable assignments with comma/multi-line separation</li>
+          <li>SI + CGS result display</li>
+          <li>Access to all 28+ astropy constants</li>
+          <li>History (now via localStorage instead of disk)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>What's New</h3>
+  <div class="options">
+    <div class="option" style="cursor:default;border:none;">
+      <div class="content">
+        <ul style="margin-left:16px;">
+          <li>Searchable constants/units tables always visible in sidebar</li>
+          <li>Autocomplete of constants and units in the editor</li>
+          <li>Equation templates with one-click insertion</li>
+          <li>KaTeX-rendered equations</li>
+          <li>Multi-line text editing with proper cursor control</li>
+          <li>Keyboard shortcuts (Cmd+Enter, Cmd+K, Cmd+J)</li>
+          <li>Copy buttons on results</li>
+          <li>Accessible from any device (mobile/tablet via browser)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p style="margin-top: 16px;">Does the full design look right? Anything to adjust before I write the spec?</p>
