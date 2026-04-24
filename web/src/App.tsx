@@ -1,5 +1,5 @@
 // web/src/App.tsx
-import { useRef, useCallback } from 'react';
+import { useRef, useCallback, useEffect } from 'react';
 import { PyodideProvider } from './hooks/useCalculator';
 import Header from './components/Header';
 import StudioLayout from './components/StudioLayout';
@@ -18,6 +18,18 @@ function AppContent() {
   const searchBarRef = useRef<HTMLInputElement>(null);
   const editorRef = useRef<HTMLTextAreaElement>(null);
 
+  // Cmd+K → focus search bar
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        searchBarRef.current?.focus();
+      }
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, []);
+
   const handleConstantClick = useCallback((symbol: string) => {
     const ta = editorRef.current;
     if (ta) {
@@ -26,6 +38,8 @@ function AppContent() {
       ta.value = ta.value.slice(0, start) + symbol + ta.value.slice(end);
       ta.focus();
       ta.setSelectionRange(start + symbol.length, start + symbol.length);
+      // Trigger React re-render for ExpressionEditor
+      ta.dispatchEvent(new Event('input', { bubbles: true }));
     }
   }, []);
 
@@ -43,6 +57,7 @@ function AppContent() {
         ta.value = text;
       }
       ta.focus();
+      ta.dispatchEvent(new Event('input', { bubbles: true }));
     }
   }, []);
 
@@ -51,6 +66,7 @@ function AppContent() {
     if (ta) {
       ta.value = input;
       ta.focus();
+      ta.dispatchEvent(new Event('input', { bubbles: true }));
     }
   }, []);
 
