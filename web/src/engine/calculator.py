@@ -250,8 +250,12 @@ def get_calculator():
 
 def evaluate(expression):
     calc = get_calculator()
-    # Normalize multi-line input: newlines → commas (same as original CLI)
-    expression = expression.replace('\n', ', ')
+    # Normalize multi-line input: strip each line, drop empties, join with commas
+    # This matches the original CLI's parse_input behavior
+    lines = [line.strip().rstrip(',;') for line in expression.split('\n') if line.strip()]
+    if not lines:
+        return {"parsed": "", "si": "", "cgs": ""}
+    expression = ', '.join(lines)
     result = calc.calculate(expression)
     if result is None:
         return {"parsed": "", "si": "", "cgs": ""}
