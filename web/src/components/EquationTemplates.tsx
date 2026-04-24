@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import katex from 'katex';
+import 'katex/dist/katex.min.css';
 import type { Equation } from '../types';
 import equationsData from '../data/equations.json';
 
