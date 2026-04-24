@@ -63,7 +63,7 @@ export default function ExpressionEditor({ editorRef }: ExpressionEditorProps) {
           value={value}
           onChange={handleInput}
           onKeyDown={handleKeyDown}
-          placeholder={`Enter expressions...\ne.g. M = 1.4 M_sun\nR = 10 km\nsqrt(2 G M / R) in km/s`}
+          placeholder={`e.g.\nM = 1.4 M_sun, R = 10 km\nv = sqrt(2 G M / R)\nv in km/s`}
           spellCheck={false}
           style={{
             flex: 1,
