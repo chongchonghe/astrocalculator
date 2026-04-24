@@ -1,7 +1,7 @@
 /* web/src/index.css */
 :root {
   --sidebar-width: 380px;
-  --max-content-width: 720px;
+  --page-max-width: 1100px;
   --color-bg: #f8fafc;
   --color-surface: #ffffff;
   --color-border: #e2e8f0;

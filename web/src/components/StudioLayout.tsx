@@ -40,21 +40,13 @@ export default function StudioLayout({
       <main style={{
         flex: 1,
         display: 'flex',
-        justifyContent: 'center',
+        flexDirection: 'column',
         padding: 16,
+        gap: 12,
         minWidth: 0,
-        overflow: 'auto',
       }}>
-        <div style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 12,
-          width: '100%',
-          maxWidth: 'var(--max-content-width)',
-        }}>
         {editor}
         {results}
-        </div>
       </main>
     </div>
   );
