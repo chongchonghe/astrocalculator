@@ -67,7 +67,9 @@ export default function ExpressionEditor({ editorRef }: ExpressionEditorProps) {
   const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
       e.preventDefault();
-      window.dispatchEvent(new CustomEvent('evaluate', { detail: value }));
+      // Read from DOM in case state is stale from programmatic insertion
+      const text = editorRef.current?.value ?? value;
+      window.dispatchEvent(new CustomEvent('evaluate', { detail: text }));
       return;
     }
 
@@ -99,7 +101,8 @@ export default function ExpressionEditor({ editorRef }: ExpressionEditorProps) {
     return () => window.removeEventListener('keydown', handler);
   }, [editorRef]);
 
-  const lines = value.split('\n').length;
+  // Use DOM value for line count in case state is stale from programmatic insertion
+  const lines = (editorRef.current?.value || value).split('\n').length;
 
   return (
     <div style={{ position: 'relative', flex: 1, display: 'flex', flexDirection: 'column' }}>

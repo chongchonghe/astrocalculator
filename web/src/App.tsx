@@ -55,16 +55,25 @@ function AppContent() {
     return () => window.removeEventListener('evaluate', handler);
   }, []);
 
+  // React's synthetic event system doesn't fire onChange from plain dispatchEvent.
+  // Must use the native value setter to trigger React's controlled component update.
+  const setTextareaValue = (ta: HTMLTextAreaElement, value: string) => {
+    const nativeSetter = Object.getOwnPropertyDescriptor(
+      HTMLTextAreaElement.prototype, 'value'
+    )?.set;
+    nativeSetter?.call(ta, value);
+    ta.dispatchEvent(new Event('input', { bubbles: true }));
+  };
+
   const handleConstantClick = useCallback((symbol: string) => {
     const ta = editorRef.current;
     if (ta) {
       const start = ta.selectionStart;
       const end = ta.selectionEnd;
-      ta.value = ta.value.slice(0, start) + symbol + ta.value.slice(end);
+      const newValue = ta.value.slice(0, start) + symbol + ta.value.slice(end);
+      setTextareaValue(ta, newValue);
       ta.focus();
       ta.setSelectionRange(start + symbol.length, start + symbol.length);
-      // Trigger React re-render for ExpressionEditor
-      ta.dispatchEvent(new Event('input', { bubbles: true }));
     }
   }, []);
 
@@ -78,22 +87,17 @@ function AppContent() {
       // Split on newlines, trim each line, rejoin — handles inline \n with stray spaces
       const exprLines = expression.split('\n').map(l => l.trim()).join('\n');
       const text = assignments + '\n' + exprLines + '\n';
-      if (ta.value.trim()) {
-        ta.value = ta.value + '\n' + text;
-      } else {
-        ta.value = text;
-      }
+      const newValue = ta.value.trim() ? ta.value + '\n' + text : text;
+      setTextareaValue(ta, newValue);
       ta.focus();
-      ta.dispatchEvent(new Event('input', { bubbles: true }));
     }
   }, []);
 
   const handleHistoryClick = useCallback((input: string) => {
     const ta = editorRef.current;
     if (ta) {
-      ta.value = input;
+      setTextareaValue(ta, input);
       ta.focus();
-      ta.dispatchEvent(new Event('input', { bubbles: true }));
     }
   }, []);
 
