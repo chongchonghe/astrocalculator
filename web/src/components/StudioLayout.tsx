@@ -25,7 +25,7 @@ export default function StudioLayout({
   return (
     <div style={{
       display: 'flex',
-      height: 'calc(100% - 40px)',
+      height: '100%',
     }}>
       <Sidebar
         activeTab={activeTab}

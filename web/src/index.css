@@ -30,3 +30,8 @@ html, body, #root {
   color: var(--color-text);
   background: var(--color-bg);
 }
+
+#root {
+  display: flex;
+  flex-direction: column;
+}

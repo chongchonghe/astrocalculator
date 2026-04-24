@@ -5,6 +5,7 @@ import Header from './components/Header';
 import StudioLayout from './components/StudioLayout';
 import ExpressionEditor from './components/ExpressionEditor';
 import ResultDisplay from './components/ResultDisplay';
+import DebugPanel from './components/DebugPanel';
 
 export default function App() {
   return (
@@ -77,16 +78,19 @@ function AppContent() {
   return (
     <>
       <Header />
-      <StudioLayout
-        editor={<ExpressionEditor editorRef={editorRef} />}
-        results={<ResultDisplay />}
-        onConstantClick={handleConstantClick}
-        onEquationAdd={handleEquationAdd}
-        onHistoryClick={handleHistoryClick}
-        onSearchFocus={handleSearchFocus}
-        searchBarRef={searchBarRef}
-        editorRef={editorRef}
-      />
+      <div style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column' }}>
+        <StudioLayout
+          editor={<ExpressionEditor editorRef={editorRef} />}
+          results={<ResultDisplay />}
+          onConstantClick={handleConstantClick}
+          onEquationAdd={handleEquationAdd}
+          onHistoryClick={handleHistoryClick}
+          onSearchFocus={handleSearchFocus}
+          searchBarRef={searchBarRef}
+          editorRef={editorRef}
+        />
+      </div>
+      <DebugPanel />
     </>
   );
 }
