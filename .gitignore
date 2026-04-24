@@ -1,5 +1,4 @@
 artifacts/
-/web/src/data
 
 .venv/
 .agent/

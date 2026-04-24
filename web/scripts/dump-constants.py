@@ -18,11 +18,20 @@ out = []
 for name in con_list:
     try:
         c = getattr(constants, name)
+        # Use CGS values for display
+        try:
+            cgs = c.cgs
+            value = float(cgs.value)
+            unit = str(cgs.unit)
+        except Exception:
+            # Fall back to SI if CGS conversion fails (e.g. dimensionless)
+            value = float(c.value)
+            unit = str(c.unit)
         out.append({
             "symbol": name,
             "name": c.name,
-            "value": float(c.value),
-            "unit": str(c.unit),
+            "value": value,
+            "unit": unit,
             "uncertainty": float(c.uncertainty) if c.uncertainty else 0,
             "ref": c.reference if hasattr(c, 'reference') else "CODATA 2018"
         })

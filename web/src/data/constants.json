@@ -1,0 +1,290 @@
+[
+  {
+    "symbol": "G",
+    "name": "Gravitational constant",
+    "value": 6.674299999999999e-08,
+    "unit": "cm3 / (g s2)",
+    "uncertainty": 1.5e-15,
+    "ref": "CODATA 2018"
+  },
+  {
+    "symbol": "N_A",
+    "name": "Avogadro's number",
+    "value": 6.02214076e+23,
+    "unit": "1 / mol",
+    "uncertainty": 0,
+    "ref": "CODATA 2018"
+  },
+  {
+    "symbol": "R",
+    "name": "Gas constant",
+    "value": 83144626.1815324,
+    "unit": "erg / (K mol)",
+    "uncertainty": 0,
+    "ref": "CODATA 2018"
+  },
+  {
+    "symbol": "Ryd",
+    "name": "Rydberg constant",
+    "value": 109737.3156816,
+    "unit": "1 / cm",
+    "uncertainty": 2.1e-05,
+    "ref": "CODATA 2018"
+  },
+  {
+    "symbol": "a0",
+    "name": "Bohr radius",
+    "value": 5.2917721090299995e-09,
+    "unit": "cm",
+    "uncertainty": 8e-21,
+    "ref": "CODATA 2018"
+  },
+  {
+    "symbol": "alpha",
+    "name": "Fine-structure constant",
+    "value": 0.0072973525693,
+    "unit": "",
+    "uncertainty": 1.1e-12,
+    "ref": "CODATA 2018"
+  },
+  {
+    "symbol": "atm",
+    "name": "Standard atmosphere",
+    "value": 1013250.0,
+    "unit": "Ba",
+    "uncertainty": 0,
+    "ref": "CODATA 2018"
+  },
+  {
+    "symbol": "b_wien",
+    "name": "Wien wavelength displacement law constant",
+    "value": 0.28977719551851727,
+    "unit": "K cm",
+    "uncertainty": 0,
+    "ref": "CODATA 2018"
+  },
+  {
+    "symbol": "c",
+    "name": "Speed of light in vacuum",
+    "value": 29979245800.0,
+    "unit": "cm / s",
+    "uncertainty": 0,
+    "ref": "CODATA 2018"
+  },
+  {
+    "symbol": "g0",
+    "name": "Standard acceleration of gravity",
+    "value": 980.665,
+    "unit": "cm / s2",
+    "uncertainty": 0,
+    "ref": "CODATA 2018"
+  },
+  {
+    "symbol": "h",
+    "name": "Planck constant",
+    "value": 6.62607015e-27,
+    "unit": "erg s",
+    "uncertainty": 0,
+    "ref": "CODATA 2018"
+  },
+  {
+    "symbol": "hbar",
+    "name": "Reduced Planck constant",
+    "value": 1.0545718176461565e-27,
+    "unit": "erg s",
+    "uncertainty": 0,
+    "ref": "CODATA 2018"
+  },
+  {
+    "symbol": "k_B",
+    "name": "Boltzmann constant",
+    "value": 1.380649e-16,
+    "unit": "erg / K",
+    "uncertainty": 0,
+    "ref": "CODATA 2018"
+  },
+  {
+    "symbol": "m_e",
+    "name": "Electron mass",
+    "value": 9.1093837015e-28,
+    "unit": "g",
+    "uncertainty": 2.8e-40,
+    "ref": "CODATA 2018"
+  },
+  {
+    "symbol": "m_n",
+    "name": "Neutron mass",
+    "value": 1.67492749804e-24,
+    "unit": "g",
+    "uncertainty": 9.5e-37,
+    "ref": "CODATA 2018"
+  },
+  {
+    "symbol": "m_p",
+    "name": "Proton mass",
+    "value": 1.67262192369e-24,
+    "unit": "g",
+    "uncertainty": 5.1e-37,
+    "ref": "CODATA 2018"
+  },
+  {
+    "symbol": "e",
+    "name": "Electron charge",
+    "value": 1.602176634e-19,
+    "unit": "C",
+    "uncertainty": 0,
+    "ref": "CODATA 2018"
+  },
+  {
+    "symbol": "eps0",
+    "name": "Vacuum electric permittivity",
+    "value": 8.8541878128e-12,
+    "unit": "F / m",
+    "uncertainty": 1.3e-21,
+    "ref": "CODATA 2018"
+  },
+  {
+    "symbol": "mu0",
+    "name": "Vacuum magnetic permeability",
+    "value": 1.25663706212e-06,
+    "unit": "N / A2",
+    "uncertainty": 1.9e-16,
+    "ref": "CODATA 2018"
+  },
+  {
+    "symbol": "muB",
+    "name": "Bohr magneton",
+    "value": 9.2740100783e-24,
+    "unit": "J / T",
+    "uncertainty": 2.8e-33,
+    "ref": "CODATA 2018"
+  },
+  {
+    "symbol": "sigma_T",
+    "name": "Thomson scattering cross-section",
+    "value": 6.6524587321000005e-25,
+    "unit": "cm2",
+    "uncertainty": 6e-38,
+    "ref": "CODATA 2018"
+  },
+  {
+    "symbol": "sigma_sb",
+    "name": "Stefan-Boltzmann constant",
+    "value": 5.6703744191844314e-05,
+    "unit": "g / (s3 K4)",
+    "uncertainty": 0,
+    "ref": "CODATA 2018"
+  },
+  {
+    "symbol": "GM_earth",
+    "name": "Nominal Earth mass parameter",
+    "value": 3.9860039999999993e+20,
+    "unit": "cm3 / s2",
+    "uncertainty": 0,
+    "ref": "IAU 2015 Resolution B 3"
+  },
+  {
+    "symbol": "GM_jup",
+    "name": "Nominal Jupiter mass parameter",
+    "value": 1.2668652999999999e+23,
+    "unit": "cm3 / s2",
+    "uncertainty": 0,
+    "ref": "IAU 2015 Resolution B 3"
+  },
+  {
+    "symbol": "GM_sun",
+    "name": "Nominal solar mass parameter",
+    "value": 1.3271244e+26,
+    "unit": "cm3 / s2",
+    "uncertainty": 0,
+    "ref": "IAU 2015 Resolution B 3"
+  },
+  {
+    "symbol": "L_bol0",
+    "name": "Luminosity for absolute bolometric magnitude 0",
+    "value": 3.0128e+35,
+    "unit": "erg / s",
+    "uncertainty": 0,
+    "ref": "IAU 2015 Resolution B 2"
+  },
+  {
+    "symbol": "L_sun",
+    "name": "Nominal solar luminosity",
+    "value": 3.828e+33,
+    "unit": "erg / s",
+    "uncertainty": 0,
+    "ref": "IAU 2015 Resolution B 3"
+  },
+  {
+    "symbol": "M_earth",
+    "name": "Earth mass",
+    "value": 5.972167867791379e+27,
+    "unit": "g",
+    "uncertainty": 1.3422009501651213e+20,
+    "ref": "IAU 2015 Resolution B 3 + CODATA 2018"
+  },
+  {
+    "symbol": "M_jup",
+    "name": "Jupiter mass",
+    "value": 1.8981245973360504e+30,
+    "unit": "g",
+    "uncertainty": 4.26589589320839e+22,
+    "ref": "IAU 2015 Resolution B 3 + CODATA 2018"
+  },
+  {
+    "symbol": "M_sun",
+    "name": "Solar mass",
+    "value": 1.988409870698051e+33,
+    "unit": "g",
+    "uncertainty": 4.468805426856864e+25,
+    "ref": "IAU 2015 Resolution B 3 + CODATA 2018"
+  },
+  {
+    "symbol": "R_earth",
+    "name": "Nominal Earth equatorial radius",
+    "value": 637810000.0,
+    "unit": "cm",
+    "uncertainty": 0,
+    "ref": "IAU 2015 Resolution B 3"
+  },
+  {
+    "symbol": "R_jup",
+    "name": "Nominal Jupiter equatorial radius",
+    "value": 7149200000.0,
+    "unit": "cm",
+    "uncertainty": 0,
+    "ref": "IAU 2015 Resolution B 3"
+  },
+  {
+    "symbol": "R_sun",
+    "name": "Nominal solar radius",
+    "value": 69570000000.0,
+    "unit": "cm",
+    "uncertainty": 0,
+    "ref": "IAU 2015 Resolution B 3"
+  },
+  {
+    "symbol": "au",
+    "name": "Astronomical Unit",
+    "value": 14959787070000.0,
+    "unit": "cm",
+    "uncertainty": 0,
+    "ref": "IAU 2012 Resolution B2"
+  },
+  {
+    "symbol": "kpc",
+    "name": "Kiloparsec",
+    "value": 3.0856775814913673e+21,
+    "unit": "cm",
+    "uncertainty": 0,
+    "ref": "Derived from au + IAU 2015 Resolution B 2 note [4]"
+  },
+  {
+    "symbol": "pc",
+    "name": "Parsec",
+    "value": 3.0856775814913674e+18,
+    "unit": "cm",
+    "uncertainty": 0,
+    "ref": "Derived from au + IAU 2015 Resolution B 2 note [4]"
+  }
+]
