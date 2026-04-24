@@ -45,11 +45,11 @@ async function initPyodide() {
   log('Step 5/5: calculator.py loaded successfully');
 
   log('Creating evaluate wrapper...');
+  // evaluate() is in Pyodide globals after running calculator.py — not a module
   evaluateFn = pyodide.runPython('\n\
-from calculator import evaluate as _evaluate\n\
 def evaluate_wrapper(expr):\n\
     import json\n\
-    result = _evaluate(expr)\n\
+    result = evaluate(expr)\n\
     return json.dumps(result)\n\
 evaluate_wrapper\n\
   ');
