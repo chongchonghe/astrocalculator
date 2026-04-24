@@ -74,8 +74,8 @@ function AppContent() {
   ) => {
     const ta = editorRef.current;
     if (ta) {
-      const assignments = params.map(p => `${p.symbol} = ${p.default}`).join('\n');
-      const text = assignments + '\n' + expression;
+      const assignments = params.map(p => `${p.symbol} = ${p.default.trim()}`).join('\n');
+      const text = assignments + '\n' + expression.trim();
       if (ta.value.trim()) {
         ta.value = ta.value + '\n' + text;
       } else {
