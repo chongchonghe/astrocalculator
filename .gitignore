@@ -4,6 +4,7 @@ artifacts/
 .agent/
 .agents/
 .claude/
+.worktrees/
 
 .idea/
 build/
