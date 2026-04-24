@@ -54,6 +54,7 @@ export function PyodideProvider({ children }: { children: ReactNode }) {
         setLoading(false);
       } else if (type === 'result') {
         addLog('Result received');
+        setError(null);
         const resolve = pendingRef.current.get(id);
         if (resolve) {
           pendingRef.current.delete(id);
@@ -88,6 +89,7 @@ export function PyodideProvider({ children }: { children: ReactNode }) {
   const evaluate = useCallback((expression: string): Promise<CalculatorResult> => {
     return new Promise((resolve) => {
       addLog('Evaluating: ' + expression);
+      setError(null);
       const worker = workerRef.current;
       if (!worker || !ready) {
         addLog('Evaluation skipped: engine not ready');
