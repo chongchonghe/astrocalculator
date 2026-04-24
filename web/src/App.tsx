@@ -75,7 +75,9 @@ function AppContent() {
     const ta = editorRef.current;
     if (ta) {
       const assignments = params.map(p => `${p.symbol} = ${p.default.trim()}`).join('\n');
-      const text = assignments + '\n' + expression.trim();
+      // Split on newlines, trim each line, rejoin — handles inline \n with stray spaces
+      const exprLines = expression.split('\n').map(l => l.trim()).join('\n');
+      const text = assignments + '\n' + exprLines + '\n';
       if (ta.value.trim()) {
         ta.value = ta.value + '\n' + text;
       } else {
