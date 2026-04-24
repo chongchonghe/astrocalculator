@@ -1,8 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import type { HistoryEntry } from '../types';
 
-const HISTORY_KEY = 'astrocalculator-history';
-const MAX_HISTORY = 100;
+export const HISTORY_KEY = 'astrocalculator-history';
+export const MAX_HISTORY = 100;
 
 interface HistoryPanelProps {
   onClick: (input: string) => void;
@@ -11,37 +11,16 @@ interface HistoryPanelProps {
 export default function HistoryPanel({ onClick }: HistoryPanelProps) {
   const [entries, setEntries] = useState<HistoryEntry[]>([]);
 
-  // Load history from localStorage on mount
+  // Load history from localStorage on mount and whenever tab becomes visible
   useEffect(() => {
     try {
       const raw = localStorage.getItem(HISTORY_KEY);
       if (raw) {
         setEntries(JSON.parse(raw));
+      } else {
+        setEntries([]);
       }
     } catch {}
-  }, []);
-
-  // Listen for evaluations and add to history
-  useEffect(() => {
-    const handler = (e: Event) => {
-      const input = (e as CustomEvent).detail as string;
-      if (!input.trim()) return;
-      setEntries(prev => {
-        const newEntry: HistoryEntry = {
-          id: Date.now(),
-          input,
-          result: { parsed: '', si: '', cgs: '' },
-          timestamp: Date.now(),
-        };
-        const updated = [newEntry, ...prev].slice(0, MAX_HISTORY);
-        try {
-          localStorage.setItem(HISTORY_KEY, JSON.stringify(updated));
-        } catch {}
-        return updated;
-      });
-    };
-    window.addEventListener('evaluate', handler);
-    return () => window.removeEventListener('evaluate', handler);
   }, []);
 
   const clearHistory = useCallback(() => {

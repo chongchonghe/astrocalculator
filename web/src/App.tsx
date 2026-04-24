@@ -6,6 +6,8 @@ import StudioLayout from './components/StudioLayout';
 import ExpressionEditor from './components/ExpressionEditor';
 import ResultDisplay from './components/ResultDisplay';
 import DebugPanel from './components/DebugPanel';
+import { HISTORY_KEY, MAX_HISTORY } from './components/HistoryPanel';
+import type { HistoryEntry } from './types';
 
 export default function App() {
   return (
@@ -29,6 +31,28 @@ function AppContent() {
     };
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
+  }, []);
+
+  // Record evaluation history (always mounted, not just when History tab is open)
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const input = (e as CustomEvent).detail as string;
+      if (!input.trim()) return;
+      try {
+        const raw = localStorage.getItem(HISTORY_KEY);
+        const entries: HistoryEntry[] = raw ? JSON.parse(raw) : [];
+        const newEntry: HistoryEntry = {
+          id: Date.now(),
+          input,
+          result: { parsed: '', si: '', cgs: '' },
+          timestamp: Date.now(),
+        };
+        const updated = [newEntry, ...entries].slice(0, MAX_HISTORY);
+        localStorage.setItem(HISTORY_KEY, JSON.stringify(updated));
+      } catch {}
+    };
+    window.addEventListener('evaluate', handler);
+    return () => window.removeEventListener('evaluate', handler);
   }, []);
 
   const handleConstantClick = useCallback((symbol: string) => {
