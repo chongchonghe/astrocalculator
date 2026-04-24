@@ -17,10 +17,9 @@ from sympy.parsing.sympy_parser import (
     parse_expr,
     standard_transformations,
     implicit_multiplication,
-    convert_xor,
 )
 
-transformations = (convert_xor,) + standard_transformations + (implicit_multiplication,)
+transformations = standard_transformations + (implicit_multiplication,)
 
 
 def simple_eval(expr, namespace):
@@ -42,8 +41,9 @@ def simple_eval(expr, namespace):
     except:
         pass
 
-    # Fall back to sympy
-    inp_expr = parse_expr(expr, transformations=transformations, evaluate=False)
+    # Fall back to sympy — preprocess ^ to ** since convert_xor was removed in sympy 1.13+
+    sympy_expr = expr.replace('^', '**')
+    inp_expr = parse_expr(sympy_expr, transformations=transformations, evaluate=False)
     inp_expr_str = str(inp_expr)
     result = eval(inp_expr_str, globals(), namespace)
     return inp_expr_str, result
