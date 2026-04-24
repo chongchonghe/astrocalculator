@@ -8,11 +8,11 @@ params:
     description: Mass of the object
 expressions:
   - name: "Schwarzschild radius"
-    expression: "2 G M / c^2 in km"
+    expression: "R = 2 G M / c^2,\n R in km"
     latex: "r_s = \\frac{2GM}{c^2}"
   - name: "Schwarzschild density"
-    expression: "3 c^6 / (32 pi G^3 M^2)"
-    latex: "\\rho_s = \\frac{3c^6}{32\\pi G^3 M^2}, \\rho_s = \\frac{3c^6}{32\\pi G^3 M^2}, \\rho_s = \\frac{3c^6}{32\\pi G^3 M^2}, \\rho_s = \\frac{3c^6}{32\\pi G^3 M^2}, \\rho_s = \\frac{3c^6}{32\\pi G^3 M^2}"
+    expression: "den = 3 c^6 / (32 pi G^3 M^2)"
+    latex: "\\rho_s = \\frac{3c^6}{32\\pi G^3 M^2}"
     description: "Average density within the event horizon"
 ---
 

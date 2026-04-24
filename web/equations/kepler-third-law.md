@@ -11,10 +11,10 @@ params:
     description: Semi-major axis
 expressions:
   - name: "Orbital period"
-    expression: "P = sqrt(4 pi^2 a^3 / (G M)), P in yr"
+    expression: "P = sqrt(4 pi^2 a^3 / (G M))\n P in yr"
     latex: "P = \\sqrt{\\frac{4\\pi^2 a^3}{GM}}"
   - name: "Orbital separation from period"
-    expression: "P = sqrt(4 pi^2 a^3 / (G M)),\n d = (G M P^2 / (4 pi^2))^(1/3), d in au"
+    expression: "P = sqrt(4 pi^2 a^3 / (G M))\n d = (G M P^2 / (4 pi^2))^(1/3)\n d in au"
     latex: "a = \\left(\\frac{GMP^2}{4\\pi^2}\\right)^{1/3}"
     description: "Given period P, compute semi-major axis"
 ---

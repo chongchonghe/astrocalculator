@@ -11,7 +11,7 @@ params:
     description: Radius
 expressions:
   - name: "Escape velocity"
-    expression: "sqrt(2 G M / R) in km/s"
+    expression: "v = sqrt(2 G M / R)\n v in km/s"
     latex: "v_{\\rm esc} = \\sqrt{\\frac{2GM}{R}}"
   - name: "Circular velocity"
     expression: "sqrt(G M / R) in km/s"

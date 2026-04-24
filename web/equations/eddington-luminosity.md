@@ -8,10 +8,10 @@ params:
     description: Mass of the accreting object
 expressions:
   - name: "Eddington luminosity"
-    expression: "4 pi G M c m_p / sigma_T in erg/s"
+    expression: "Ledd = 4 pi G M c m_p / sigma_T, \n Ledd in erg/s"
     latex: "L_{\\rm Edd} = \\frac{4\\pi G M c m_p}{\\sigma_T}"
   - name: "Eddington accretion rate"
-    expression: "4 pi G M m_p / (0.1 sigma_T c)"
+    expression: "Aedd = 4 pi G M m_p / (0.1 sigma_T c)"
     latex: "\\dot{M}_{\\rm Edd} = \\frac{4\\pi G M m_p}{0.1\\sigma_T c}"
     description: "Assuming 10% radiative efficiency"
 ---
