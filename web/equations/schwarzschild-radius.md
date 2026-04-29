@@ -1,10 +1,10 @@
 ---
 title: Schwarzschild Radius
 category: General Relativity
-tags: [black hole, gravity, radius]
+tags: [GR, general relativity, black hole, radius]
 params:
   - symbol: M
-    default: "1 M_sun"
+    default: "1.4 M_sun"
     description: Mass of the object
 expressions:
   - name: "Schwarzschild radius"

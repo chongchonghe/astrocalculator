@@ -1,7 +1,7 @@
 ---
 title: Kepler's Third Law
-category: Orbital Mechanics
-tags: [orbit, period, binary]
+category: Mechanics
+tags: [period, binary]
 params:
   - symbol: M
     default: "1 M_sun"

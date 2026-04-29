@@ -1,0 +1,949 @@
+
+\chapter{Stars}
+\minitoc
+
+\setlength\parindent{15pt}  
+
+\section{The Properties of Stars}
+
+\subsection{Stellar Spectra Classification}
+\subsubsection{The Hertzsprung-Russell Diagram}
+Absolute magnitude plotted as a function of spectral type (or temperature, increasing to the left).
+
+\subsubsection{Stellar spectrum types}
+
+\source{Sparke2007 p.g. 23 and Mathmatica: blackbody.nb}
+
+The Harvard classification scheme of "O B A F G K M" (Oh Be A Fine Girl/Guy, Kiss Me) is a temperature sequence, running from the hottest blue O stars to the coolest red M stars. Stars nearer the beginning of this sequence are referred to as early-type star, and those closer to the end are called late-type stars. Subdivisions like a K0 star is referred as "early K star".
+
+A table of properties of stars of various spectral type (more detailed table \href{https://sites.uni.edu/morgans/astro/course/Notes/section2/spectralmasses.html}{here}, or \href{file:///Users/chongchonghe/Academics/online-documents/20220809-09:52:21-Spectral Types.html}{local})
+
+\begin{center}
+  \begin{tabular}{lrlr}
+	& \(T_{\rm eff}\) & \(L_{\rm LyC}\) & \(L_{\rm PD}/L_{\rm LyC}\)\\
+	\hline
+	O3 & 44500 &  & 0.425292\\
+	O5 & 41000 &  & \\
+	O8 & 35000 &  & 0.649449\\
+	B0 & 30500 &  & 0.833039\\
+	B3 & 18750 &  & 2.14857\\
+	B6 & 14000 &  & 4.14736\\
+	B8 & 11600 &  & 6.71968\\
+	A0 & 9400 &  & \\
+  \end{tabular}
+\end{center}
+
+\subsection{Morgan-Keenan Luminosity Classes}
+\begin{table}[htbp]
+  \caption{\label{tab:org34fce0d}Morgan-Keenan Luminosity Classes}
+  \centering
+  \begin{tabular}{ll}
+	Class & Type of Star\\
+	\hline
+	Ia-O & Extreme, luminous supergiants\\
+	Ia & Luminous supergiants\\
+	Ib & Less luminous supergiants\\
+	II & Bright giants\\
+	III & Normal giants\\
+	IV & Subgiants\\
+	V & Main-sequence (dwarf) stars\\
+	VI, sd & Subdwarfs\\
+	D & White dwarfs\\
+  \end{tabular}
+\end{table}
+
+There are differences in the spectra of giant and main-sequence stars of the same spectral type. A luminosity class, designated by a Roman numeral, is appended to a star's Harvard spectral type. Table \ref{tab:org34fce0d} lists the luminosity classes.
+
+\subsection{Wolf-Rayet stars}
+\label{sec:org05c821b}
+\begin{quote}
+  Maeder2009, Sec 27.5
+\end{quote}
+
+WR stars are stars with unusual spectra showing prominent broad emission lines of ionized helium and highly ionized nitrogen or carbon. The spectra indicate very high surface enhancement of heavy elements, depletion of hydrogen, and strong stellar winds. They are "bare cores" left over from the peeling of massive stars by stellar winds.
+
+Properties:
+
+\begin{itemize}
+\item Masses: 8-25 Msun (up to 80 Msun)
+\item Luminosities: 10\^{}5-6.5 Lsun
+\item Eddington factor: \textasciitilde{}0.7 to \textasciitilde{}1.0
+\item Teff: 3e4 to 1.5e5 K.
+\item \(\dot{M}\): \textasciitilde{}5e-6 to 1e-4 Msun/yr
+\item Lifetime: \textasciitilde{}5e5 yr
+\end{itemize}
+
+\subsection{Energy production in stars}
+\label{sec:org8d5036a}
+The net reaction from which most stars gain their energy is: \(\rm 4{}^1H\rightarrow{}^4He+2e^++2\nu_{\rm e}+\gamma\). This reaction produces 26.72 MeV. Two reaction chains are responsible for this reaction. The slowest, speed-limiting reaction is shown in boldface. The energy between brackets is the energy carried away by the neutrino.
+
+\begin{enumerate}
+\item The proton-proton chain has two subchains: \(\bf ^1H+p^+\rightarrow{}^2D+e^++\nu_{\bf e}\),  and then \(\rm ^2D+p\rightarrow{}^3He+\gamma\).
+
+\item The CNO cycle. \href{https://astronomy.swin.edu.au/cosmos/c/cno+cycle\#:\~:text=The\%20'CNO\%20cycle'\%20refers\%20to,ray\%2C\%20producing\%20nitrogen\%2D13.}{CNO cycle from COSMOS}. TODO: Check Ivan's slides. Finish 'The CNO cycle': connection to GC multiple population, excess and undercess of \ldots{} elements.
+\end{enumerate}
+
+
+% \section{Star Formation}
+% \label{sec:org81a3c41}
+
+\section{Star Formation: Observations}
+\label{sec:SF:O}
+
+\subsection{Tracers}
+
+\emph{Molecular Tracers}.
+\begin{itemize}
+\item \textbf{The problem with H\(_2\)}: The low mass of the hydrogen atom makes the exitation energy very high. This is because the level spacing of a quantum oscillator veries with reduced mass as \(m^{-1/2}\). In addition, H2 is homonuclear molecule, so the first level of rotational transition is forbidden, and the second level is 510 K above the ground state.
+\item Techniques:
+  \begin{itemize}
+  \item 
+  \end{itemize}
+\item Telescopes: \textbf{Herschel} Space Observatory,
+\end{itemize}
+
+\emph{Infrared luminosity as a star formation rate tracer.} Underlying assumptions: most of the radiant output in the galaxy comes form young, recently formed stars, and (2) in a dusty galaxy most of the starlight will be absorbed by dust grains within the galaxy and then re-radiated in the infrared. This can be explored using the popular \textbf{stellar population synthesis} (SPS) package \textbf{Starburst99}.
+
+
+\subsection{Prestellar cores}
+
+\emph{Magnetic fields}. Recent BISTRO surveys \citep{Eswaraiah2021} reveals magnetic field configurations around prestellar cores at high spatial resolution (2000 au). The strength in 12 uG in prestellar cores and $\sim$ 40 uG in protostellar cores. 
+
+\section{Star Formation: Theories}
+\label{sec:SF:T}
+
+TODO: add better Jeans mass, BE mass?
+
+\subsection{Intro}
+\label{sec:orge6e6244}
+Dense molecular clouds have most of the total mass of the interstellar
+gas and have key importance for star formation. CO is the major tracor
+of molecular gas.
+
+\subsection{Time Scales}
+\label{sec:orgdbd3a0c}
+\begin{enumerate}
+\item Free fall time
+\label{sec:org612770d}
+$$
+t_{{\rm ff}}=\left(\frac{3\pi}{32G\rho_{0}}\right)^{1/2} \approx 43.5
+\; n_0^{-1/2} \, {\rm Myr} \approx 1.38 \; n_3^{-1/2} \, {\rm Myr}
+$$
+where \(n\) is hydrogen number density, assuming a mean molecular weight \(\mu = 1.4\). (\href{file:///Users/chongchonghe/Dropbox/Notability-more/science/Free-fall time.pdf}{Derivation}.)
+
+\item Alfven crossing time
+\label{sec:org23d9859}
+The Alfven velocity is given by \(v_{{\rm A}}=B_{0}/\sqrt{4\pi\rho_{0}}\) (in cgs). So, \(t_{{\rm act}}=L/v_{{\rm A}}=L\sqrt{4\pi\rho_{0}}/B_{0}\).
+
+In the simulations, and , therefore \(v_A / \sigma\) = 0.2, where \(\sigma\) is the turbulence velocity dispersion.
+
+\item Velocity dispersion
+\label{sec:orgfc88e0b}
+\begin{align}
+v_{\rm vir} &= \sqrt{\frac{GM}{R}} = 6.6~{\rm km/s} \; \sqrt{\frac{M_4}{R_{\rm pc}}} \\
+R &= \frac{GM}{v^{2}} = 0.43~{\rm pc} \; \left( \frac{M}{10^{4} \msun} \right) \left( \frac{v}{10~{\rm km/s}} \right)^{-2}
+\end{align}
+
+\item Thermal timescale (Kelvin-Helmholz)
+\label{sec:org8b1e0c7}
+
+The Kelvin-Helmholz timescale is the time it would take a star to emit its entire reserve of thermal energy upon contracting, assuming a constant luminosity. It is the relevant timescale throughout the protostellar stages.
+$$
+\tau_{\rm th} \approx \frac{GM^2}{RL} \approx 30~{\rm Myr} \left( \frac{M}{M_{\odot}} \right)^2 \left( \frac{R_{\odot}}{R} \right) \left( \frac{L_{\odot}}{L} \right) \sim 30~{\rm Myr} \ \left( \frac{M}{M_{\odot}} \right)^{-2.4}
+$$
+An important fact is that in only 1/10 of the KH time, the star shrinks to 10 times of the MS radius, and 1/2 of the KH time to 2 times the MS radius. -- CCH
+\end{enumerate}
+
+\subsection{Turbulence}
+\label{sec:sf:turbulence}
+
+Kolmogorov power spectrum: $E(k) \propto k^{-5/3}$,  is a pretty good fit for many turbulent flows on scales between the correlation length from source range to viscous dissipative range. 
+
+\subsection{Instability}
+\label{sec:orgbde3f05}
+
+\begin{enumerate}
+\item Jeans Instability
+\label{sec:org674bcd0}
+\label{org21524df}
+
+We define the \textbf{Jeans length}
+$$\lambda_{\rm J} \equiv c_{\rm s} \sqrt{\frac{\pi}{G \bar\rho}} = 5.00\,{\rm pc} \; \mu^{-1} T_1^{1/2} n_2^{-1/2} = 172\,{\rm pc} \; \left ( \frac{c_{s}}{1\,\si{km/s}} \right ) \left( \frac{n}{1\,\si{cm^{-3}}} \right)^{-1/2}  $$
+
+and the Jeans mass \footnote{\cite{Mo2010}, Eq. (9.3)}
+\begin{align}
+  \label{}
+M_{\rm J} &\equiv \frac{4\pi}{3} \left( \frac{\lambda_{\rm J}}{2}\right)^3 \bar\rho
+  = \frac{\pi^{5/2}}{6} \frac{c_{\rm s}^3}{(G^3 \bar\rho)^{1/2}} \\
+  &= 52.6~\msun \; \left( \frac{c_s}{0.2~\si{km~s^{-1}}} \right)^3 \left( \mu~n_2 \right)^{-1/2}\\
+  &= 160~\msun \, \mu^{-2} T_1^{3/2} n_2^{-1/2}\\
+  &= 82~\msun \, T_1^{3/2} n_2^{-1/2} (\mu = 1.4),
+\end{align}
+where \(n\) is the \emph{particle number density} and \(\mu\) is the \emph{mean particle weight}.
+
+The \textbf{Bonnor-Ebert mass} is an equivalent to the Jeans mass in an isothermal sphere in pressure equilibrium with its surrounding, which may be a more appropriate description for molecular clumps and cores. \footnote{\cite{Mo2010}, Eq. (9.5)}
+$$\label{eq:MBE}
+  M_{\rm BE} = 1.182 \frac{c_s^3}{(G^3 \rho)^{1/2}} = 0.41 M_{\rm J}$$
+Krumholz's notes ("STAR FORMATION IN MOLECULAR CLOUDS", Problem Set 2) \footnote{\href{https://ned.ipac.caltech.edu/level5/Sept10/Krumholz/Krumholz\_contents.html}{Link}.
+Notability, SF-Notes, 'Krumholz, Star Formation'.}
+
+has very nice and detailed derivation of the Bonnor-Ebert mass. The idea is that, given a surface pressure \(P_s\) and sound speed \(c_s\) there exists a maximum mass at which the cloud can be in hydrostatic equilibrium, i.e. \(M_{\rm BE}\). This mass is calculated by solving the isothermal \textbf{Lane-Emden} equation and find that the total mass achieves maximum when \(\rho_c / \rho_s \approx 14.0\).
+
+\item Toomre Instability
+\label{sec:orgefcc514}
+
+The Toomre \(Q\) parameter for a disk with Keplerian/flat rotation curve is
+
+\begin{align*}
+Q&=\;\cfrac{\Omega c_s}{\pi G \Sigma} ,  \;\; &&{\rm Keplerian}\\
+  &=\;\cfrac{\sqrt{2} \Omega c_s}{\pi G \Sigma},\;\; &&{\rm flat} \\
+  &=\;\cfrac{2 \Omega c_s}{\pi G \Sigma},\;\; &&{\rm rigid}
+\end{align*}
+
+assuming the non-thermal velocity dispersion in the disk is subsonic. The disk is unstable when \(Q < 1\). More generally, for a differentially rotating disk, \(k \Omega\) (\(k\) is the constant in front) should be replaced with the epicyclic frequence \(\kappa\).
+
+$$
+\kappa^2 = \frac{2\Omega}{R} \frac{d}{dR}(R^2 \Omega) =
+4 \Omega^2 + 2 \Omega^2 \frac{d \ln \Omega}{d \ln R}
+$$
+
+TODO: add physical insight
+\end{enumerate}
+
+\subsection{Dynamics}
+\label{sec:org97cc184}
+
+\begin{enumerate}
+\item Virial velocity/escape velocity
+\label{sec:orgbe657d6}
+$$\label{eq:vvir}
+  v_{\rm vir} = \sqrt{\frac{GM}{R}} = 6.6~\si{km.s^{-1}} \; \left(\frac{M}{10^4 \msun}\right)^{1/2} \left(\frac{R}{{\rm pc}}\right)^{-1/2} = 30~\si{km.s^{-1}} \; \left(\frac{M}{\msun}\right)^{1/2} \left(\frac{R}{{\rm AU}}\right)^{-1/2}$$
+  % \sqrt{\frac{M/10^4 M_\odot}{R/1\,{\rm pc}}}$$
+  Our earth has a mean orbital velocity of 29 km/s.
+\end{enumerate}
+
+\subsection{IMF}
+\label{sec:orgfb53a2b}
+\begin{enumerate}
+\item Salpeter IMF
+\label{sec:org56dfa66}
+$$\phi_{\rm Salpeter}(m) \propto m^{-2.35},$$ with the normalization
+factor \(A = 1 / 22.4113\).
+
+In log scale, the IMF curve is represented by
+$$\Phi_{\rm Salpeter}(m) := \frac{dN}{d\log m} = \ln 10 \;m \frac{\dif N}{\dif m}$$
+and Salpeter IMF becomes
+$$\log \Phi_{\rm Salpeter}(m) = -1.35 \log m + \log (A\ln10).$$
+
+\item Kroupa IMF
+\label{sec:orgb7b9648}
+The general form of a two-piece IMF could be written as
+$$% \phi_{\rm Kroupa}(m) \propto
+\phi(m) \propto
+\begin{cases}
+m^{-\alpha_1} \; &(m < m_1) \\
+k \, m^{-\alpha_2} \; &(m > m_1)
+\end{cases}$$ The two-piece Kroupa single-star IMF has a lower cutoff at
+\(0.08
+M_\odot\) and \(\alpha_1 = 1.3\), \(\alpha_2 = 2.3\), \(k = 0.5\),
+\(m_1 = 0.5M_{\odot}\) (Kroupa 2002, see also \cite{Maschberger:2013}.)
+
+To ramdom sample Kroupa IMF, we find the Cumulative Distribution
+Function (CDF): $$\begin{aligned}
+\label{eq:2}
+  {\rm CDF}(m) \equiv & \int_a^m \phi(m) \dif m \\
+  =&
+\begin{cases}
+  \cfrac{b^{\beta_{1}} - a^{\beta_1}}{\beta_1} \; &(a < m < m_1) \\
+  k \cfrac{b^{\beta_{2}} - a^{\beta_2}}{\beta_2} \; &(m_1 < a < m) \\
+  \cfrac{m_1^{\beta_{1}} - a^{\beta_1}}{\beta_1} +
+  k \cfrac{b^{\beta_{2}} - m_1^{\beta_2}}{\beta_2} \; &(a < m_1 < m).
+\end{cases}\end{aligned}$$ where \(\beta_1 = 1 - \alpha_1\). With a random
+number from 0 to 1, by solving \({\rm CDF}(m) / {\rm
+  CDF}(b) = x\) for \(m\), one gets a randomly generated mass from the
+above distribution function.
+
+In log scale, the Kroupa IMF becomes $$\frac{dN}{d\log{m}} =
+  \begin{cases}
+    A \cdot \log 10 \, x^{-0.3} & (0.08M_\odot < m < 0.5M_\odot)\\
+    A \cdot 0.5 \log 10 \, x^{-1.3} & (0.5M_\odot < m < 100M_\odot)
+  \end{cases}$$
+\end{enumerate}
+
+\subsection{Virial Theorem}
+\label{sec:org44a1ded}
+
+Virial theorem when there is no gas crossing the cloud surce and if the magnetic field at the surface to be a uniform value \(B_0\),
+$$
+\frac{1}{2} \ddot I = 2({\cal T} - {\cal T_S}) + {\cal B} + {\cal W},
+$$
+with
+$$
+B = \frac{1}{8\pi} \int_V (B^2 - B_0^2) dV.
+$$
+
+The virial theorem with B field, \({\cal W} + {\cal B} = 0\), is equivalent to the solution to hydrostatic equilibrium. See my derivation \href{file:///Users/chongchonghe/Dropbox/Notability2/Container/Virial theorem with B field.pdf}{here}.
+
+\subsection{Pop III star formation}
+\label{sec:org0b2d3c0}
+Lyman--Werner radiation: a strong molecule-destroying Lyman--Werner
+(LW) background inhibits effective cooling in low-mass haloes,
+delaying star formation until the collapse or more massive
+haloes. Only when molecular hydrogen (H2) can self-shield from LW
+radiation, which requires a halo capable of cooling by atomic line
+emission, will star formation be possible.
+
+X-ray, makes cooling faster.
+
+\subsection{Magnetic fields}
+\label{sec:org9de5245}
+
+\subsubsection{Magnetic critical mass}
+
+Back-of-the-envolope estimation of the magnetic critical mass: set the magnetic energy \((B^2/8\pi) (4\pi/3 R^3)\) equal to the gravitational energy, \(| -3GM^2/5R |\) and solve for \(M\).
+\begin{equation}
+M_\Phi \equiv \sqrt{\frac{5}{2}} \, \frac{\Phi_B}{3 \pi G^{1/2}}
+\end{equation}
+where \(\Phi_B = \pi R^2 B\) is the magnetic flux and is constant while the cloud contracts (due to flux-freezing).
+For a disk, 3/5 is replaced with 2/3.
+
+(Crutcher 1999)
+\begin{itemize}
+\item If the magnetic field is unimportant throughout the collapse of a spherical cloud, the conservation of magnetic flux implies \(B \propto R^{-2}\), while conservation of mass implies \(\rho \propto R^{-3}\). Therefore, \(B \propto \rho^{2/3}\).
+\item If the magnetic field is important, clouds must form primarily by flows along field lines, and the clouds will be flattend. Magnetic flux freezing implies \(\pi R^2 z \rho / \pi R^2 B = \rho z / B =\) constant, together with Spiter's assumption (Spitzer 1942) that self-garvity is balance only by internal thermal pressure along the symmetry axis, \(2\pi G \rho z^2 \approx c_s^2\), this yields \(B \propto (\rho T)^{1/2}\).
+\end{itemize}
+
+TODO: add 2D phase plot of B-rho from He2021
+
+\subsubsection{Magnetic braking time}
+The magnetic braking time is the time it takes for the magnetic braking to stop the rotation of the disk, or \(L/(dL/dt)\), where \(L \sim \rho v_\phi R\) and the torque is approximately \(F R / V\) which has the dimension of pressure, so \(dL/dt \sim B^2\). Therefore, \(t_{br} \approx \rho v_\phi R / B^2\).
+
+\subsubsection{Ambipolar Diffusion}
+
+{\it Ambipolar time.} Consider a  cloud in virial equilibrium, \(B^2/4\pi \approx M \rho G / R\). The ratio of the ambipolar time and the freefall time is estimated to Be
+\[
+    \frac{t_{\rm ad}}{t_{\rm ff}} \propto \frac{\gamma_{\rm ad}C}{\sqrt{G}} \approx 10  
+\]
+where we have assumed \(\rho = C\sqrt{\rho_i}\) in ionization equilibrium. The exact value depends on the geometrical coefficients (plugging into typical values gets 40). 
+(\citealt{Hennebelle2019}, Eq. 35.)
+
+Some gas is being accreted along the field lines, therefore reducing local mass-to-flux ratio. 
+
+\subsubsection{Eddington luminosity and Eddington accretion rate}
+\label{sec:eddington}
+
+\source{wikipedia, \href{run:/Users/chongchonghe/Academics/linked-files/20230317-T160431-notes5.pdf}{notes5.pdf}}
+
+The Eddington luminosity, also referred to as the Eddington limit, is the maximum luminosity a body (such as a star) can achieve when there is balance between the force of radiation acting outward and the gravitational force acting inward. The limit is obtained by setting the outward radiation pressure equal to the inward gravitational force.
+
+\begin{equation}
+  \label{eq:eddington}
+  L_{\rm Edd} = \frac{4 \pi G M m_p c}{\sigma_T} = \num{3.2e4} \ \left( \frac{M}{\msun{}} \right) L_\odot 
+\end{equation}
+
+The Eddington accretion rate is the accretion rate for which the black hole radiates at the Eddington luminosity
+\begin{equation}
+  \label{eq:eddacc}
+  \dot{M}_{\rm Edd} = \frac{L_{\rm Edd}}{\epsilon c^2} = \frac{4 \pi G M m_p}{\epsilon c \sigma_T} = \num{2.2e-8} \ \msun{}/{\rm yr} \left( \frac{M}{\msun{}} \right),
+\end{equation}
+assuming $\epsilon = 0.1$.
+
+How to measure luminosity of an AGN? One way is to measure the H$\beta{}$ line luminosity and convert it to H$\alpha$ luminosity (assuming a H$\alpha$/H$\beta$ ratio of 3.06, Dong et al. 2008) and bolometric correction of $L_{\rm Bol} = 130 L_{{\rm H}\alpha}$ (Richards et al. 2006; Stern \& Laor 2012). 
+
+
+\section{Star Formation: Simulation Works}
+\label{sec:sf-sim}
+
+Matthew Bate: Hydrodynamical Simulations (2001-2009). A MC collapsed to produce a star cluster containing more than 1250 stars and brown dwarfs (Bate 2009a). Research and animation page: \href{https://www.astro.ex.ac.uk/people/mbate/Cluster/index.html}{Large Star Cluster Formation in 3D}. 
+
+\emph{Turbulence}. \href{https://www.astro.ex.ac.uk/people/mbate/Cluster/cluster4.html}{Bate2009} found that the power spectrum index does not affect the IMF of the stars. 
+
+\subsection{Stellar Feedbacks}
+\label{sec:org48d2776}
+\subsubsection{Protostellar outflows}
+\label{sec:orgbb0c9b8}
+Due to low velocity of the protostellar outflow, they are not able to escape the larger-scale protocluster. For this reason, it is suggested that outflows have a limited role in setting final star-formation efficiencies.
+
+\subsubsection{Stellar Wind}
+\label{sec:org51888a4}
+\begin{quote}
+References: \cite{Choudhuri2010}, Sec. 4.6. \cite{Carroll2007}, Pg. 347.
+\end{quote}
+
+Due to high temperature in the corona of a star, the pressure in the out layers of a star is much higher than the pressure of interstellar medium, causing the star to lose mass in the form of stellar wind. Actually, assuming hydrostatic equilibrium, the asymptotic value of pressure at infinity is much larger than the typical value of the pressure of the interstellar medium. Because of this, Parker (1958) suggested that the solar atmosphere is not in hydrostatic equilibrium but is hydrodynamic and the outer parts of the corona must be expanding in the form of solar wind. Note that solar wind is \textbf{thermal} driven. Very massive stars could have radiatively driven wind as well. Red giants often have much stronger winds due to its weak gravity at the surface.
+
+\begin{quote}
+References: \cite{Krumholz2019}, Pg. 261.
+\end{quote}
+
+Stellar wind
+\begin{itemize}
+\item Stellar winds are fast moving flows of material (protons, electrons and atoms of heavier metals) that are ejected from stars. These winds are characterised by a continuous outflow of material moving at speeds anywhere between 20 and 2,000 km/s.
+\item Hot, massive stars can produce very strong stellar winds. Over their short lifetimes, they can eject many solar masses (perhaps up to 50\% of their initial mass) of material in the form of 2,000 km/sec winds. These stellar winds are driven directly by the radiation pressure from photons escaping the star.
+\end{itemize}
+
+
+\subsubsection{Feedback-regulated Star Formation}
+\label{sec:orge5a3e4b}
+Types of stellar feedback includes:
+
+\begin{enumerate}
+\item \emph{Supernovae and main sequence stellar winds}
+\end{enumerate}
+
+\section{Stellar structure}
+
+Opacity
+
+Rossland mean opacity
+
+
+\section{Stellar Evolution}
+\label{sec:orgb338101}
+
+\subsection{Code}
+
+Modules for Experiments in Stellar Astrophysics (MESA): https://ui.adsabs.harvard.edu/abs/2011ApJS..192....3P/abstract 
+
+\subsection{Young stellar object}
+\label{sec:org7d97720}
+
+Young stellar object (YSO)
+
+
+Lada scheme of low-mass stars. Class 0, I, II, and III, distinguished by their spectral energy distribution.
+
+This classification schema roughly reflects evolutionary sequence. It is believed that most deeply embedded Class 0 sources evolve towards Class I stage, dissipating their circumstellar envelopes. Eventually they become optically visible on the stellar birthline as pre-main-sequence stars. Class II objects have circumstellar disks and correspond roughly to classical T Tauri stars, while Class III stars have lost their disks and correspond approximately to weak-line T Tauri stars. An intermediate stage where disks can only be detected at longer wavelengths (e.g., at 24 $\mu$m) are known as transition-disk objects. (source: \href{https://en.wikipedia.org/wiki/Young\_stellar\_object}{wikipedia})
+
+\subsection{Pre-main sequence}
+\label{sec:org56a11f6}
+
+Kelvin-Helmhotz (thermal) timescale. The less massive (\(< 3 M_\odot\)) of them appear as highly variable mass ejecting objects, known as \emph{T Tauri} stars.
+
+\subsubsection{T Tauri Star}
+\label{sec:org8e60a93}
+
+\begin{itemize}
+\item Pre-main sequence
+\item Energy coming from contracting due to self-gravity, not from nuclear fusion. They are newly-formed (< 10 million years old) low to intermediate mass stars (< 3 solar masses) with central temperatures too low for nuclear fusion to have started.
+\item They are surrounded by circumstellar discs, probable sites of planet formaiton.
+\item T Tauri stars are pre-main-sequence stars in the process of contracting to the main sequence along the Hayashi track, a luminosity–temperature relationship obeyed by infant stars of less than 3 solar masses in the pre-main-sequence phase of stellar evolution. It ends when a star develops a radiative zone, or when a smaller star commences nuclear fusion on the main sequence.
+\end{itemize}
+
+\subsection{The Fate of Massive Stars}
+\label{sec:org1ab7dde}
+\subsubsection{Gamma-ray bursts (GRBs)}
+\label{sec:org9b69f32}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=.9\linewidth]{attach/GRB-light-curve.png}
+\caption{Light curves of two GRBs}
+\end{figure}
+
+Two classes of GRBs:
+
+\begin{itemize}
+\item long-soft GRBs
+\begin{itemize}
+\item last longer than 2 seconds, soft spectrum.
+\item Models: relativistic jets.
+\begin{itemize}
+\item First model: the collapsar model of Stan Woosley, or the hypernova
+model. core-collapse supernovae. A black hole with a debris disk
+surrounding it form at the center of collapse. "The collimating of
+the debris disk and associated magnetic fields would lead to a jet
+emanating from the center of the supernova." (Carroll2007)
+\item There is also the top-hat model of the lightcurve.
+\end{itemize}
+\end{itemize}
+\item short-hard GRBs
+\begin{itemize}
+\item last longer than 2 seconds, hard spectrum.
+\item Models: One viable model is the coalescence of compact binary
+systems, in which SHBs are the electromagnetic counterparts of
+strong gravitational-wave sources.
+\end{itemize}
+\end{itemize}
+
+\subsection{Supernova}
+\label{sec:orga01460e}
+
+A supernova (plural: supernovae, abbreviations: SN and SNe) is a powerful and luminous stellar explosion. This transient astronomical event occurs during the last evolutionary stages of a massive star or when a white dwarf is triggered into runaway nuclear fusion. See a graph of Supernova classification \href{file:///Users/chongchonghe/Dropbox/Notability2/Container/Supernova.pdf}{here}.
+
+The word supernova was coined by Walter Baade and Fritz Zwicky in 1929.
+
+\subsubsection{Type Ia SN}
+\label{sec:orgf938d79}
+
+Type Ia SNe are recognised by the silicon absorption line. It is thought that these supernovae originate in binaries consisting of a white dwarf and its companion. Material can flow from the companion to the white dwarf until its mass exceeds the limit (about 1.4 \(M_\odot\)). Increase of the density and temperature will ignite an explosive fusion reaction that can destroy the white dwarf. The kenetic energy released in the process is of the order of \(10^{44}\) J. The origin of the radiation energy is the fission of the radioactive nickel isotope 56 created in the explosion.
+
+\textbf{Type Ia SN as standard candle}: The shape of the lightcurve depends on the brightness of the supernova: the brighter the SN, the broader the top of the lightcurve. Therefore, the maximum brightness of a typer Ia supernova can be determined precisely from its lightcurve. This way they can be used as standard candles to determine dimensions of the universe and cosmological parameters.
+
+\emph{Source: Sec 14.4 of cite:Karttunen2017}
+
+\subsubsection{Type II SN}
+\label{sec:orgf1aa704}
+
+\begin{itemize}
+\item \textbf{SN 1054 and the Crab Nebula}: SN 1054 is a Type II supernova first observed on July 1054, visible for 2 years. The event was recorded in contemporary Chinese astronomy. The remnant of SN 1054 is known as the \emph{Crab Nebula}.
+\item \textbf{Supernova 1987A}: observed in the Large Magellanic Cloud. It is a Type II SN. Visible for a while to the unaided eye, it became the closest observable supernova since that of 1604.
+\end{itemize}
+
+\subsubsection{Sedov-Taylor Phase of SN}
+
+\emph{Source: Chapter 17 of }
+
+Consider a point release of an enormous amount of energy $E$ into a static medium of homogeneous density $\rho_1$. This creates a spherical blast wave that propagates at speed $U_{\rm sh}(t)$ through the medium to distance $r(t)$ at time $t$. The only quantities come into the Sedov-Taylor phase are $r, t, \rho_1, E$, and they must form a dimensionless number:
+\begin{equation}
+    \xi \equiv r t^l \rho_1^{m} E^n.
+\end{equation}
+The only dimensions in this equation are $L, T$, and $M$, so there is a unique solution $l=-2/5, m=1/5$, and $n=-1/5$. Therefore, we expect the position of the shock wave to be 
+\begin{equation}\label{eq:rsh}
+    r_{\rm sh}(t) = \xi_0 \left( \frac{Et^2}{\rho_1} \right)^{1/5}.
+\end{equation}
+We also expect, in the absence of good arguments to the contrary, that $\xi_0$ will be a number of order unity. 
+
+A useful mnemonic device to remember this result is $\rho_1 r_{\rm sh}^3 U_{\rm sh}^2 = E =$ constant, i.e., the blast wave conserves energy. By replacing $U_{\rm sh}$ with $r_{\rm sh}/t$ we obtain \autoref{eq:rsh} with the constant missing. 
+
+\paragraph{Some typical numbers}. We suppose $E = 10^{51}$ erg,  $n = 1 \ {\rm cm}^{-3}$, some typical values are: at $t=100 \ {\rm yr}, r_{\rm sh} = 2 \ {\rm pc}, U_{\rm sh} = 8000 \ {\rm km/s}$; at $t=10^5 \ {\rm yr}, r_{\rm sh} = 32 \ {\rm pc}, U_{\rm sh} = 120 \ {\rm km/s}$. 
+For $\gamma=5/3$, the postshock temperature equals $T_2 = 3 m_2 U_{\rm sh}^2/16 k_B$, where $m_2$ is the mean particle mass. At $t \sim 10^5$ yr, $T_2 \sim 2 \times 10^5$ K. At this temperature, the cooling rate of the ISM is roughly $10^{-21} \ {\rm erg~cm^{3}~s^{-1}}$, the volumetric radiative loss rate $\Lambda = 10^{-21} {\rm erg~cm^{-3}~s^{-1}}$, and the total energy radiated in time $t$ is roughly $\Lambda t \left( \frac{4 \pi}{3} r_{\rm sh}^3 \right) \sim 10^{51} - 10^{52}$  erg, the same order as the original explosion energy $E$. Therefore, we expect the blast-wave solution to break down due to radiative losses after $t \sim 10^5$ yr. 
+
+\paragraph{Three phases of supernova remnant evolution.} 
+\begin{itemize}
+    \item Blast wave phase: the initial energy conserving, Sedov-Taylor (adiabatic) phase.
+    \item Shell formation phase: this phase exists when the cooling time is comparable to the flow time, $r_{\rm sh}/U_{\rm sh}$. 
+    \item Snow plow phase: the cooled shell plows into the ambient material, and the ambient matter is swept up by the inertia of the moving shell, with momentum approximately conserved per unit solid angle in all directions. 
+\end{itemize}
+
+
+\section{Stellar Multiplicity}
+\label{sec:mul}
+
+\subsection{Statistics of stellar multiplicity}
+
+{\bf Mass ratio}. The distribution of secondary-to-primary mass ratios for solar-type binaries can be described as either a flat or power-law distribution ($\gamma^{\rm MS}_{0.7 - 1.3 \ \msun{}} \approx 0.28 \pm 0.05$) with minor peaks at high mass end (see Duchene2013, Sec. 3.1.3). At a more detailed level, the mass ratio distribution differs significantly between short- and long-period binaries. 
+
+{\bf Eccentricity}. The thermal eccentricity distribution is first derived by J. H. Jeans in \href{https://ui.adsabs.harvard.edu/abs/1919MNRAS..79..408J/abstract}{1919}. The result is a linear distribution, $f(e) = 2e$. \href{https://joe-antognini.github.io/astronomy/thermal-eccentricities}{This article} is a concise summary of this derivation. Ambartsumian 1937 corrected a fallacy in Jeans derivation and proposed a simpler derivation (discussed in \href{https://joe-antognini.github.io/astronomy/ambartsumian-distribution}{this article}. 
+
+\section{Binary}
+\label{sec:bin}
+
+\subsection{Primordial Binary and Binary Fraction}
+\label{sec:org7b2ff36}
+
+\subsection{Mass Transfer}
+\label{sec:org4cb965b}
+
+One of the general effects of stellar binarity.
+\begin{itemize}
+\item \textbf{First discover}. The \emph{Algol paradox}: we observe binary systems where the lower-mass member is a giant while the more massive one is on the main sequence, contradicting to what we know about stars: that the more massive stars leave the main-sequence phase earlier. The solution to this paradox is found on the binary evolution with the initially massive star losing and the low-mass star gaining mass.
+\item \textbf{Accretion luminosity v.s. natural luminosity}. It lies on the ratio of the binding energy and total radiation energy of the star. For a solar mass star, this ratio is $$|{\cal W} / E = \frac{G M^{2}}{R} / (0.1 * 0.007 M c^2) = 3.8e48 / 1.2e51 = 0.003$$.
+\end{itemize}
+
+
+\section{Compact objects}
+\label{sec:org6e967b6}
+
+\subsection{Neutron stars}
+\label{sec:org44261e3}
+
+\subsubsection{Equation of state (EOS)}
+\label{sec:org8c325ce}
+
+\href{attach/NS\_I-short-2020.pdf}{A good slides} (\href{https://www.tat.physik.uni-tuebingen.de/\~kokkotas/Teaching/GTR\_files/NS\_I-short-2020.pdf}{original url})
+
+
+\section{Spectra lines}
+\label{sec:org40fa667}
+\subsubsection{Lyman-\(\alpha\)}
+\label{sec:orga2fa127}
+(\citealt{Draine2011} Sec 15.7)
+
+The Lyman-alpha line is the spectral line of hydrogen from \(n=2\) to \(n=1\). 1215.67 angstroms, or 10.2 eV.
+
+The recombining hydrogen in HII region generates Lyman-alpha radiation in a rate of about \(\frac{2}{3} f_{\rm ion} Q_0\). The Lyman-alpha photons can be resonantly scattered by the small amount of neutral hydrogen.
+
+Escape of Lyman-alpha photons from galaxies therefore requires either very low dust abundances or "breakout" of the ionization front so that, in at least some directions, the H II is not bounded by dusty H I gas.
+
+\subsubsection{Lyman continuum}
+\label{sec:orga94a937}
+
+\subsubsection{21-cm}
+\label{sec:org9c49571}
+
+
+\section{Dynamics}
+\label{sec:org52aa5cf}
+
+\subsection{Concepts}
+\label{sec:org5efd9e6}
+
+\subsubsection{Terms}
+\label{sec:orgb31c50a}
+
+\begin{itemize}
+\item \textbf{Jeans modeling}: Jeans dynamical modeling: Solve the Jeans equations (or the \href{https://clumpy.gitlab.io/CLUMPY/physics\_jeans.html\#jeans-equation}{CBE, collisionless Boltzmann equation}, with link to the CLUMPY code on gitlab.).
+
+  Advantages: Very fast, no need to assume a distribution function
+  Disadvantages: Must bin data to calculate moments, no guarantee there is a DF matching moments, calculation is difficult without assumption of symmetry
+
+\item \textbf{CBE}: \href{https://www.cv.nrao.edu/\~jhibbard/students/CPower/dynamics/cbe/cbe.html}{webpage}.
+\end{itemize}
+
+\subsection{Star cluster dynamics}
+\label{sec:orge6a8bb8}
+
+\subsubsection{Core collapse}
+\label{sec:org17be580}
+
+Core collapse of star clusters.
+\begin{itemize}
+\item New method: B. P. B. Bhat, cumulative number distribution of stars (Aspen talk)
+\end{itemize}
+
+\subsection{N-body}
+\label{sec:orgc9c9551}
+
+\begin{itemize}
+\item Dynamics - Anisotropy parameter beta  = 1 - sigma\_phi\^{}2 / sigma\_r\^{}2. (Anna's talk)
+\end{itemize}
+
+
+\subsection{Dynamical friction}
+\label{sec:df}
+
+\begin{align}
+  \frac{d \mathbf{v}_M}{d t} &= D[\Delta v] \approx \frac{4 \sqrt{2\pi}}{3} G^2 M \rho
+  \frac{ {\bf v}_M}{\sigma^3} \ln \Lambda  \;\;\; (\mathrm{small} \; v_M ), \\
+  \frac{d {\bf v}_M}{d t} &= D[\Delta v] \approx 4\pi G^2 M \rho
+							\frac{{\bf v}_M}{v_M^3} \ln \Lambda  \;\;\; (\mathrm{large} \; v_M),
+\end{align}
+
+where \(v_M\) is the velocity of the object under consideration, in a frame where the center of gravity of the matter field is initially at rest, and 
+$$\Lambda = \frac{b_{\rm max}}{b_{90}} \approx \frac{\cal M}{M} \frac{R_{\rm orb}}{\cal R}.$$
+Numerically (ignoring the $\ln \Lambda$ term)
+\begin{align}
+  \frac{d {\bf v}_M}{dt} 
+  % &= 5.0 \times 10^{-15} {\rm cm.s^{-2}} \frac{M}{M_{\odot}} \frac{\rho}{m_p {\rm cm}^{-3}} \frac{v_M}{\rm km/s} \left( \frac{c_s}{10 {\rm km/s}} \right)^{-3} \\
+  = 5.0 \times 10^{-12} \ {\rm cm.s^{-2}} \left( \frac{M}{M_{\odot}} \right) \left(  \frac{\rho}{m_p {\rm cm}^{-3}}\right) \left( \frac{v_M}{\rm km/s} \right) \left( \frac{c_s}{{\rm km/s}} \right)^{-3}
+\end{align}
+for small $v_{M}$ and
+\begin{align}
+  \frac{d {\bf v}_M}{dt} = 1.9 \times 10^{-11} \ {\rm cm.s^{-2}} \left( \frac{M}{M_{\odot}} \right) \left(  \frac{\rho}{m_p {\rm cm}^{-3}}\right) \left( \frac{v_M}{\rm km/s} \right)^{-2}
+\end{align}
+for large $v_M$.
+
+What is the time scale of dynamical friction?
+
+\begin{equation}\label{}
+  t_{\rm df} \equiv \frac{v_M}{dv_M/dt} = \num{6.3e8}~{\rm yr}~\left( \frac{M}{M_{\odot}} \right)^{-1} \left( \frac{\rho}{m_p {\rm cm}^{-3}}\right)^{-1} \left( \frac{c_s}{{\rm km/s}} \right)^{3}, \; v_M << c_s
+\end{equation}
+
+\begin{equation}\label{}
+  t_{\rm df} \equiv \frac{v_M}{dv_M/dt} = \num{1.7e8}~{\rm yr}~\left( \frac{M}{M_{\odot}} \right)^{-1} \left( \frac{\rho}{m_p {\rm cm}^{-3}}\right)^{-1} \left( \frac{v_M}{{\rm km/s}} \right)^{3}, \; v_M >> c_{s}
+\end{equation}
+
+Applications: decay of black hole orbits
+
+How long is needed for dynamical friction to drag a black hole of mass $M$ on a circular orbit of radius $r$ to the galaxy center? We approximate the density distribution by a singular isothermal sphere where the orbital velocity is constant.
+\begin{align}\label{}
+  t_{\rm fric} &= \frac{19~{\rm Gyr}}{\ln \Lambda} \left( \frac{r_i}{5~{\rm kyr}} \right)^2 \frac{\sigma}{200~{\rm km~s^{-1}}} \left(\frac{M}{10^8~\msun}\right)^{-1} \label{eq:tfricBH}\\
+  &= \frac{1.17}{\ln \Lambda} \frac{M(r)}{M} t_{\rm cross}
+\end{align}
+where $M(r)$ is the mass of the host galaxy enclosed within radius $r$ and $t_{\rm cross} = r_i/v_c$ is the time required for the subject body to travel one {\it radian}. For characteristic values shown in Eq.~\ref{eq:tfricBH}, $\ln \Lambda \approx 6$ and $t_{\rm fric} \approx 3$ Gyr.
+
+
+\section{H II Region}
+\label{sec:orgf10bcc5}
+\subsection{Radiative Recombination of Hydrogen}
+\label{sec:org0f9e007}
+Case B recombination: optically thick to radiation just above \(I_{\rm H}=13.60\) eV, so that ionizing photons emitted during recombination are immediately reabsorbed, creating another ion and free electron by photoionization.
+
+Following Draine Ch 15.1.1, let \(Q_{0}\) be the rate of emission of hydrogen-ionizing photons, i.e., \(h\nu>I_{{\rm H}}=13.6\) eV. Equating the rates of photoionization and radiative recombination gives the ionization balance equation:
+
+$$Q_{0}=\frac{4\pi}{3}R_{{\rm S}}^{\;3}\,\alpha\,n(H^{+})\,n_{e}.$$
+
+Since \(n(H^{+})=n_{e}=n_{H}\equiv n_{0}\), we can solve for the \emph{Stromgren radius} \citep[][Eq. 15.1 (pg 163)]{Draine:2011}
+$$
+\label{eq:rs}
+  R_{S}\equiv\left(\frac{3Q_{0}}{4\pi\,n_{0}^{\;2}\,\alpha_{B}}\right)^{1/3} = 3.17 \, Q_{49}^{1/3} \, n_2^{-2/3} \, T_4^{0.28}~{\rm pc},
+$$
+where
+$$
+\alpha_B(T_e) \approx 2 \times 10^{-13} \left( \frac{T_e}{10^4 {\rm K}} \right)^{-3/4} \, {\rm cm}^3 \, {\rm s}^{-1}.
+$$
+
+Draine also talked about other aspects of region, including the mean emission measure, mean free path of an 18 eV photon at \(T<50,000\) K, and helium ionization.
+
+\subsection{Ionization Time Scales}
+\label{sec:org4aa160b}
+How long will it take to ionize an region?
+
+$$\tau_{{\rm ioni.}}=\frac{4/3\,\pi R_{{\rm
+S}}^{\;3}\,n_{0}}{Q_{0}}=\frac{1}{\alpha_{B}\,n_{0}}=\frac{1.22\times10^{3}\,{\rm
+yr}}{n_{2}}.$$
+for \(T \sim 10^4\) K. The \emph{recombination timescale} (after the ionizing source turns off) is identical to the ionization timescale. For \(n_{0}>0.03\,{\rm cm}^{-3}\), this timescale is shorter than the main-sequence lifetime \(\gtrsim\) 5 Myr for a massive star.
+
+\subsection{Ionization Fraction}
+\label{sec:org08fb021}
+TODO
+
+\subsection{I-front Dynamics}
+\label{sec:org6ec77da}
+\subsubsection{Propagation of ionization fronts}
+\label{sec:orge8c7c80}
+
+\subsubsection{Expansion of H II Regions}
+\label{sec:org401e905}
+Expansion of HII regions due to pressure force.
+
+\subsection{Emission and Absorption by the ISM}
+\label{sec:org6c324ee}
+\subsubsection{Emission from HII Regions}
+\label{sec:org0cc8852}
+The UV radiation from OB stars in HII regions cause the photoionization of the surrounding ISM. At \(T \sim 10^4~{\rm K}\) and \(N_e<10^6 {\rm cm^{-3}}\), the luminosity in the H\(\alpha\) line is $$L_{{\rm H}\alpha} = 0.450 (h \nu_{{\rm H}\alpha}) \dot{N}_{\rm ion},$$ where \(\dot{N}_{\rm ion}\) is the number of ionizing photons emitted per unit time, and since it has to be balanced by recombination rate, $$\dot{N}_{\rm ion} = \alpha_{\rm B} n_pn_eV.$$ The Ly\(\alpha\) emission is determined by substracting the Case B recombination coefficient \(\alpha_{\rm B}\) by the effective recombination coefficient to 2S. At the same environment as above, $$L_{{\rm Ly}\alpha} = 0.676 h \nu_{{\rm Ly}\alpha} \dot{N}_{\rm ion}.$$ Thus, we can infer the number of OB stars in a HII region by measuring the luminosity in a recombination line, and since OB stars are short lived, their number is directly related to their birth rate. This provides the principle for deriving the star-formation rate in a star-forming region from its recombination line strengths.
+
+
+\section{Dust}
+\label{sec:org675cf6c}
+\subsection{Metallicity}
+\label{sec:org9df3ad3}
+Solar metallicity is \(Z = 0.0134\) \cite{Asplund2009}, where \(Z\) is the heavy element mass fraction. The \textbf{metallicity} relative to solar is $$[{\rm Fe}/{\rm H}] \equiv \log_{10} \left[ \frac{(N_{\rm Fe}/N_{\rm H})_{\rm star}}{(N_{\rm Fe}/N_H)_{\odot}} \right],$$ Stars with [Fe/H] < 0 are metal-poor relative to the Sun. Metal poor makes stars bluer and metal rich makes stars redder due to line blanketing (metals absorb preferentially blue light) and opacity effect (metals absorb energy from the interior of the star, making red giants "swell up" even more, and give them cooler temperatures.)
+
+\subsection{Dust Extinction}
+\label{sec:orgbd5d19e}
+
+Figure \ref{fig:orgd937d81}: dust extinction curve from \cite{Gnedin2008}
+
+cite:Ma2021
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.9\linewidth]{attach/dust_extinction_fit.png}
+\caption{\label{fig:orgd937d81}Dust extinction in LMC/SMC}
+\end{figure}
+
+\subsection{Sputtering}
+\label{sec:org0f29532}
+\subsubsection{Sputtering in Hot Gas}
+\label{sec:orgb185a49}
+[Draine Sec. 25.7] Grain lifetime of a stationary grain is given by $$\tau = 10^5 (1 + T_6^{-3}) \frac{a/0.1 \mu{\rm m}}{n_{\rm H}/{\rm cm}^{-3}} \; {\rm yr}.$$ In HII region with \(T = 10^4~{\rm K}\) and \(n_{\rm H} = 10^4~\si{cm^{-3}}\), \(\tau = 10\) Myr for grains with size 0.1 micron. With \(n_{\rm H} = 10^2~\si{cm^{-3}}\), \(\tau = 1000\) Myr, and if the temperature increases to \(10^5\) K, \(\tau = 1\) Myr.
+
+\subsection{RAMSES+RT}
+\label{sec:org6169808}
+Possible issues:
+
+\begin{itemize}
+\item I see a mu=1.4 with comments: hard set mu=1.4 to make temperature
+agree with Audic \& Hennebelle.
+\end{itemize}
+
+Mean particle mass, \(\mu\), is correctly calculated by the function
+\texttt{getMu} in main/rt\_cooling\_module.f90:
+
+$$\mu = [X(1+x_{\rm HII}) + \frac{Y}{4}(1 + x_{\rm HeII} + 2x_{\rm HeIII})]^{-1}$$
+
+For hydrogen and helium
+
+\begin{itemize}
+\item In each cell, photoheating and radiative cooling of hydrogen and
+helium is performed by the radiative transfer module of RAMSES-RT as
+in Rosdahl et al. (2013).
+
+\begin{itemize}
+\item Photoheating rate \(\mathcal{H}\) is a sum of the heating
+contributiosn from all photoionziation events (HI, HeI, and HeII).
+
+\item The primordial cooling rate \(\mathcal{L}\) include various cooling processes: collisional ionizations, collisional excitations, recombinations, dielectronic recombinations, bremsstrahlung and Compton cooling.
+\end{itemize}
+\end{itemize}
+
+For metals
+
+\begin{itemize}
+\item 'Neutral' function N(T)
+
+\begin{itemize}
+\item Below 10\^{}4 K: the prescription of Audit \& Hennebelle (2005), which
+includes \textbf{carbon, oxygen and dust grains} as well as the \textbf{ambient
+UV background} in the ISM. This is based on the work of Wolfire et
+al. (1995, 2003).
+
+\begin{itemize}
+\item Including cooling by
+
+\begin{itemize}
+\item fine-structure lines of CII (92 K)
+
+\item fine-structure lines of OI (228 and 326 K)
+
+\item cooling by H (Ly$\alpha$ line)
+
+\item cooling by electron recombination onto positively charged
+grains
+\end{itemize}
+
+\item and heating by
+
+\begin{itemize}
+\item photo-electric effect on small grains and PAHs due to the FUV
+galactic radiation.
+\end{itemize}
+
+\item (This might be probmatic due to the hard mu = 1.4. In Audit2005,
+they have no radiative transfer, so the mean particle weight is
+constant at mu = 1.4, while in RAMSES+RT, mu is dramatically
+higher due to ionized electrons.)
+\end{itemize}
+
+\item Above 10\^{}4 K: Sutherland \& Dopita (1993)
+\end{itemize}
+
+\item 'Photoionized' cooling function
+
+\begin{itemize}
+\item a piecewise fit to Ferland (2003):
+\(\Lambda = 3\times10^{-24}~{\rm erg~cm^3~s^{-1}}\) below 9000 K and
+\(2.2\times10^{-22}~{\rm erg~cm^3~s^{-1}}\) above 10\^{}5 K.
+\end{itemize}
+\end{itemize}
+
+TODO: make a curve of the cooling funciton
+
+Radiative cooling and heating of hydrogen and helium is performed by the
+RT module of RAMSES-RT as in Rosdahl et al. (2013), consisting of two
+functions:
+
+\begin{itemize}
+\item 'Neutral' function \(N(T)\): Audit \& Hennebelle (2005), which includes
+cooling from carbon , oxygen, and dust grains as well as the effect of
+the ambient UV background in the ISM.
+
+\item 'photoionized' cooling function \(P(T)\): Ferland (2003)
+\end{itemize}
+
+TODO: plot cooling function in RAMSES, find
+
+\section{Hydrodynamics}
+\label{sec:org272fbfc}
+
+\subsection{Hydrodynamic equations}
+\label{sec:orgbed52d2}
+
+My notes: "Notability::Research:Topics:19. Fluid dynamics"
+
+\textbf{Summary}
+We introduce a \emph{material derivative} \(D/Dt = \partial/\partial t + \mathbf{v} \cdot \nabla\). It is the derivative following the gas flow, defined as \(D Q / Dt = (Q(t+\delta t, {\bf x} + {\bf v}\delta t) - Q(t, {\bf x}))/\delta t\). Then, the \emph{Euler equations of fluid} is easily represented as
+\begin{align}
+\frac{D \rho}{D t} &= - \rho \nabla \cdot {\bf v} \\
+\frac{D {\bf v}}{D t} &= - \frac{\nabla p}{\rho} + {\bf g} \\
+\frac{D e}{D t} &= - \frac{\nabla \cdot (p {\bf v})}{\rho}
+\end{align}
+The first equation, the equation of continuity, can be derived by inspecting a volume of fluid, in which the outflow rate equals the change in mass, and we obtain \(\partial \rho / \partial t + \nabla \cdot (\rho {\bf v}) = 0\). The conversion between the two different form can be acheived by using the expansion of \(\nabla \cdot (\rho {\bf v})\).
+
+\subsection{Time Scales}
+\label{sec:org89229c6}
+\subsubsection{Free fall time}
+\label{sec:org4858c4d}
+Assume mean molecular weight \(\mu = 1.4\), the global free-fall time of a
+cloud with particle number density \(n\) is given by $$\label{eq:ff}
+t_{{\rm ff}} = \sqrt{\frac{3\pi}{32G\rho_{0}}} \approx 1.376~{\rm Myr}
+\cdot \left(\frac{n}{10^3 \si{cm^{-3}}}\right)^{-1/2}$$
+
+\subsubsection{Sound speed}
+\label{sec:org9210792}
+The \emph{sound speed} is given by
+$$
+c_{s}=\sqrt{\frac{\gamma p_{0}}{\rho_{0}}}
+= \sqrt{\frac{\gamma kT}{\mu m_{H}}}
+$$
+The \emph{isothermal sound speed} is therefore
+$$
+c_s = \sqrt{\frac{kT}{\mu m_{H}}} = 0.29\,\si{km/s} \; \left( \frac{T_1}{\mu} \right)^{1/2} = 9.1\,\si{km/s} \; \left( \frac{T_4}{\mu} \right)^{1/2}
+$$
+where \(\mu\) is the mean particle weight. Note that for ionized hydrogen, \(\mu = 0.5\) and \(c_s = 13\,\si{km/s}\) at \(10^4\) K.
+
+\subsubsection{Alfven wave}
+\label{sec:orga1c1ac2}
+\emph{(Need to learn)} The Alfven velocity is given by
+\(v_{{\rm A}}=B_{0}/\sqrt{4\pi\rho_{0}}\) (in cgs). Therefore, the Alfven
+wave crossing time is
+\(t_{{\rm act}}=L/v_{{\rm A}}=L\sqrt{4\pi\rho_{0}}/B_{0}\).
+
+In He et al. (2019), and , therefore \(v_A / \sigma\) = 0.2, where
+\(\sigma\) is the turbulence velocity dispersion.
+
+\subsubsection{Velocity dispersion}
+\label{sec:org99846aa}
+
+\subsection{Jeans Mass}
+\label{sec:orge7b006a}
+$$M_{\rm J} \equiv \frac{4\pi}{3}\lambda_{\rm J}^3 \rho
+  \approx 20 \msun \cdot \left( \frac{T}{10 {\rm K}}
+  \right)^{3/2} \left( \frac{n}{100\,{\rm cm}^{-3}} \right) ^{-1/2}$$
+
+
+\subsection{Bondi Accretion}
+\begin{enumerate}
+\item{Hoyle and Lyttleton accretion}
+A star moving through gas cloud. Assuming a ballistic orbit for accreted
+particles, we get a impact factor $$\label{eq:1}
+\zeta_{HL} = \frac{2GM}{v_{\infty}^2}.$$ and accretion rate (mass flux)
+$$\label{eq:1}
+\dot{M}_{HL} = \pi \zeta_{HL}^2 v_{\infty} \rho_{\infty} = \frac{4\pi G^2M^2\rho_{\infty}}{v_{\infty}^3}.$$
+
+\item Bondi Accretion
+\label{sec:org6241629}
+A Bondi radius may be defined as
+$$r_B = \frac{GM}{c_{s}^2}$$
+Flow outside is subsonic and the density is almost uniform. This ends up with a Bondi accretion rate
+\[
+  \dot{M}_B = 4 \pi r_B^2 c_s \rho_{\infty} = \frac{4\pi
+    G^{2}M^{2}\rho_{\infty}}{c_s^{3}}
+\]
+And interpolation formula would be
+\begin{equation}\label{eq:bondi}
+\dot{M}_B = 4 \pi r_B^2 c_s \rho_{\infty} = \frac{4\pi
+  G^{2}M^{2}\rho_{\infty}}{(c_\infty^2 + v_{\infty}^2)^{3/2} }.
+\end{equation}
+\end{enumerate}
+
+\subsection{Other topics}
+\subsubsection{Viscosity}
+
+\textbf{Definition of viscosity}: The fource \(F\) acting on the top plate of a fluid is proportional to the gradient of the speed \(u\) and the area \(A\) of the plate:
+$$
+F = \mu A \frac{\partial u}{\partial y},
+$$
+\(\mu\) is the \emph{dynamic viscosity} of the fluid, with units of Pa s (pascal-second). The \emph{kinematic viscosity} is defined as the ratio fo the viscosity \(\mu\) to the fluid density:
+$$
+\nu = \frac{\mu}{\rho},
+$$
+with the dimension of \(L^2/T\).
+
+\subsubsection{Reynolds Number}
+\label{sec:org36d4df5}
+\(\mathcal{R}=LV/\nu\), where \(L\) is the typical length of the object, \(V\) is the typical fluid velocity, and \(\nu\) is the viscosity of the fluid. Imagine two different fluid flows around two geometrically similar objects. If these two systems have the same Reynolds number, then the flow patterns should be similar. This is called the law of similarity (Reynolds 1883). Systems with low Reynolds number are dominated by viscosity.
+
+There is also the \emph{magnetic Reynolds number} where the vescosity is replaced with the magnetic diffusivity \(\lambda = c^2 / 4 \pi \sigma\). See Sec. 14.2 of of Choudhuri (1998).
+
+
+\section{MHD}
+
+\subsection{MHD}
+
+Within the confines of the magnnetohydrodynamics of a single-component condducting fluid, the material effects of electromagnetic fields enter as two terms:
+\begin{quote}
+Lorentz force per unit volume: \({\bf j} \times {\bf B} / c = (\nabla \times {\bf B}) \times {\bf B} / 4\pi\).\\
+Heat production per volume by Ohmic dissipation: \(j^2 / \sigma = \eta | \nabla \times {\bf B} |^2 / 4\pi\)
+\end{quote}
+
+Therefore, the equation of continuity is not changed; the equation of motion has to change by adding a magnetic body force, \({\bf j} \times {\bf B} / \rho c\), where \({\bf j} = (c/4\pi) \nabla \times {\bf B}\)  is the electric current density. The energy equation has to add an \emph{Ohmic heating} term, \({\bf j}^2 / \sigma\)
+
+Reference: Sec. 14.1 of Choudhuri (1998); page 302 of Shu, F. "Gas Dynamics". 
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "main"
+%%% End:

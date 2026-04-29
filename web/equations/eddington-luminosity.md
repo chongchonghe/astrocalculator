@@ -4,7 +4,7 @@ category: Astrophysics
 tags: [accretion, luminosity, limit]
 params:
   - symbol: M
-    default: "1.4 M_sun"
+    default: "1e6 M_sun"
     description: Mass of the accreting object
 expressions:
   - name: "Eddington luminosity"

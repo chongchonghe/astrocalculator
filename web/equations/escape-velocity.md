@@ -1,13 +1,13 @@
 ---
 title: Escape Velocity
 category: Mechanics
-tags: [velocity, gravity, compact objects]
+tags: [velocity]
 params:
   - symbol: M
-    default: "1.4 M_sun"
+    default: "1 M_sun"
     description: Mass of the object
   - symbol: R
-    default: "10 km"
+    default: "1 R_sun"
     description: Radius
 expressions:
   - name: "Escape velocity"
