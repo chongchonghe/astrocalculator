@@ -91,17 +91,18 @@ web/
 
 ## Local development
 
-**Prerequisites:** Node 20+, Python 3.10+ with a virtual environment at `../.venv` containing astropy, numpy, and sympy.
+**Prerequisites:** Node 20+, Python 3.10+, [uv](https://docs.astral.sh/uv/).
 
 ```bash
 # From the repo root — set up the Python venv once
-python3 -m venv .venv
-.venv/bin/pip install astropy numpy sympy
+uv venv
+source .venv/bin/activate
+uv pip install astropy numpy sympy
 
 # Start the dev server (dumps JSON data, then launches Vite)
 cd web
-npm install
-npm run dev
+uv run npm install
+uv run npm run dev
 ```
 
 Open http://localhost:5173/astrocalculator/. The page loads immediately; the scientific engine appears in the header as "Loading engine…" and becomes "Ready" after Pyodide and the packages finish loading (~5–15 s depending on your connection and cache).
@@ -180,6 +181,17 @@ equilibrium within a gravitational potential well.
 | `expressions[].description` | no | One-line note shown under the equation |
 
 The Vite plugin picks up the new file automatically on the next `npm run dev` or `npm run build`.
+
+### Validating equation templates
+
+Run the validation script to check every equation expression evaluates without error:
+
+```bash
+cd web
+uv run python scripts/validate-equations.py
+```
+
+The script constructs the full input (params + expression) for every expression in `equations/` and feeds it through `AstroCalculator.calculate()`, mirroring the web worker's evaluation flow. A passing run prints `OK` for each expression and exits 0; failures print the error and exit 1.
 
 ---
 

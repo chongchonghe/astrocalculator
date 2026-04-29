@@ -14,13 +14,13 @@ params:
     description: Surface density
 expressions:
   - name: "Toomre Q (Keplerian)"
-    expression: "Q = Omega * c_s / (pi * G * Sigma)"
+    expression: "Qtoomre = Omega * c_s / (pi * G * Sigma)"
     latex: "Q = \\frac{\\Omega c_s}{\\pi G \\Sigma}"
   - name: "Toomre Q (flat rotation)"
-    expression: "Q = sqrt(2) * Omega * c_s / (pi * G * Sigma)"
+    expression: "Qtoomre = sqrt(2) * Omega * c_s / (pi * G * Sigma)"
     latex: "Q = \\frac{\\sqrt{2} \\Omega c_s}{\\pi G \\Sigma}"
   - name: "Toomre Q (rigid rotation)"
-    expression: "Q = 2 * Omega * c_s / (pi * G * Sigma)"
+    expression: "Qtoomre = 2 * Omega * c_s / (pi * G * Sigma)"
     latex: "Q = \\frac{2 \\Omega c_s}{\\pi G \\Sigma}"
 ---
 

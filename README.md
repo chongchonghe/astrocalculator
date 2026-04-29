@@ -62,6 +62,14 @@ Input[5]: in km/s
 1.9277e+05 km / s
 ```
 
+## Web app
+
+A client-side web interface is available in [`web/`](web/). It runs the Python scientific engine (astropy, numpy, sympy) in the browser via Pyodide — no server, no installation. Features include a multi-line expression editor, searchable constants/units/equation template sidebar, unit conversion, SI/CGS output, and evaluation history.
+
+Live at: https://chongchonghe.github.io/astrocalculator/
+
+See [web/README.md](web/README.md) for architecture, development setup, and adding equation templates.
+
 ## Todos
 
 - [ ] Rename package name and executable to `acalc`
