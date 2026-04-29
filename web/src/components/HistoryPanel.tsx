@@ -30,7 +30,7 @@ export default function HistoryPanel({ onClick }: HistoryPanelProps) {
 
   return (
     <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-      <div style={{ flex: 1, overflowY: 'auto', fontSize: 12 }}>
+      <div style={{ flex: 1, overflowY: 'auto', fontSize: 'var(--font-sm)' }}>
         {entries.length === 0 ? (
           <div style={{ color: 'var(--color-text-muted)', padding: 16, textAlign: 'center' }}>
             No history yet
@@ -45,13 +45,13 @@ export default function HistoryPanel({ onClick }: HistoryPanelProps) {
                 borderBottom: '1px solid #f0f0f0',
                 cursor: 'pointer',
                 fontFamily: 'monospace',
-                fontSize: 12,
+                fontSize: 'var(--font-sm)',
               }}
               onMouseEnter={e => (e.currentTarget.style.background = 'var(--color-accent-light)')}
               onMouseLeave={e => (e.currentTarget.style.background = '')}
             >
               <div style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-all' }}>{entry.input}</div>
-              <div style={{ color: 'var(--color-text-muted)', fontSize: 10, marginTop: 2 }}>
+              <div style={{ color: 'var(--color-text-muted)', fontSize: 'var(--font-xs)', marginTop: 2 }}>
                 {new Date(entry.timestamp).toLocaleString()}
               </div>
             </div>
@@ -68,7 +68,7 @@ export default function HistoryPanel({ onClick }: HistoryPanelProps) {
             border: '1px solid var(--color-border)',
             borderRadius: 'var(--radius)',
             cursor: 'pointer',
-            fontSize: 12,
+            fontSize: 'var(--font-sm)',
             color: 'var(--color-text-muted)',
           }}
         >

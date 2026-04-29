@@ -18,7 +18,7 @@ export default function DebugPanel() {
       background: '#0f172a',
       color: '#e2e8f0',
       fontFamily: 'monospace',
-      fontSize: 11,
+      fontSize: 'var(--font-xs)',
       maxHeight: 160,
       display: 'flex',
       flexDirection: 'column',
@@ -32,7 +32,7 @@ export default function DebugPanel() {
         borderBottom: '1px solid #334155',
       }}>
         <span style={{ fontWeight: 600 }}>Debug Log</span>
-        <span style={{ color: statusColor, fontSize: 10 }}>{statusText}</span>
+        <span style={{ color: statusColor, fontSize: 'var(--font-xs)' }}>{statusText}</span>
       </div>
       <div style={{ flex: 1, overflowY: 'auto', padding: '4px 10px', lineHeight: 1.5 }}>
         {logs.map((entry) => (

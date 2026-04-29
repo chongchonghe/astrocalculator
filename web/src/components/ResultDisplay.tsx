@@ -32,7 +32,7 @@ export default function ResultDisplay() {
 
   if (!result && !error && !evaluating) {
     return (
-      <div style={{ color: 'var(--color-text-muted)', fontSize: 13, textAlign: 'center', padding: 20 }}>
+      <div style={{ color: 'var(--color-text-muted)', fontSize: 'var(--font-base)', textAlign: 'center', padding: 20 }}>
         {ready
           ? 'Cmd+Enter to evaluate'
           : 'Loading scientific engine...'}
@@ -41,12 +41,12 @@ export default function ResultDisplay() {
   }
 
   if (evaluating) {
-    return <div style={{ color: 'var(--color-text-muted)', fontSize: 13, textAlign: 'center', padding: 20 }}>Evaluating...</div>;
+    return <div style={{ color: 'var(--color-text-muted)', fontSize: 'var(--font-base)', textAlign: 'center', padding: 20 }}>Evaluating...</div>;
   }
 
   if (error) {
     return (
-      <div style={{ background: '#fff5f5', padding: 12, borderRadius: 'var(--radius)', color: 'var(--color-error)', fontSize: 13 }}>
+      <div style={{ background: '#fff5f5', padding: 12, borderRadius: 'var(--radius)', color: 'var(--color-error)', fontSize: 'var(--font-base)' }}>
         {error}
       </div>
     );
@@ -71,10 +71,10 @@ export default function ResultDisplay() {
             borderRadius: 'var(--radius)',
             position: 'relative',
           }}>
-            <div style={{ fontSize: 10, color: 'var(--color-text-muted)', marginBottom: 2 }}>
+            <div style={{ fontSize: 'var(--font-xs)', color: 'var(--color-text-muted)', marginBottom: 2 }}>
               {card.label}
             </div>
-            <div style={{ fontFamily: 'monospace', fontSize: 13, wordBreak: 'break-all' }}>
+            <div style={{ fontFamily: 'monospace', fontSize: 'var(--font-base)', wordBreak: 'break-all' }}>
               {card.value}
             </div>
             <button
@@ -87,7 +87,7 @@ export default function ResultDisplay() {
                 background: 'transparent',
                 border: 'none',
                 cursor: 'pointer',
-                fontSize: 12,
+                fontSize: 'var(--font-xs)',
                 color: 'var(--color-text-muted)',
                 padding: '2px 4px',
               }}
@@ -105,17 +105,17 @@ export default function ResultDisplay() {
           borderRadius: 'var(--radius)',
           position: 'relative',
         }}>
-          <div style={{ fontSize: 10, color: 'var(--color-text-muted)', marginBottom: 2 }}>
+          <div style={{ fontSize: 'var(--font-xs)', color: 'var(--color-text-muted)', marginBottom: 2 }}>
             IN {result.targetUnit?.toUpperCase() || 'CONVERTED'}
           </div>
-          <div style={{ fontFamily: 'monospace', fontSize: 13 }}>{result.converted}</div>
+          <div style={{ fontFamily: 'monospace', fontSize: 'var(--font-base)' }}>{result.converted}</div>
           <button
             onClick={() => copyText(result.converted!)}
             title="Copy"
             style={{
               position: 'absolute', top: 4, right: 4,
               background: 'transparent', border: 'none',
-              cursor: 'pointer', fontSize: 12,
+              cursor: 'pointer', fontSize: 'var(--font-xs)',
               color: 'var(--color-text-muted)', padding: '2px 4px',
             }}
           >

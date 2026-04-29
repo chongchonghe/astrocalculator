@@ -33,14 +33,14 @@ export default function EquationTemplates({ query, onAdd }: EquationTemplatesPro
   }, [query]);
 
   return (
-    <div style={{ height: '100%', overflowY: 'auto', fontSize: 12 }}>
+    <div style={{ height: '100%', overflowY: 'auto', fontSize: 'var(--font-sm)' }}>
       {filtered.map(eq => (
         <div
           key={eq.slug}
           style={{ padding: '10px 12px', borderBottom: '1px solid var(--color-border)' }}
         >
           <div style={{ fontWeight: 600, marginBottom: 2 }}>{eq.title}</div>
-          <div style={{ color: 'var(--color-text-muted)', fontSize: 11, marginBottom: 8 }}>
+          <div style={{ color: 'var(--color-text-muted)', fontSize: 'var(--font-xs)', marginBottom: 8 }}>
             {eq.category} · {eq.params.map(p => p.symbol).join(', ')}
           </div>
 
@@ -56,19 +56,19 @@ export default function EquationTemplates({ query, onAdd }: EquationTemplatesPro
               }}
             >
               <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ color: 'var(--color-text-muted)', fontSize: 11, marginBottom: 2 }}>
+                <div style={{ color: 'var(--color-text-muted)', fontSize: 'var(--font-xs)', marginBottom: 2 }}>
                   {ex.name}
                 </div>
                 {ex.latex ? (
                   <div
-                    style={{ fontSize: 12 }}
+                    style={{ fontSize: 'var(--font-sm)' }}
                     dangerouslySetInnerHTML={{ __html: renderLatex(ex.latex) }}
                   />
                 ) : (
-                  <code style={{ fontSize: 11, color: '#555' }}>{ex.expression}</code>
+                  <code style={{ fontSize: 'var(--font-xs)', color: '#555' }}>{ex.expression}</code>
                 )}
                 {ex.description && (
-                  <div style={{ fontSize: 10, color: 'var(--color-text-muted)', marginTop: 2 }}>
+                  <div style={{ fontSize: 'var(--font-xs)', color: 'var(--color-text-muted)', marginTop: 2 }}>
                     {ex.description}
                   </div>
                 )}
@@ -78,7 +78,7 @@ export default function EquationTemplates({ query, onAdd }: EquationTemplatesPro
                 style={{
                   marginLeft: 8,
                   padding: '2px 10px',
-                  fontSize: 11,
+                  fontSize: 'var(--font-xs)',
                   background: 'var(--color-accent)',
                   color: '#fff',
                   border: 'none',

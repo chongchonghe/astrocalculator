@@ -19,7 +19,7 @@ export default function StudioLayout({
   editor, results, onConstantClick, onEquationAdd,
   onHistoryClick, onSearchFocus: _onSearchFocus, searchBarRef, editorRef: _editorRef,
 }: StudioLayoutProps) {
-  const [activeTab, setActiveTab] = useState<SidebarTab>('constants');
+  const [activeTab, setActiveTab] = useState<SidebarTab>('equations');
   const [searchQuery, setSearchQuery] = useState('');
 
   return (

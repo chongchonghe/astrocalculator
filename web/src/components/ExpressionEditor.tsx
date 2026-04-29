@@ -47,7 +47,7 @@ export default function ExpressionEditor({ editorRef }: ExpressionEditorProps) {
           background: '#f8fafc',
           borderRight: '1px solid var(--color-border)',
           fontFamily: 'monospace',
-          fontSize: 13,
+          fontSize: 'var(--font-base)',
           color: 'var(--color-text-muted)',
           textAlign: 'right',
           minWidth: 36,
@@ -72,7 +72,7 @@ export default function ExpressionEditor({ editorRef }: ExpressionEditorProps) {
             resize: 'none',
             padding: '8px 10px',
             fontFamily: 'monospace',
-            fontSize: 13,
+            fontSize: 'var(--font-base)',
             lineHeight: 1.5,
             background: 'transparent',
           }}

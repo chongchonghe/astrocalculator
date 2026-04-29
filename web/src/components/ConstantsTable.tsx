@@ -21,7 +21,7 @@ export default function ConstantsTable({ query, onClick }: ConstantsTableProps) 
   }, [query]);
 
   return (
-    <div style={{ height: '100%', overflowY: 'auto', fontSize: 12 }}>
+    <div style={{ height: '100%', overflowY: 'auto', fontSize: 'var(--font-sm)' }}>
       <div style={{
         display: 'flex',
         padding: '6px 12px',

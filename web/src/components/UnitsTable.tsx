@@ -26,7 +26,7 @@ export default function UnitsTable({ query, onClick }: UnitsTableProps) {
   }, [query]);
 
   return (
-    <div style={{ height: '100%', overflowY: 'auto', fontSize: 12 }}>
+    <div style={{ height: '100%', overflowY: 'auto', fontSize: 'var(--font-sm)' }}>
       {Array.from(grouped.entries()).map(([category, entries]) => (
         <div key={category}>
           <div style={{

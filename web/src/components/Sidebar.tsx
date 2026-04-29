@@ -18,9 +18,9 @@ interface SidebarProps {
 }
 
 const TABS: { key: SidebarTab; label: string }[] = [
+  { key: 'equations', label: 'Equations' },
   { key: 'constants', label: 'Constants' },
   { key: 'units', label: 'Units' },
-  { key: 'equations', label: 'Equations' },
   { key: 'history', label: 'History' },
 ];
 
@@ -61,7 +61,7 @@ export default function Sidebar({
               color: activeTab === tab.key ? 'var(--color-accent)' : 'var(--color-text-muted)',
               fontWeight: activeTab === tab.key ? 600 : 400,
               cursor: 'pointer',
-              fontSize: 12,
+              fontSize: 'var(--font-sm)',
             }}
           >
             {tab.label}

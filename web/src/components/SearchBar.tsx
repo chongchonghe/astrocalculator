@@ -19,7 +19,7 @@ export default function SearchBar({ value, onChange, inputRef }: SearchBarProps)
         padding: '6px 10px',
         border: '1px solid var(--color-border)',
         borderRadius: 'var(--radius)',
-        fontSize: 13,
+        fontSize: 'var(--font-base)',
         outline: 'none',
       }}
       onFocus={e => e.currentTarget.style.borderColor = 'var(--color-accent)'}

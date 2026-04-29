@@ -1,7 +1,7 @@
 /* web/src/index.css */
 :root {
-  --sidebar-width: 420px;
-  --page-max-width: 1100px;
+  --sidebar-width: 520px;
+  --page-max-width: 1180px;
   --color-bg: #f8fafc;
   --color-surface: #ffffff;
   --color-border: #e2e8f0;
@@ -16,6 +16,10 @@
   --color-parsed: #f0fdf4;
   --radius: 6px;
   --shadow: 0 1px 3px rgba(0,0,0,0.08);
+  --font-xs: 16px;
+  --font-sm: 18px;
+  --font-base: 20px;
+  --font-lg: 22px;
 }
 
 * {
@@ -27,7 +31,7 @@
 html, body, #root {
   height: 100%;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  font-size: 14px;
+  font-size: 20px;
   color: var(--color-text);
   background: var(--color-bg);
 }

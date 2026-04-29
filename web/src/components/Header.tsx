@@ -15,7 +15,7 @@ export default function Header() {
       borderBottom: '1px solid var(--color-border)',
       gap: 12,
     }}>
-      <h1 style={{ fontSize: 16, fontWeight: 700 }}>AstroCalculator</h1>
+      <h1 style={{ fontSize: 'var(--font-lg)', fontWeight: 700 }}>AstroCalculator</h1>
 
       {/* Help popup */}
       <div
@@ -31,7 +31,7 @@ export default function Header() {
           borderRadius: '50%',
           background: 'var(--color-border)',
           color: 'var(--color-text-muted)',
-          fontSize: 11,
+          fontSize: 'var(--font-xs)',
           fontWeight: 600,
           cursor: 'help',
           userSelect: 'none',
@@ -42,36 +42,51 @@ export default function Header() {
             top: '100%',
             left: 0,
             marginTop: 8,
-            width: 280,
-            padding: '12px 14px',
+            width: 320,
+            padding: '14px 16px',
             background: 'var(--color-surface)',
             border: '1px solid var(--color-border)',
             borderRadius: 'var(--radius)',
             boxShadow: '0 4px 12px rgba(0,0,0,0.12)',
-            fontSize: 12,
+            fontSize: 'var(--font-base)',
             lineHeight: 1.6,
             color: 'var(--color-text)',
             zIndex: 100,
           }}>
-            <p style={{ marginBottom: 6 }}>
-              <strong>AstroCalculator</strong> — a calculator for astronomers and physicists.
+            <p style={{ fontWeight: 700, marginBottom: 8 }}>AstroCalculator</p>
+
+            <p style={{ marginBottom: 10, color: 'var(--color-text-muted)' }}>
+              A calculator for astronomers and physicists. Type expressions using
+              physical constants and units, e.g. <code style={{ background: '#f0f0f0', padding: '1px 4px', borderRadius: 3 }}>m_e c^2 in MeV</code>.
+              Use the <strong>Equations</strong> tab to insert pre-built templates.
             </p>
-            <p style={{ marginBottom: 6 }}>
-              Type expressions using physical constants (e.g. <code>m_e c^2 in MeV</code>),
-              or browse the <strong>Equations</strong> tab and press <strong>Add</strong> to insert
-              a pre-built equation with default parameters.
+
+            <p style={{ fontWeight: 600, marginBottom: 6, fontSize: 'var(--font-xs)', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--color-text-muted)' }}>
+              Keyboard shortcuts
             </p>
-            <p style={{ marginBottom: 6 }}>
-              <strong>Cmd+Enter</strong> to evaluate &middot; <strong>Cmd+K</strong> to search &middot; <strong>Cmd+J</strong> to focus editor
-            </p>
-            <p style={{ color: 'var(--color-text-muted)', fontSize: 11 }}>
-              Author: ChongChong He (<a href="mailto:chongchong.he@anu.edu.au" style={{ color: 'var(--color-accent)' }}>chongchong.he@anu.edu.au</a>)
+            <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: 12, fontSize: 'var(--font-sm)' }}>
+              {([
+                ['Cmd+Enter', 'Evaluate expression'],
+                ['Cmd+K', 'Focus search bar'],
+                ['Cmd+J', 'Focus editor'],
+              ] as [string, string][]).map(([key, desc]) => (
+                <tr key={key}>
+                  <td style={{ paddingBottom: 3, paddingRight: 12, whiteSpace: 'nowrap' }}>
+                    <kbd style={{ background: '#f0f0f0', border: '1px solid #ccc', borderRadius: 3, padding: '1px 5px', fontSize: 'var(--font-xs)' }}>{key}</kbd>
+                  </td>
+                  <td style={{ paddingBottom: 3, color: 'var(--color-text-muted)' }}>{desc}</td>
+                </tr>
+              ))}
+            </table>
+
+            <p style={{ fontSize: 'var(--font-xs)', color: 'var(--color-text-muted)', borderTop: '1px solid var(--color-border)', paddingTop: 8 }}>
+              Author: ChongChong He &middot; <a href="mailto:chongchong.he@anu.edu.au" style={{ color: 'var(--color-accent)' }}>chongchong.he@anu.edu.au</a>
             </p>
           </div>
         )}
       </div>
 
-      <span style={{ fontSize: 12, color: 'var(--color-text-muted)' }}>
+      <span style={{ fontSize: 'var(--font-sm)', color: 'var(--color-text-muted)' }}>
         {loading ? 'Loading engine...' : ready ? 'Ready' : 'Error'}
       </span>
       {loading && <div className="spinner" style={{
