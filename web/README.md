@@ -183,16 +183,43 @@ The Vite plugin picks up the new file automatically on the next `npm run dev` or
 
 ---
 
-## Deployment
+## Deployment to GitHub Pages
 
-Pushing to `main` triggers `.github/workflows/deploy.yml`, which:
+The repo ships a GitHub Actions workflow (`.github/workflows/deploy.yml`) that builds and deploys automatically on every push to `main`. You only need to enable GitHub Pages once in your repository settings.
 
-1. Installs Python 3.11 and `pip install astropy numpy sympy`.
-2. Runs `npm run dump-data` to regenerate `constants.json` and `units.json`.
-3. Runs `npm run build` (which also runs the equations Vite plugin).
-4. Deploys `dist/` to GitHub Pages via `actions/deploy-pages`.
+### One-time setup
 
-The app is served at `/astrocalculator/` — `vite.config.ts` sets `base: '/astrocalculator/'` and the Web Worker is fetched using `import.meta.env.BASE_URL` so the path is correct in both dev and production.
+1. Push the repo to GitHub (e.g. `github.com/chongchonghe/astrocalculator`).
+2. Go to **Settings → Pages** in your repository.
+3. Under **Source**, select **GitHub Actions**.
+4. Save. No branch or folder selection is needed — the workflow handles everything.
+
+That's it. The next push to `main` (or a manual trigger from **Actions → Deploy to GitHub Pages → Run workflow**) will build and publish the site.
+
+### What the workflow does
+
+1. Checks out the repo.
+2. Installs Python 3.11 and `pip install astropy numpy sympy`.
+3. Installs Node 20 dependencies with `npm ci`.
+4. Runs `npm run dump-data` — regenerates `constants.json` and `units.json` from astropy.
+5. Copies `src/engine/calculator.py` to `public/` so the Web Worker can fetch it.
+6. Runs `npm run build` — TypeScript compilation + Vite bundle + equations plugin.
+7. Uploads `web/dist/` as a Pages artifact and deploys it.
+
+The deployed URL follows the pattern `https://<username>.github.io/<repo>/`. The app is pre-configured for this: `vite.config.ts` sets `base: '/astrocalculator/'` and the Web Worker is loaded via `import.meta.env.BASE_URL` so all asset paths resolve correctly.
+
+### Deploying a fork
+
+If you fork the repo under a different username or rename it, update the `base` in `vite.config.ts`:
+
+```ts
+export default defineConfig({
+  base: '/<your-repo-name>/',
+  // ...
+});
+```
+
+Then enable Pages under **Settings → Pages → Source → GitHub Actions** in your fork.
 
 ---
 
