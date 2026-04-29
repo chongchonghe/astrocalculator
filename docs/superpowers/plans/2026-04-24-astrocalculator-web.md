@@ -1,6 +1,6 @@
 # AstroCalculator Web — Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [x]`) syntax for tracking.
 
 **Goal:** Rewrite AstroCalculator as a client-side React web app with Pyodide-powered Python engine, Studio layout sidebar, and one-click equation templates.
 
@@ -19,24 +19,24 @@
 - Create: `web/vite.config.ts`
 - Create: `web/index.html`
 
-- [ ] **Step 1: Run Vite scaffolding**
+- [x] **Step 1: Run Vite scaffolding**
 
 Run: `cd /Users/u1149259/git/astrocalculator && npm create vite@latest web -- --template react-ts`
 Expected: Creates `web/` directory with React + TypeScript template
 
-- [ ] **Step 2: Install all dependencies**
+- [x] **Step 2: Install all dependencies**
 
 Run: `cd web && npm install pyodide@latest katex vite-plugin-pwa gray-matter comlink`
 Run: `cd web && npm install -D @types/katex`
 
 Expected: All packages installed successfully
 
-- [ ] **Step 3: Verify dev server starts**
+- [x] **Step 3: Verify dev server starts**
 
 Run: `cd web && npm run dev`
 Expected: Dev server starts on http://localhost:5173, shows Vite + React default page
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 cd /Users/u1149259/git/astrocalculator
@@ -51,7 +51,7 @@ git commit -m "feat: scaffold web app with Vite + React + TypeScript"
 **Files:**
 - Create: `web/src/types/index.ts`
 
-- [ ] **Step 1: Write types file**
+- [x] **Step 1: Write types file**
 
 ```typescript
 // web/src/types/index.ts
@@ -117,12 +117,12 @@ export interface CalculatorWorkerAPI {
 }
 ```
 
-- [ ] **Step 2: Verify types compile**
+- [x] **Step 2: Verify types compile**
 
 Run: `cd web && npx tsc --noEmit`
 Expected: No TypeScript errors
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 cd /Users/u1149259/git/astrocalculator
@@ -138,7 +138,7 @@ git commit -m "feat: add TypeScript type definitions"
 - Create: `web/scripts/dump-constants.py`
 - Create: `web/scripts/dump-units.py`
 
-- [ ] **Step 1: Write dump-constants.py**
+- [x] **Step 1: Write dump-constants.py**
 
 ```python
 #!/usr/bin/env python3
@@ -182,7 +182,7 @@ with open(os.path.join(out_dir, 'constants.json'), 'w') as f:
 print(f"Wrote {len(out)} constants to src/data/constants.json")
 ```
 
-- [ ] **Step 2: Write dump-units.py**
+- [x] **Step 2: Write dump-units.py**
 
 ```python
 #!/usr/bin/env python3
@@ -234,7 +234,7 @@ with open(os.path.join(out_dir, 'units.json'), 'w') as f:
 print(f"Wrote {len(out)} units to src/data/units.json")
 ```
 
-- [ ] **Step 3: Run dump scripts**
+- [x] **Step 3: Run dump scripts**
 
 Run: `cd /Users/u1149259/git/astrocalculator && .venv/bin/python web/scripts/dump-constants.py`
 Expected: `Wrote N constants to src/data/constants.json`
@@ -242,13 +242,13 @@ Expected: `Wrote N constants to src/data/constants.json`
 Run: `cd /Users/u1149259/git/astrocalculator && .venv/bin/python web/scripts/dump-units.py`
 Expected: `Wrote N units to src/data/units.json`
 
-- [ ] **Step 4: Verify JSON output is valid**
+- [x] **Step 4: Verify JSON output is valid**
 
 Run: `cd web && node -e "JSON.parse(require('fs').readFileSync('src/data/constants.json','utf8')); console.log('constants.json valid')"`
 Run: `cd web && node -e "JSON.parse(require('fs').readFileSync('src/data/units.json','utf8')); console.log('units.json valid')"`
 Expected: "constants.json valid" and "units.json valid"
 
-- [ ] **Step 5: Add npm scripts to package.json**
+- [x] **Step 5: Add npm scripts to package.json**
 
 Read `web/package.json` and add these scripts:
 
@@ -270,7 +270,7 @@ Read `web/package.json` and add these scripts:
 
 Use Edit tool to add these script entries to `web/package.json`.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 cd /Users/u1149259/git/astrocalculator
@@ -285,12 +285,12 @@ git commit -m "feat: add constants/units dump scripts + JSON data"
 **Files:**
 - Create: `web/vite-plugin-equations.ts`
 
-- [ ] **Step 1: Install gray-matter for YAML frontmatter parsing**
+- [x] **Step 1: Install gray-matter for YAML frontmatter parsing**
 
 Run: `cd web && npm install gray-matter`
 Run: `cd web && npm install -D @types/node`
 
-- [ ] **Step 2: Write the Vite plugin**
+- [x] **Step 2: Write the Vite plugin**
 
 ```typescript
 // web/vite-plugin-equations.ts
@@ -343,7 +343,7 @@ export function equationsPlugin(): Plugin {
 }
 ```
 
-- [ ] **Step 3: Wire plugin into vite.config.ts**
+- [x] **Step 3: Wire plugin into vite.config.ts**
 
 Read `web/vite.config.ts` and replace with:
 
@@ -377,12 +377,12 @@ export default defineConfig({
 });
 ```
 
-- [ ] **Step 4: Verify TypeScript compilation**
+- [x] **Step 4: Verify TypeScript compilation**
 
 Run: `cd web && npx tsc --noEmit`
 Expected: No errors
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 cd /Users/u1149259/git/astrocalculator
@@ -400,7 +400,7 @@ git commit -m "feat: add Vite plugin for equations markdown → JSON"
 - Create: `web/equations/kepler-third-law.md`
 - Create: `web/equations/eddington-luminosity.md`
 
-- [ ] **Step 1: Write escape-velocity.md**
+- [x] **Step 1: Write escape-velocity.md**
 
 ```markdown
 ---
@@ -428,7 +428,7 @@ The escape velocity is the minimum speed needed for an object to escape
 the gravitational influence of a massive body.
 ```
 
-- [ ] **Step 2: Write schwarzschild-radius.md**
+- [x] **Step 2: Write schwarzschild-radius.md**
 
 ```markdown
 ---
@@ -452,7 +452,7 @@ expressions:
 The Schwarzschild radius defines the event horizon of a non-rotating black hole.
 ```
 
-- [ ] **Step 3: Write kepler-third-law.md**
+- [x] **Step 3: Write kepler-third-law.md**
 
 ```markdown
 ---
@@ -479,7 +479,7 @@ expressions:
 Kepler's Third Law relates orbital period to semi-major axis for two-body systems.
 ```
 
-- [ ] **Step 4: Write eddington-luminosity.md**
+- [x] **Step 4: Write eddington-luminosity.md**
 
 ```markdown
 ---
@@ -504,17 +504,17 @@ The Eddington luminosity is the maximum luminosity a star can have
 while maintaining hydrostatic equilibrium.
 ```
 
-- [ ] **Step 5: Verify equations.json generation**
+- [x] **Step 5: Verify equations.json generation**
 
 Run: `cd web && npm run dev` (or trigger a Vite build to check the plugin runs)
 Expected: In terminal output: `Built 4 equation templates → src/data/equations.json`
 
-- [ ] **Step 6: Verify equations.json content**
+- [x] **Step 6: Verify equations.json content**
 
 Run: `cd web && node -e "const eq = JSON.parse(require('fs').readFileSync('src/data/equations.json','utf8')); console.log(eq.length, 'equations'); eq.forEach(e => console.log(' -', e.title, ':', e.expressions.length, 'expressions'))"`
 Expected: `4 equations` with their expression counts
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 cd /Users/u1149259/git/astrocalculator
@@ -529,7 +529,7 @@ git commit -m "feat: add example equation templates"
 **Files:**
 - Create: `web/src/engine/calculator.py`
 
-- [ ] **Step 1: Write calculator.py**
+- [x] **Step 1: Write calculator.py**
 
 Copy the existing `AstroCalculator` class from `calc/__init__.py` and adapt it for Pyodide. Remove `prompt_toolkit`/`rich` dependencies, remove `USER_DATA_DIR`/`HISTORY_DIR`/`CACHE_FILE`, remove lazy imports (Pyodide provides astropy/sympy/numpy directly).
 
@@ -799,7 +799,7 @@ def convert_quantity(quantity_obj, unit):
     return calc.convert(qty, unit)
 ```
 
-- [ ] **Step 2: Commit**
+- [x] **Step 2: Commit**
 
 ```bash
 cd /Users/u1149259/git/astrocalculator
@@ -816,7 +816,7 @@ git commit -m "feat: add Pyodide-adapted calculator engine"
 
 **Note:** The worker must be a plain `.js` file in `public/` (not a bundled TypeScript module) because it uses `importScripts` to load Pyodide, which only works in classic web workers.
 
-- [ ] **Step 1: Write the plain JS web worker**
+- [x] **Step 1: Write the plain JS web worker**
 
 ```javascript
 // web/public/pyodide-worker.js
@@ -883,7 +883,7 @@ self.onmessage = async function(e) {
 };
 ```
 
-- [ ] **Step 2: Copy calculator.py to public/ for the worker to fetch**
+- [x] **Step 2: Copy calculator.py to public/ for the worker to fetch**
 
 The `vite.config.ts` needs to copy `calculator.py` to the `public/` dir at dev time so the worker can fetch it. Add a `vite-plugin-static-copy` or use a simple approach:
 
@@ -907,7 +907,7 @@ Run: `cd web && cp src/engine/calculator.py public/calculator.py`
 
 Edit `web/package.json` to add `"copy-calc"` script and update `predev`/`prebuild`.
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 cd /Users/u1149259/git/astrocalculator
@@ -922,7 +922,7 @@ git commit -m "feat: add Pyodide web worker (classic, in public/)"
 **Files:**
 - Create: `web/src/hooks/useCalculator.ts`
 
-- [ ] **Step 1: Write useCalculator hook**
+- [x] **Step 1: Write useCalculator hook**
 
 ```typescript
 // web/src/hooks/useCalculator.ts
@@ -1017,12 +1017,12 @@ export function useCalculator() {
 }
 ```
 
-- [ ] **Step 2: Verify TypeScript compilation**
+- [x] **Step 2: Verify TypeScript compilation**
 
 Run: `cd web && npx tsc --noEmit`
 Expected: No errors
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 cd /Users/u1149259/git/astrocalculator
@@ -1041,7 +1041,7 @@ git commit -m "feat: add useCalculator hook with PyodideProvider"
 - Modify: `web/src/App.css`
 - Modify: `web/src/index.css`
 
-- [ ] **Step 1: Write global CSS reset and variables**
+- [x] **Step 1: Write global CSS reset and variables**
 
 Replace `web/src/index.css`:
 
@@ -1080,7 +1080,7 @@ html, body, #root {
 }
 ```
 
-- [ ] **Step 2: Write Header component**
+- [x] **Step 2: Write Header component**
 
 ```typescript
 // web/src/components/Header.tsx
@@ -1114,7 +1114,7 @@ export default function Header() {
 }
 ```
 
-- [ ] **Step 3: Write StudioLayout component**
+- [x] **Step 3: Write StudioLayout component**
 
 ```typescript
 // web/src/components/StudioLayout.tsx
@@ -1171,7 +1171,7 @@ export default function StudioLayout({
 }
 ```
 
-- [ ] **Step 4: Write App.tsx**
+- [x] **Step 4: Write App.tsx**
 
 ```typescript
 // web/src/App.tsx
@@ -1253,12 +1253,12 @@ function AppContent() {
 }
 ```
 
-- [ ] **Step 5: Verify TypeScript compilation**
+- [x] **Step 5: Verify TypeScript compilation**
 
 Run: `cd web && npx tsc --noEmit`
 Expected: No errors (warnings for missing components are OK — they're created in subsequent tasks)
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 cd /Users/u1149259/git/astrocalculator
@@ -1273,7 +1273,7 @@ git commit -m "feat: add App shell, Header, and StudioLayout"
 **Files:**
 - Create: `web/src/components/Sidebar.tsx`
 
-- [ ] **Step 1: Write Sidebar component**
+- [x] **Step 1: Write Sidebar component**
 
 ```typescript
 // web/src/components/Sidebar.tsx
@@ -1369,7 +1369,7 @@ export default function Sidebar({
 }
 ```
 
-- [ ] **Step 2: Commit**
+- [x] **Step 2: Commit**
 
 ```bash
 cd /Users/u1149259/git/astrocalculator
@@ -1384,7 +1384,7 @@ git commit -m "feat: add Sidebar with tab navigation"
 **Files:**
 - Create: `web/src/components/SearchBar.tsx`
 
-- [ ] **Step 1: Write SearchBar component**
+- [x] **Step 1: Write SearchBar component**
 
 ```typescript
 // web/src/components/SearchBar.tsx
@@ -1418,7 +1418,7 @@ export default function SearchBar({ value, onChange, inputRef }: SearchBarProps)
 }
 ```
 
-- [ ] **Step 2: Commit**
+- [x] **Step 2: Commit**
 
 ```bash
 cd /Users/u1149259/git/astrocalculator
@@ -1434,7 +1434,7 @@ git commit -m "feat: add SearchBar component"
 - Create: `web/src/components/ConstantsTable.tsx`
 - Create: `web/src/components/UnitsTable.tsx`
 
-- [ ] **Step 1: Write ConstantsTable component**
+- [x] **Step 1: Write ConstantsTable component**
 
 ```typescript
 // web/src/components/ConstantsTable.tsx
@@ -1498,7 +1498,7 @@ export default function ConstantsTable({ query, onClick }: ConstantsTableProps) 
 }
 ```
 
-- [ ] **Step 2: Write UnitsTable component**
+- [x] **Step 2: Write UnitsTable component**
 
 ```typescript
 // web/src/components/UnitsTable.tsx
@@ -1565,7 +1565,7 @@ export default function UnitsTable({ query, onClick }: UnitsTableProps) {
 }
 ```
 
-- [ ] **Step 3: Verify TypeScript compilation (JSON imports need resolveJsonModule)**
+- [x] **Step 3: Verify TypeScript compilation (JSON imports need resolveJsonModule)**
 
 Ensure `web/tsconfig.json` has `"resolveJsonModule": true` in compilerOptions.
 
@@ -1574,7 +1574,7 @@ Read `web/tsconfig.json`, use Edit to add `"resolveJsonModule": true` if missing
 Run: `cd web && npx tsc --noEmit`
 Expected: No errors
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 cd /Users/u1149259/git/astrocalculator
@@ -1589,7 +1589,7 @@ git commit -m "feat: add ConstantsTable and UnitsTable components"
 **Files:**
 - Create: `web/src/components/EquationTemplates.tsx`
 
-- [ ] **Step 1: Write EquationTemplates component**
+- [x] **Step 1: Write EquationTemplates component**
 
 ```typescript
 // web/src/components/EquationTemplates.tsx
@@ -1692,12 +1692,12 @@ export default function EquationTemplates({ query, onAdd }: EquationTemplatesPro
 }
 ```
 
-- [ ] **Step 2: Verify TypeScript compilation**
+- [x] **Step 2: Verify TypeScript compilation**
 
 Run: `cd web && npx tsc --noEmit`
 Expected: No errors
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 cd /Users/u1149259/git/astrocalculator
@@ -1712,7 +1712,7 @@ git commit -m "feat: add EquationTemplates component with KaTeX rendering"
 **Files:**
 - Create: `web/src/components/ExpressionEditor.tsx`
 
-- [ ] **Step 1: Write ExpressionEditor component**
+- [x] **Step 1: Write ExpressionEditor component**
 
 ```typescript
 // web/src/components/ExpressionEditor.tsx
@@ -1907,12 +1907,12 @@ export default function ExpressionEditor({ editorRef }: ExpressionEditorProps) {
 }
 ```
 
-- [ ] **Step 2: Verify TypeScript compilation**
+- [x] **Step 2: Verify TypeScript compilation**
 
 Run: `cd web && npx tsc --noEmit`
 Expected: No errors
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 cd /Users/u1149259/git/astrocalculator
@@ -1927,7 +1927,7 @@ git commit -m "feat: add ExpressionEditor with autocomplete and keyboard shortcu
 **Files:**
 - Create: `web/src/components/ResultDisplay.tsx`
 
-- [ ] **Step 1: Write ResultDisplay component**
+- [x] **Step 1: Write ResultDisplay component**
 
 ```typescript
 // web/src/components/ResultDisplay.tsx
@@ -2061,12 +2061,12 @@ export default function ResultDisplay() {
 }
 ```
 
-- [ ] **Step 2: Verify TypeScript compilation**
+- [x] **Step 2: Verify TypeScript compilation**
 
 Run: `cd web && npx tsc --noEmit`
 Expected: No errors
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 cd /Users/u1149259/git/astrocalculator
@@ -2081,7 +2081,7 @@ git commit -m "feat: add ResultDisplay with copy buttons"
 **Files:**
 - Create: `web/src/components/HistoryPanel.tsx`
 
-- [ ] **Step 1: Write HistoryPanel component**
+- [x] **Step 1: Write HistoryPanel component**
 
 ```typescript
 // web/src/components/HistoryPanel.tsx
@@ -2188,12 +2188,12 @@ export default function HistoryPanel({ onClick }: HistoryPanelProps) {
 }
 ```
 
-- [ ] **Step 2: Verify TypeScript compilation**
+- [x] **Step 2: Verify TypeScript compilation**
 
 Run: `cd web && npx tsc --noEmit`
 Expected: No errors
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 cd /Users/u1149259/git/astrocalculator
@@ -2208,7 +2208,7 @@ git commit -m "feat: add HistoryPanel with localStorage persistence"
 **Files:**
 - Modify: `web/src/App.tsx`
 
-- [ ] **Step 1: Update App.tsx with Cmd+K shortcut and evaluation integration**
+- [x] **Step 1: Update App.tsx with Cmd+K shortcut and evaluation integration**
 
 Read `web/src/App.tsx` and replace with:
 
@@ -2307,7 +2307,7 @@ function AppContent() {
 }
 ```
 
-- [ ] **Step 2: Update main.tsx to remove Vite default content**
+- [x] **Step 2: Update main.tsx to remove Vite default content**
 
 Read `web/src/main.tsx` and ensure it renders App:
 
@@ -2324,12 +2324,12 @@ createRoot(document.getElementById('root')!).render(
 )
 ```
 
-- [ ] **Step 3: Verify TypeScript compilation**
+- [x] **Step 3: Verify TypeScript compilation**
 
 Run: `cd web && npx tsc --noEmit`
 Expected: No errors
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 cd /Users/u1149259/git/astrocalculator
@@ -2341,42 +2341,42 @@ git commit -m "feat: wire keyboard shortcuts and final integration"
 
 ### Task 18: Test the App Locally
 
-- [ ] **Step 1: Start dev server**
+- [x] **Step 1: Start dev server**
 
 Run: `cd web && npm run dev`
 Expected: Dev server starts on http://localhost:5173
 
-- [ ] **Step 2: Check loading state**
+- [x] **Step 2: Check loading state**
 Open http://localhost:5173 in browser.
 Expected: "Loading engine..." spinner in header. Sidebar shows constants/units tables from JSON. Search works instantly.
 
-- [ ] **Step 3: Wait for Pyodide ready**
+- [x] **Step 3: Wait for Pyodide ready**
 After ~5-8s, the spinner should disappear and the header shows "Ready".
 
-- [ ] **Step 4: Test a simple expression**
+- [x] **Step 4: Test a simple expression**
 Type `m_e c^2 in MeV` in the editor, press Cmd+Enter.
 Expected: Result cards show parsed expression, SI value (~8.1871e-14 J), CGS value, and converted 0.5110 MeV.
 
-- [ ] **Step 5: Test click-to-insert**
+- [x] **Step 5: Test click-to-insert**
 Click on "G" in the constants table.
 Expected: "G" is inserted at cursor in the editor.
 
-- [ ] **Step 6: Test equation template**
+- [x] **Step 6: Test equation template**
 Switch to Equations tab, click "Add" on Escape velocity.
 Expected: Expression editor populates with `M = 1.4 M_sun\nR = 10 km\nsqrt(2 G M / R) in km/s`.
 
-- [ ] **Step 7: Test autocomplete**
+- [x] **Step 7: Test autocomplete**
 Type `m_` in the editor.
 Expected: Autocomplete dropdown shows `m_e`, `m_p`, `m_n`.
 
-- [ ] **Step 8: Test history**
+- [x] **Step 8: Test history**
 After evaluating, switch to History tab.
 Expected: Shows the expression just evaluated. Click it to reload.
 
-- [ ] **Step 9: Test keyboard shortcuts**
+- [x] **Step 9: Test keyboard shortcuts**
 Press Cmd+K to focus search bar. Press Cmd+J to focus editor.
 
-- [ ] **Step 10: Commit any fixes**
+- [x] **Step 10: Commit any fixes**
 
 ```bash
 cd /Users/u1149259/git/astrocalculator
@@ -2391,7 +2391,7 @@ git commit -m "fix: issues found during manual testing"
 **Files:**
 - Create: `.github/workflows/deploy.yml`
 
-- [ ] **Step 1: Write deployment workflow**
+- [x] **Step 1: Write deployment workflow**
 
 ```yaml
 # .github/workflows/deploy.yml
@@ -2456,7 +2456,7 @@ jobs:
         run: echo "Deployed to ${{ steps.deployment.outputs.page_url }}"
 ```
 
-- [ ] **Step 2: Commit**
+- [x] **Step 2: Commit**
 
 ```bash
 cd /Users/u1149259/git/astrocalculator
