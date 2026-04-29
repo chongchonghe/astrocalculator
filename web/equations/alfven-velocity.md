@@ -4,7 +4,7 @@ category: mhd
 tags: [magnetic field, Alfven wave, MHD]
 params:
   - symbol: B
-    default: "10 uG"
+    default: "1e-5 Gauss"
     description: Magnetic field strength
   - symbol: n
     default: "100 cm^-3"

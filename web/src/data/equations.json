@@ -11,7 +11,7 @@
     "params": [
       {
         "symbol": "B",
-        "default": "10 uG",
+        "default": "1e-5 Gauss",
         "description": "Magnetic field strength"
       },
       {
@@ -129,13 +129,13 @@
     "expressions": [
       {
         "name": "Deceleration (subsonic, v_M << sigma)",
-        "expression": "dv = 4 * sqrt(2*pi) / 3 * G^2 * M * m_p * n * sigma / sigma^3 * ln(Lambda); dv in cm/s^2",
+        "expression": "dv = 4 * sqrt(2*pi) / 3 * G^2 * M * m_p * n * sigma / sigma^3 * log(Lambda); dv in cm/s^2",
         "latex": "\\frac{dv_M}{dt} \\approx \\frac{4\\sqrt{2\\pi}}{3} \\frac{G^2 M \\rho}{\\sigma^2} \\ln \\Lambda",
         "description": "Assuming the object moves at velocity sigma through the background"
       },
       {
         "name": "Deceleration (supersonic, v_M >> sigma)",
-        "expression": "dv = 4 * pi * G^2 * M * m_p * n / sigma^2 * ln(Lambda); dv in cm/s^2",
+        "expression": "dv = 4 * pi * G^2 * M * m_p * n / sigma^2 * log(Lambda); dv in cm/s^2",
         "latex": "\\frac{dv_M}{dt} \\approx \\frac{4\\pi G^2 M \\rho}{v_M^2} \\ln \\Lambda",
         "description": "Assuming the object moves at velocity sigma >> velocity dispersion"
       },
@@ -342,6 +342,11 @@
         "symbol": "a",
         "default": "1 au",
         "description": "Semi-major axis"
+      },
+      {
+        "symbol": "P",
+        "default": "1 yr",
+        "description": "Orbital period"
       }
     ],
     "expressions": [
@@ -494,12 +499,17 @@
         "symbol": "T",
         "default": "10000 K",
         "description": "Electron temperature"
+      },
+      {
+        "symbol": "alpha_B",
+        "default": "2.6e-13 cm^3/s",
+        "description": "Case B recombination coefficient (~2.6e-13 at 10^4 K)"
       }
     ],
     "expressions": [
       {
         "name": "Strömgren radius",
-        "expression": "R_S = (3 * Q0 / (4 * pi * n^2 * alpha_B(T)))^(1/3); R_S in pc",
+        "expression": "R_S = (3 * Q0 / (4 * pi * n^2 * alpha_B))^(1/3); R_S in pc",
         "latex": "R_{\\rm S} = \\left(\\frac{3Q_0}{4\\pi n_0^2 \\alpha_B}\\right)^{1/3}"
       }
     ],

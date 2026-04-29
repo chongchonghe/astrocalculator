@@ -9,6 +9,9 @@ params:
   - symbol: a
     default: "1 au"
     description: Semi-major axis
+  - symbol: P
+    default: "1 yr"
+    description: Orbital period
 expressions:
   - name: "Orbital period"
     expression: "P = sqrt(4 * pi^2 * a^3 / (G * M)); P in yr"

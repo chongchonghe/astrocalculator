@@ -20,11 +20,11 @@ params:
     description: Coulomb logarithm (typically 3-20)
 expressions:
   - name: "Deceleration (subsonic, v_M << sigma)"
-    expression: "dv = 4 * sqrt(2*pi) / 3 * G^2 * M * m_p * n * sigma / sigma^3 * ln(Lambda); dv in cm/s^2"
+    expression: "dv = 4 * sqrt(2*pi) / 3 * G^2 * M * m_p * n * sigma / sigma^3 * log(Lambda); dv in cm/s^2"
     latex: "\\frac{dv_M}{dt} \\approx \\frac{4\\sqrt{2\\pi}}{3} \\frac{G^2 M \\rho}{\\sigma^2} \\ln \\Lambda"
     description: "Assuming the object moves at velocity sigma through the background"
   - name: "Deceleration (supersonic, v_M >> sigma)"
-    expression: "dv = 4 * pi * G^2 * M * m_p * n / sigma^2 * ln(Lambda); dv in cm/s^2"
+    expression: "dv = 4 * pi * G^2 * M * m_p * n / sigma^2 * log(Lambda); dv in cm/s^2"
     latex: "\\frac{dv_M}{dt} \\approx \\frac{4\\pi G^2 M \\rho}{v_M^2} \\ln \\Lambda"
     description: "Assuming the object moves at velocity sigma >> velocity dispersion"
   - name: "Decay timescale (BH in galaxy core)"
