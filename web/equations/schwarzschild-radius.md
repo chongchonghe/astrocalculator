@@ -1,6 +1,6 @@
 ---
 title: Schwarzschild Radius
-category: General Relativity
+category: general relativity
 tags: [GR, general relativity, black hole, radius]
 params:
   - symbol: M
@@ -8,12 +8,8 @@ params:
     description: Mass of the object
 expressions:
   - name: "Schwarzschild radius"
-    expression: "R = 2 G M / c^2,\n R in km"
+    expression: "r_s = 2 * G * M / c^2; r_s in km"
     latex: "r_s = \\frac{2GM}{c^2}"
-  - name: "Schwarzschild density"
-    expression: "den = 3 c^6 / (32 pi G^3 M^2)"
-    latex: "\\rho_s = \\frac{3c^6}{32\\pi G^3 M^2}"
-    description: "Average density within the event horizon"
 ---
 
 The Schwarzschild radius defines the event horizon of a non-rotating black hole.

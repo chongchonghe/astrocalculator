@@ -74,7 +74,7 @@ export default function ResultDisplay() {
             <div style={{ fontSize: 'var(--font-xs)', color: 'var(--color-text-muted)', marginBottom: 2 }}>
               {card.label}
             </div>
-            <div style={{ fontFamily: 'monospace', fontSize: 'var(--font-base)', wordBreak: 'break-all' }}>
+            <div style={{ fontFamily: 'monospace', fontSize: 'var(--font-base)', wordBreak: 'break-all', maxHeight: 120, overflowY: 'auto' }}>
               {card.value}
             </div>
             <button

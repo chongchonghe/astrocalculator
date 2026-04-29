@@ -11,13 +11,17 @@ export default function ExpressionEditor({ editorRef }: ExpressionEditorProps) {
     setValue(e.target.value);
   }, []);
 
+  const run = useCallback(() => {
+    const text = editorRef.current?.value ?? value;
+    window.dispatchEvent(new CustomEvent('evaluate', { detail: text }));
+  }, [editorRef, value]);
+
   const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
       e.preventDefault();
-      const text = editorRef.current?.value ?? value;
-      window.dispatchEvent(new CustomEvent('evaluate', { detail: text }));
+      run();
     }
-  }, [editorRef, value]);
+  }, [run]);
 
   // Cmd+J to focus editor
   useEffect(() => {
@@ -34,7 +38,7 @@ export default function ExpressionEditor({ editorRef }: ExpressionEditorProps) {
   const lines = (editorRef.current?.value || value).split('\n').length;
 
   return (
-    <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+    <div style={{ height: 600, minHeight: 200, maxHeight: '80vh', resize: 'vertical', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
       <div style={{
         display: 'flex',
         border: '1px solid var(--color-border)',
@@ -77,6 +81,23 @@ export default function ExpressionEditor({ editorRef }: ExpressionEditorProps) {
             background: 'transparent',
           }}
         />
+      </div>
+      <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '4px 0' }}>
+        <button
+          onClick={run}
+          style={{
+            padding: '4px 12px',
+            background: 'var(--color-accent)',
+            color: '#fff',
+            border: 'none',
+            borderRadius: 'var(--radius)',
+            cursor: 'pointer',
+            fontSize: 'var(--font-sm)',
+            fontWeight: 600,
+          }}
+        >
+          Run (⌘↵)
+        </button>
       </div>
     </div>
   );

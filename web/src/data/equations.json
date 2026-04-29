@@ -1,8 +1,157 @@
 [
   {
+    "slug": "alfven-velocity",
+    "title": "Alfvén Velocity",
+    "category": "mhd",
+    "tags": [
+      "magnetic field",
+      "Alfven wave",
+      "MHD"
+    ],
+    "params": [
+      {
+        "symbol": "B",
+        "default": "10 uG",
+        "description": "Magnetic field strength"
+      },
+      {
+        "symbol": "n",
+        "default": "100 cm^-3",
+        "description": "Hydrogen number density"
+      },
+      {
+        "symbol": "mu",
+        "default": "1.4",
+        "description": "Mean molecular weight"
+      },
+      {
+        "symbol": "L",
+        "default": "1 pc",
+        "description": "Length scale (for crossing time)"
+      }
+    ],
+    "expressions": [
+      {
+        "name": "Alfvén velocity",
+        "expression": "v_A = B / sqrt(4 * pi * mu * m_p * n); v_A in km/s",
+        "latex": "v_{\\rm A} = \\frac{B_0}{\\sqrt{4\\pi\\rho_0}}"
+      }
+    ],
+    "body": "The Alfvén velocity is the characteristic speed of magnetohydrodynamic waves propagating along magnetic field lines. The Alfvén crossing time gives the timescale for magnetic communication across a region of size L."
+  },
+  {
+    "slug": "bondi-accretion",
+    "title": "Bondi Accretion",
+    "category": "star",
+    "tags": [
+      "accretion",
+      "black hole",
+      "Bondi"
+    ],
+    "params": [
+      {
+        "symbol": "M",
+        "default": "1 M_sun",
+        "description": "Mass of the accretor"
+      },
+      {
+        "symbol": "rho_inf",
+        "default": "1e-24 g/cm^3",
+        "description": "Ambient gas density"
+      },
+      {
+        "symbol": "c_s",
+        "default": "10 km/s",
+        "description": "Sound speed of ambient gas"
+      },
+      {
+        "symbol": "v_inf",
+        "default": "0 km/s",
+        "description": "Relative velocity (0 for pure Bondi)"
+      }
+    ],
+    "expressions": [
+      {
+        "name": "Bondi radius",
+        "expression": "r_B = G * M / c_s^2; r_B in cm",
+        "latex": "r_{\\rm B} = \\frac{GM}{c_s^2}"
+      },
+      {
+        "name": "Bondi accretion rate",
+        "expression": "Mdot = 4 * pi * G^2 * M^2 * rho_inf / c_s^3; Mdot in M_sun/yr",
+        "latex": "\\dot{M}_{\\rm B} = \\frac{4\\pi G^2 M^2 \\rho_{\\infty}}{c_s^3}"
+      },
+      {
+        "name": "Bondi-Hoyle accretion rate",
+        "expression": "Mdot = 4 * pi * G^2 * M^2 * rho_inf / (c_s^2 + v_inf^2)^(3/2); Mdot in M_sun/yr",
+        "latex": "\\dot{M}_{\\rm BH} = \\frac{4\\pi G^2 M^2 \\rho_{\\infty}}{(c_\\infty^2 + v_\\infty^2)^{3/2}}",
+        "description": "Interpolation formula including relative motion"
+      }
+    ],
+    "body": "Bondi accretion describes the spherical accretion of gas onto a compact object. The Bondi-Hoyle interpolation extends this to account for the relative motion between the object and the gas."
+  },
+  {
+    "slug": "dynamical-friction",
+    "title": "Dynamical Friction",
+    "category": "dynamics",
+    "tags": [
+      "dynamical friction",
+      "black hole",
+      "orbit decay"
+    ],
+    "params": [
+      {
+        "symbol": "M",
+        "default": "1e8 M_sun",
+        "description": "Mass of the orbiting object"
+      },
+      {
+        "symbol": "n",
+        "default": "1 cm^-3",
+        "description": "Ambient number density"
+      },
+      {
+        "symbol": "sigma",
+        "default": "200 km/s",
+        "description": "Velocity dispersion of background stars"
+      },
+      {
+        "symbol": "r_i",
+        "default": "5 kpc",
+        "description": "Initial orbital radius"
+      },
+      {
+        "symbol": "Lambda",
+        "default": "6",
+        "description": "Coulomb logarithm (typically 3-20)"
+      }
+    ],
+    "expressions": [
+      {
+        "name": "Deceleration (subsonic, v_M << sigma)",
+        "expression": "dv = 4 * sqrt(2*pi) / 3 * G^2 * M * m_p * n * sigma / sigma^3 * ln(Lambda); dv in cm/s^2",
+        "latex": "\\frac{dv_M}{dt} \\approx \\frac{4\\sqrt{2\\pi}}{3} \\frac{G^2 M \\rho}{\\sigma^2} \\ln \\Lambda",
+        "description": "Assuming the object moves at velocity sigma through the background"
+      },
+      {
+        "name": "Deceleration (supersonic, v_M >> sigma)",
+        "expression": "dv = 4 * pi * G^2 * M * m_p * n / sigma^2 * ln(Lambda); dv in cm/s^2",
+        "latex": "\\frac{dv_M}{dt} \\approx \\frac{4\\pi G^2 M \\rho}{v_M^2} \\ln \\Lambda",
+        "description": "Assuming the object moves at velocity sigma >> velocity dispersion"
+      },
+      {
+        "name": "Decay timescale (BH in galaxy core)",
+        "expression": "t_fric = 19 / Lambda * (r_i / 5)^2 * sigma / 200 * (1e8 / M); t_fric in Gyr",
+        "latex": "t_{\\rm fric} \\approx \\frac{19 \\, {\\rm Gyr}}{\\ln \\Lambda} \\left(\\frac{r_i}{5\\,{\\rm kpc}}\\right)^2 \\frac{\\sigma}{200\\,{\\rm km/s}} \\left(\\frac{10^8 M_\\odot}{M}\\right)",
+        "description": "Timescale for a BH to decay to galaxy center in an isothermal sphere"
+      }
+    ],
+    "body": "Dynamical friction is the drag force experienced by a massive object moving through a background of lighter particles. It governs the orbital decay of supermassive black holes and massive star clusters in galaxies."
+  },
+  {
     "slug": "eddington-luminosity",
     "title": "Eddington Luminosity",
-    "category": "Astrophysics",
+    "category": "star",
     "tags": [
       "accretion",
       "luminosity",
@@ -18,12 +167,12 @@
     "expressions": [
       {
         "name": "Eddington luminosity",
-        "expression": "Ledd = 4 pi G M c m_p / sigma_T, \n Ledd in erg/s",
+        "expression": "L_edd = 4 * pi * G * M * c * m_p / sigma_T; L_edd in erg/s",
         "latex": "L_{\\rm Edd} = \\frac{4\\pi G M c m_p}{\\sigma_T}"
       },
       {
         "name": "Eddington accretion rate",
-        "expression": "Aedd = 4 pi G M m_p / (0.1 sigma_T c)",
+        "expression": "Mdot_edd = 4 * pi * G * M * m_p / (0.1 * sigma_T * c); Mdot_edd in M_sun/yr",
         "latex": "\\dot{M}_{\\rm Edd} = \\frac{4\\pi G M m_p}{0.1\\sigma_T c}",
         "description": "Assuming 10% radiative efficiency"
       }
@@ -33,7 +182,7 @@
   {
     "slug": "escape-velocity",
     "title": "Escape Velocity",
-    "category": "Mechanics",
+    "category": "mechanics",
     "tags": [
       "velocity"
     ],
@@ -52,12 +201,12 @@
     "expressions": [
       {
         "name": "Escape velocity",
-        "expression": "v = sqrt(2 G M / R)\n v in km/s",
+        "expression": "v_esc = sqrt(2 * G * M / R); v_esc in km/s",
         "latex": "v_{\\rm esc} = \\sqrt{\\frac{2GM}{R}}"
       },
       {
         "name": "Circular velocity",
-        "expression": "sqrt(G M / R) in km/s",
+        "expression": "v_circ = sqrt(G * M / R); v_circ in km/s",
         "latex": "v_{\\rm circ} = \\sqrt{\\frac{GM}{R}}",
         "description": "Circular orbital velocity, 1/√2 times escape velocity"
       }
@@ -65,9 +214,120 @@
     "body": "The escape velocity is the minimum speed needed for an object to escape\nthe gravitational influence of a massive body."
   },
   {
+    "slug": "free-fall-time",
+    "title": "Free-Fall Time",
+    "category": "star",
+    "tags": [
+      "timescale",
+      "collapse",
+      "star formation"
+    ],
+    "params": [
+      {
+        "symbol": "n",
+        "default": "1000 cm^-3",
+        "description": "Hydrogen number density"
+      },
+      {
+        "symbol": "mu",
+        "default": "1.4",
+        "description": "Mean molecular weight"
+      }
+    ],
+    "expressions": [
+      {
+        "name": "Free-fall time",
+        "expression": "t_ff = sqrt(3 * pi / (32 * G * mu * m_p * n)); t_ff in Myr",
+        "latex": "t_{\\rm ff} = \\sqrt{\\frac{3\\pi}{32G\\rho}}"
+      }
+    ],
+    "body": "The free-fall time is the characteristic timescale for a pressureless, self-gravitating cloud to collapse under its own gravity. It sets the fundamental timescale for star formation."
+  },
+  {
+    "slug": "jeans-mass",
+    "title": "Jeans Mass and Jeans Length",
+    "category": "star",
+    "tags": [
+      "instability",
+      "collapse",
+      "star formation"
+    ],
+    "params": [
+      {
+        "symbol": "T",
+        "default": "10 K",
+        "description": "Gas temperature"
+      },
+      {
+        "symbol": "n",
+        "default": "1000 cm^-3",
+        "description": "Hydrogen number density"
+      },
+      {
+        "symbol": "mu",
+        "default": "1.4",
+        "description": "Mean molecular weight"
+      }
+    ],
+    "expressions": [
+      {
+        "name": "Jeans length",
+        "expression": "c_s = sqrt(k_B * T / (mu * m_p))\n lambda_J = c_s * sqrt(pi / (G * mu * m_p * n)); lambda_J in pc",
+        "latex": "\\lambda_{\\rm J} = c_{\\rm s} \\sqrt{\\frac{\\pi}{G\\bar\\rho}}"
+      },
+      {
+        "name": "Jeans mass",
+        "expression": "c_s = sqrt(k_B * T / (mu * m_p))\n lambda_J = c_s * sqrt(pi / (G * mu * m_p * n))\n M_J = (4/3) * pi * (lambda_J / 2)^3 * mu * m_p * n; M_J in M_sun",
+        "latex": "M_{\\rm J} = \\frac{4\\pi}{3} \\left(\\frac{\\lambda_{\\rm J}}{2}\\right)^3 \\bar\\rho"
+      },
+      {
+        "name": "Bonnor-Ebert mass",
+        "expression": "M_BE = 1.182 * sqrt(k_B * T / (mu * m_p))^3 / (G^3 * mu * m_p * n)^(1/2); M_BE in M_sun",
+        "latex": "M_{\\rm BE} = 1.182 \\frac{c_s^3}{(G^3 \\rho)^{1/2}} = 0.41 M_{\\rm J}",
+        "description": "Maximum stable mass for a pressure-confined isothermal sphere"
+      }
+    ],
+    "body": "The Jeans length and Jeans mass define the scale above which a self-gravitating gas cloud becomes unstable to gravitational collapse. The Bonnor-Ebert mass is the equivalent for a pressure-confined isothermal sphere."
+  },
+  {
+    "slug": "kelvin-helmholtz-timescale",
+    "title": "Kelvin-Helmholtz Timescale",
+    "category": "star",
+    "tags": [
+      "timescale",
+      "contraction",
+      "pre-main-sequence"
+    ],
+    "params": [
+      {
+        "symbol": "M",
+        "default": "1 M_sun",
+        "description": "Mass of the star"
+      },
+      {
+        "symbol": "R",
+        "default": "1 R_sun",
+        "description": "Radius of the star"
+      },
+      {
+        "symbol": "L",
+        "default": "1 L_sun",
+        "description": "Luminosity of the star"
+      }
+    ],
+    "expressions": [
+      {
+        "name": "KH timescale",
+        "expression": "tau = G * M^2 / (R * L); tau in Myr",
+        "latex": "\\tau_{\\rm KH} \\approx \\frac{GM^2}{RL}"
+      }
+    ],
+    "body": "The Kelvin-Helmholtz (thermal) timescale is the time for a star to radiate its gravitational binding energy at its current luminosity. It governs the contraction of protostars and pre-main-sequence stars."
+  },
+  {
     "slug": "kepler-third-law",
     "title": "Kepler's Third Law",
-    "category": "Mechanics",
+    "category": "mechanics",
     "tags": [
       "period",
       "binary"
@@ -87,12 +347,12 @@
     "expressions": [
       {
         "name": "Orbital period",
-        "expression": "P = sqrt(4 pi^2 a^3 / (G M))\n P in yr",
+        "expression": "P = sqrt(4 * pi^2 * a^3 / (G * M)); P in yr",
         "latex": "P = \\sqrt{\\frac{4\\pi^2 a^3}{GM}}"
       },
       {
         "name": "Orbital separation from period",
-        "expression": "P = sqrt(4 pi^2 a^3 / (G M))\n d = (G M P^2 / (4 pi^2))^(1/3)\n d in au",
+        "expression": "a = (G * M * P^2 / (4 * pi^2))^(1/3); a in au",
         "latex": "a = \\left(\\frac{GMP^2}{4\\pi^2}\\right)^{1/3}",
         "description": "Given period P, compute semi-major axis"
       }
@@ -102,7 +362,7 @@
   {
     "slug": "schwarzschild-radius",
     "title": "Schwarzschild Radius",
-    "category": "General Relativity",
+    "category": "general relativity",
     "tags": [
       "GR",
       "general relativity",
@@ -119,16 +379,175 @@
     "expressions": [
       {
         "name": "Schwarzschild radius",
-        "expression": "R = 2 G M / c^2,\n R in km",
+        "expression": "r_s = 2 * G * M / c^2; r_s in km",
         "latex": "r_s = \\frac{2GM}{c^2}"
-      },
-      {
-        "name": "Schwarzschild density",
-        "expression": "den = 3 c^6 / (32 pi G^3 M^2)",
-        "latex": "\\rho_s = \\frac{3c^6}{32\\pi G^3 M^2}",
-        "description": "Average density within the event horizon"
       }
     ],
     "body": "The Schwarzschild radius defines the event horizon of a non-rotating black hole."
+  },
+  {
+    "slug": "sedov-taylor-radius",
+    "title": "Sedov-Taylor Blast Wave",
+    "category": "star",
+    "tags": [
+      "supernova",
+      "blast wave",
+      "SN remnant"
+    ],
+    "params": [
+      {
+        "symbol": "E",
+        "default": "1e51 erg",
+        "description": "Explosion energy"
+      },
+      {
+        "symbol": "n",
+        "default": "1 cm^-3",
+        "description": "Ambient hydrogen number density"
+      },
+      {
+        "symbol": "t",
+        "default": "1000 yr",
+        "description": "Time since explosion"
+      },
+      {
+        "symbol": "mu",
+        "default": "1.4",
+        "description": "Mean molecular weight"
+      }
+    ],
+    "expressions": [
+      {
+        "name": "Shock radius",
+        "expression": "r_sh = (E * t^2 / (mu * m_p * n))^(1/5); r_sh in pc",
+        "latex": "r_{\\rm sh}(t) = \\xi_0 \\left(\\frac{Et^2}{\\rho_1}\\right)^{1/5}"
+      },
+      {
+        "name": "Shock velocity",
+        "expression": "U_sh = (2/5) * (E / (mu * m_p * n))^(1/5) * t^(-3/5); U_sh in km/s",
+        "latex": "U_{\\rm sh} = \\frac{2}{5} \\left(\\frac{E}{\\rho_1}\\right)^{1/5} t^{-3/5}"
+      }
+    ],
+    "body": "The Sedov-Taylor phase describes the adiabatic expansion of a strong blast wave, such as a supernova remnant, before radiative losses become significant. The shock conserves energy during this self-similar phase."
+  },
+  {
+    "slug": "sound-speed",
+    "title": "Sound Speed",
+    "category": "gas dynamics",
+    "tags": [
+      "sound speed",
+      "temperature",
+      "gas"
+    ],
+    "params": [
+      {
+        "symbol": "T",
+        "default": "10 K",
+        "description": "Gas temperature"
+      },
+      {
+        "symbol": "mu",
+        "default": "1.4",
+        "description": "Mean particle weight (mu = 0.5 for ionized gas)"
+      },
+      {
+        "symbol": "gamma",
+        "default": "1",
+        "description": "Adiabatic index (1 for isothermal, 5/3 for adiabatic)"
+      }
+    ],
+    "expressions": [
+      {
+        "name": "Sound speed",
+        "expression": "c_s = sqrt(gamma * k_B * T / (mu * m_p)); c_s in km/s",
+        "latex": "c_s = \\sqrt{\\frac{\\gamma kT}{\\mu m_{\\rm H}}}"
+      },
+      {
+        "name": "Isothermal sound speed (gamma=1)",
+        "expression": "c_s = 0.29 * sqrt(T / 10 / mu); c_s in km/s",
+        "latex": "c_s \\approx 0.29 \\, \\left(\\frac{T/10\\,{\\rm K}}{\\mu}\\right)^{1/2} \\, {\\rm km/s}"
+      }
+    ],
+    "body": "The sound speed sets the characteristic velocity of pressure waves in a gas. In astrophysics, the isothermal sound speed is most commonly used for cold molecular gas."
+  },
+  {
+    "slug": "stromgren-radius",
+    "title": "Strömgren Radius",
+    "category": "star",
+    "tags": [
+      "HII region",
+      "ionization",
+      "recombination"
+    ],
+    "params": [
+      {
+        "symbol": "Q0",
+        "default": "1e49 s^-1",
+        "description": "Ionizing photon emission rate"
+      },
+      {
+        "symbol": "n",
+        "default": "100 cm^-3",
+        "description": "Hydrogen number density"
+      },
+      {
+        "symbol": "T",
+        "default": "10000 K",
+        "description": "Electron temperature"
+      }
+    ],
+    "expressions": [
+      {
+        "name": "Strömgren radius",
+        "expression": "R_S = (3 * Q0 / (4 * pi * n^2 * alpha_B(T)))^(1/3); R_S in pc",
+        "latex": "R_{\\rm S} = \\left(\\frac{3Q_0}{4\\pi n_0^2 \\alpha_B}\\right)^{1/3}"
+      }
+    ],
+    "body": "The Strömgren radius is the size of the ionized region (H II region) around a young, massive star, set by the balance between photoionization and radiative recombination. alpha_B(T) is the Case B recombination coefficient."
+  },
+  {
+    "slug": "toomre-q",
+    "title": "Toomre Q Parameter",
+    "category": "galaxy",
+    "tags": [
+      "stability",
+      "disk",
+      "Toomre"
+    ],
+    "params": [
+      {
+        "symbol": "Omega",
+        "default": "30 km/s/kpc",
+        "description": "Angular frequency"
+      },
+      {
+        "symbol": "c_s",
+        "default": "10 km/s",
+        "description": "Velocity dispersion (sound speed)"
+      },
+      {
+        "symbol": "Sigma",
+        "default": "100 M_sun/pc^2",
+        "description": "Surface density"
+      }
+    ],
+    "expressions": [
+      {
+        "name": "Toomre Q (Keplerian)",
+        "expression": "Q = Omega * c_s / (pi * G * Sigma)",
+        "latex": "Q = \\frac{\\Omega c_s}{\\pi G \\Sigma}"
+      },
+      {
+        "name": "Toomre Q (flat rotation)",
+        "expression": "Q = sqrt(2) * Omega * c_s / (pi * G * Sigma)",
+        "latex": "Q = \\frac{\\sqrt{2} \\Omega c_s}{\\pi G \\Sigma}"
+      },
+      {
+        "name": "Toomre Q (rigid rotation)",
+        "expression": "Q = 2 * Omega * c_s / (pi * G * Sigma)",
+        "latex": "Q = \\frac{2 \\Omega c_s}{\\pi G \\Sigma}"
+      }
+    ],
+    "body": "The Toomre Q parameter measures the stability of a rotating disk against gravitational collapse. The disk is unstable when Q < 1. The expression depends on the rotation curve: Keplerian, flat, or rigid."
   }
 ]

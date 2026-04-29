@@ -1,0 +1,7 @@
+dynamics
+galaxy
+gas dynamics
+general relativity
+mechanics
+mhd
+star

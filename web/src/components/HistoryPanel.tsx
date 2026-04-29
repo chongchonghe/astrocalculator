@@ -6,9 +6,10 @@ export const MAX_HISTORY = 100;
 
 interface HistoryPanelProps {
   onClick: (input: string) => void;
+  query: string;
 }
 
-export default function HistoryPanel({ onClick }: HistoryPanelProps) {
+export default function HistoryPanel({ onClick, query }: HistoryPanelProps) {
   const [entries, setEntries] = useState<HistoryEntry[]>([]);
 
   // Load history from localStorage on mount and whenever tab becomes visible
@@ -23,6 +24,10 @@ export default function HistoryPanel({ onClick }: HistoryPanelProps) {
     } catch {}
   }, []);
 
+  const filtered = query.trim()
+    ? entries.filter(e => e.input.toLowerCase().includes(query.toLowerCase()))
+    : entries;
+
   const clearHistory = useCallback(() => {
     setEntries([]);
     localStorage.removeItem(HISTORY_KEY);
@@ -31,12 +36,12 @@ export default function HistoryPanel({ onClick }: HistoryPanelProps) {
   return (
     <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
       <div style={{ flex: 1, overflowY: 'auto', fontSize: 'var(--font-sm)' }}>
-        {entries.length === 0 ? (
+        {filtered.length === 0 ? (
           <div style={{ color: 'var(--color-text-muted)', padding: 16, textAlign: 'center' }}>
-            No history yet
+            {query.trim() ? 'No matches' : 'No history yet'}
           </div>
         ) : (
-          entries.map(entry => (
+          filtered.map(entry => (
             <div
               key={entry.id}
               onClick={() => onClick(entry.input)}

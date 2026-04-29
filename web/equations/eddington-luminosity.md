@@ -1,6 +1,6 @@
 ---
 title: Eddington Luminosity
-category: Astrophysics
+category: star
 tags: [accretion, luminosity, limit]
 params:
   - symbol: M
@@ -8,10 +8,10 @@ params:
     description: Mass of the accreting object
 expressions:
   - name: "Eddington luminosity"
-    expression: "Ledd = 4 pi G M c m_p / sigma_T, \n Ledd in erg/s"
+    expression: "L_edd = 4 * pi * G * M * c * m_p / sigma_T; L_edd in erg/s"
     latex: "L_{\\rm Edd} = \\frac{4\\pi G M c m_p}{\\sigma_T}"
   - name: "Eddington accretion rate"
-    expression: "Aedd = 4 pi G M m_p / (0.1 sigma_T c)"
+    expression: "Mdot_edd = 4 * pi * G * M * m_p / (0.1 * sigma_T * c); Mdot_edd in M_sun/yr"
     latex: "\\dot{M}_{\\rm Edd} = \\frac{4\\pi G M m_p}{0.1\\sigma_T c}"
     description: "Assuming 10% radiative efficiency"
 ---

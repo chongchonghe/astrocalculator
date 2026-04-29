@@ -42,6 +42,7 @@ export default function Sidebar({
           value={searchQuery}
           onChange={onSearchChange}
           inputRef={searchBarRef}
+          activeTab={activeTab}
         />
       </div>
       <div style={{
@@ -79,7 +80,7 @@ export default function Sidebar({
           <EquationTemplates query={searchQuery} onAdd={onEquationAdd} />
         )}
         {activeTab === 'history' && (
-          <HistoryPanel onClick={onHistoryClick} />
+          <HistoryPanel onClick={onHistoryClick} query={searchQuery} />
         )}
       </div>
     </aside>

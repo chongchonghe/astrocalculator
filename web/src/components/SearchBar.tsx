@@ -1,19 +1,28 @@
 // web/src/components/SearchBar.tsx
+import type { SidebarTab } from '../types';
 
 interface SearchBarProps {
   value: string;
   onChange: (q: string) => void;
   inputRef: React.RefObject<HTMLInputElement | null>;
+  activeTab: SidebarTab;
 }
 
-export default function SearchBar({ value, onChange, inputRef }: SearchBarProps) {
+const PLACEHOLDERS: Record<SidebarTab, string> = {
+  equations: 'Search equations...',
+  constants: 'Search constants...',
+  units: 'Search units...',
+  history: 'Search history...',
+};
+
+export default function SearchBar({ value, onChange, inputRef, activeTab }: SearchBarProps) {
   return (
     <input
       ref={inputRef}
       type="text"
       value={value}
       onChange={e => onChange(e.target.value)}
-      placeholder="Search (G, Planck, energy...)"
+      placeholder={PLACEHOLDERS[activeTab]}
       style={{
         width: '100%',
         padding: '6px 10px',
