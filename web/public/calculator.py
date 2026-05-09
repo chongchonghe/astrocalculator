@@ -5,9 +5,14 @@ from math import pi, inf, log, log10, log2
 import json
 
 # Configuration
-DIGITS = 10
-IS_SCI = 0
-F_FMT = f'{{:.{DIGITS-1}e}}' if IS_SCI else f'{{:#.{DIGITS}g}}'
+PRECISION = 4
+F_FMT = f'{{:.{PRECISION}g}}'
+
+
+def set_precision(n):
+    global PRECISION, F_FMT
+    PRECISION = max(1, min(9, int(n)))
+    F_FMT = f'{{:.{PRECISION}g}}'
 
 # In Pyodide, these are available as globals after micropip.install
 from astropy import units as u

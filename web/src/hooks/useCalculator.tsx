@@ -13,6 +13,7 @@ interface CalculatorState {
   loading: boolean;
   error: string | null;
   evaluate: (expression: string) => Promise<CalculatorResult>;
+  setPrecision: (n: number) => void;
   logs: LogEntry[];
 }
 
@@ -21,6 +22,7 @@ const CalculatorContext = createContext<CalculatorState>({
   loading: true,
   error: null,
   evaluate: async () => ({ parsed: '', si: '', cgs: '' }),
+  setPrecision: () => {},
   logs: [],
 });
 
@@ -102,8 +104,14 @@ export function PyodideProvider({ children }: { children: ReactNode }) {
     });
   }, [ready, addLog]);
 
+  const setPrecision = useCallback((n: number) => {
+    const worker = workerRef.current;
+    if (!worker) return;
+    worker.postMessage({ type: 'set_precision', payload: n });
+  }, []);
+
   return (
-    <CalculatorContext.Provider value={{ ready, loading, error, evaluate, logs }}>
+    <CalculatorContext.Provider value={{ ready, loading, error, evaluate, setPrecision, logs }}>
       {children}
     </CalculatorContext.Provider>
   );
