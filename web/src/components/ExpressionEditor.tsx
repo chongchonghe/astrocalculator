@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect } from 'react';
+import { useCalculator } from '../hooks/useCalculator';
 
 interface ExpressionEditorProps {
   editorRef: React.RefObject<HTMLTextAreaElement | null>;
@@ -6,6 +7,8 @@ interface ExpressionEditorProps {
 
 export default function ExpressionEditor({ editorRef }: ExpressionEditorProps) {
   const [value, setValue] = useState('');
+  const [precision, setPrecisionLocal] = useState(4);
+  const { setPrecision } = useCalculator();
 
   const handleInput = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setValue(e.target.value);
@@ -34,6 +37,15 @@ export default function ExpressionEditor({ editorRef }: ExpressionEditorProps) {
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
   }, [editorRef]);
+
+  const handlePrecisionChange = useCallback((n: number) => {
+    setPrecisionLocal(n);
+    setPrecision(n);
+    const text = editorRef.current?.value ?? value;
+    if (text.trim()) {
+      window.dispatchEvent(new CustomEvent('evaluate', { detail: text }));
+    }
+  }, [setPrecision, editorRef, value]);
 
   const lines = (editorRef.current?.value || value).split('\n').length;
 
@@ -82,7 +94,27 @@ export default function ExpressionEditor({ editorRef }: ExpressionEditorProps) {
           }}
         />
       </div>
-      <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '4px 0' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '4px 0' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+          <label style={{ fontSize: 'var(--font-xs)', color: 'var(--color-text-muted)' }}>Precision</label>
+          <select
+            value={precision}
+            onChange={e => handlePrecisionChange(Number(e.target.value))}
+            style={{
+              fontSize: 'var(--font-xs)',
+              padding: '2px 4px',
+              border: '1px solid var(--color-border)',
+              borderRadius: 4,
+              background: 'var(--color-surface)',
+              color: 'var(--color-text)',
+              cursor: 'pointer',
+            }}
+          >
+            {[1,2,3,4,5,6,7,8,9].map(n => (
+              <option key={n} value={n}>{n}</option>
+            ))}
+          </select>
+        </div>
         <button
           onClick={run}
           style={{
