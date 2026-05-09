@@ -152,6 +152,8 @@ class AstroCalculator:
         if not inp.strip():
             return None
 
+        self.local_namespace.clear()
+
         inp = inp.strip()
 
         # Check for 'in unit' clause
