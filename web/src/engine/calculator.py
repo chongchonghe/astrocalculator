@@ -57,6 +57,7 @@ class AstroCalculator:
         self.local_namespace = {}
         self._initialize_constants()
         self._initialize_units()
+        self._base_namespace = dict(self.local_namespace)
 
     def _initialize_constants(self):
         con_list = [
@@ -152,7 +153,7 @@ class AstroCalculator:
         if not inp.strip():
             return None
 
-        self.local_namespace.clear()
+        self.local_namespace = dict(self._base_namespace)
 
         inp = inp.strip()
 
