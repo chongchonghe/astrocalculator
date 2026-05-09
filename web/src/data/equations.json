@@ -1,5 +1,14 @@
 [
   {
+    "slug": "README",
+    "title": "README.md",
+    "category": "Uncategorized",
+    "tags": [],
+    "params": [],
+    "expressions": [],
+    "body": "# Writing an equation file\n\nEach equation lives in its own `.md` file under `web/equations/`. The file has YAML frontmatter and a short markdown body.\n\n## Frontmatter\n\n| Field | Required | Description |\n|---|---|---|\n| `title` | yes | Display name of the equation |\n| `category` | yes | Lowercase, from `categories.txt` |\n| `tags` | yes | YAML list of search keywords |\n| `params` | yes | Input variables (see below) |\n| `expressions` | yes | Computable forms (see below) |\n\nThe file ends with a 1–2 sentence description after the closing `---`.\n\n## Params\n\nEach param has three fields:\n\n```yaml\n- symbol: n\n  default: \"1000 cm^-3\"\n  description: Hydrogen number density\n```\n\n- **symbol** — the variable name used in expressions. Single-word, no spaces.\n- **default** — a sensible default value with its unit (e.g. `\"10 K\"`, `\"1 M_sun\"`, `\"1 au\"`).\n- **description** — short human-readable explanation.\n\nUse only symbols defined in the `params` list within expressions. The calculator provides known constants (`G`, `c`, `m_p`, `k_B`, `pi`, `sigma_T`, etc.) and unit suffixes (`M_sun`, `R_sun`, `L_sun`, `au`, `pc`, `kpc`, `Myr`, `Gyr`, etc.).\n\n## Expressions\n\nEach entry in `expressions` has these fields:\n\n```yaml\n- name: \"Jeans length\"\n  expression: \"c_s = sqrt(k_B * T / (mu * m_p))\\n lambda_J = c_s * sqrt(pi / (G * mu * m_p * n))\\n lambda_J in pc\"\n  latex: \"\\\\lambda_{\\\\rm J} = c_{\\\\rm s} \\\\sqrt{\\\\frac{\\\\pi}{G\\\\bar\\\\rho}}\"\n```\n\n- **name** — short label shown in the UI.\n- **expression** — the computable form. Rules below.\n- **latex** — LaTeX for display (use `\\\\` for backslashes in YAML).\n- **description** (optional) — extra context shown under the expression.\n\n### Expression syntax\n\n1. **Use only defined symbols** — every variable must appear in `params`, plus the built-in constants (`G`, `c`, `m_p`, `k_B`, `pi`, `sigma_T`, etc.).\n\n2. **Always write the fundamental form** — do not bake in numerical constants. The calculator has all physical constants and unit conversion built in, so write `G * M / c_s^2` not `1.3e15 * M / c_s^2`.\n\n3. **Assign the result to a variable** — always on the final line:\n   ```\n   var = expression\n   var in unit\n   ```\n\n4. **Unit conversion on the final line** — append `\\n var in unit`:\n   ```\n   v_esc = sqrt(2 * G * M / R)\\n v_esc in km/s\n   ```\n\n5. **Intermediate computations** — use `\\n` to separate steps. Intermediate assignments don't need `in unit`:\n   ```\n   c_s = sqrt(k_B * T / (mu * m_p))\\n lambda_J = c_s * sqrt(pi / (G * mu * m_p * n))\\n lambda_J in pc\n   ```\n\n6. **No `;` separators** — the engine processes the `in unit` clause on the last line only. Separate statements with `\\n`.\n\n7. **Dimensionless results** — if the result has no units (e.g. Toomre Q), no `in unit` line is needed:\n   ```\n   Qtoomre = Omega * c_s / (pi * G * Sigma)\n   ```\n\n## Example\n\nSee `jeans-mass.md` for a complete example with multi-line intermediate computations and multiple related expressions."
+  },
+  {
     "slug": "alfven-velocity",
     "title": "Alfvén Velocity",
     "category": "mhd",
@@ -33,7 +42,7 @@
     "expressions": [
       {
         "name": "Alfvén velocity",
-        "expression": "v_A = B / sqrt(4 * pi * mu * m_p * n); v_A in km/s",
+        "expression": "v_A = B / sqrt(4 * pi * mu * m_p * n)\n v_A in km/s",
         "latex": "v_{\\rm A} = \\frac{B_0}{\\sqrt{4\\pi\\rho_0}}"
       }
     ],
@@ -73,17 +82,17 @@
     "expressions": [
       {
         "name": "Bondi radius",
-        "expression": "r_B = G * M / c_s^2; r_B in cm",
+        "expression": "r_B = G * M / c_s^2\n r_B in cm",
         "latex": "r_{\\rm B} = \\frac{GM}{c_s^2}"
       },
       {
         "name": "Bondi accretion rate",
-        "expression": "Mdot = 4 * pi * G^2 * M^2 * rho_inf / c_s^3; Mdot in M_sun/yr",
+        "expression": "Mdot = 4 * pi * G^2 * M^2 * rho_inf / c_s^3\n Mdot in M_sun/yr",
         "latex": "\\dot{M}_{\\rm B} = \\frac{4\\pi G^2 M^2 \\rho_{\\infty}}{c_s^3}"
       },
       {
         "name": "Bondi-Hoyle accretion rate",
-        "expression": "Mdot = 4 * pi * G^2 * M^2 * rho_inf / (c_s^2 + v_inf^2)^(3/2); Mdot in M_sun/yr",
+        "expression": "Mdot = 4 * pi * G^2 * M^2 * rho_inf / (c_s^2 + v_inf^2)^(3/2)\n Mdot in M_sun/yr",
         "latex": "\\dot{M}_{\\rm BH} = \\frac{4\\pi G^2 M^2 \\rho_{\\infty}}{(c_\\infty^2 + v_\\infty^2)^{3/2}}",
         "description": "Interpolation formula including relative motion"
       }
@@ -129,19 +138,19 @@
     "expressions": [
       {
         "name": "Deceleration (subsonic, v_M << sigma)",
-        "expression": "dv = 4 * sqrt(2*pi) / 3 * G^2 * M * m_p * n * sigma / sigma^3 * log(Coulomb_log); dv in cm/s^2",
+        "expression": "dv = 4 * sqrt(2*pi) / 3 * G^2 * M * m_p * n * sigma / sigma^3 * log(Coulomb_log)\n dv in cm/s^2",
         "latex": "\\frac{dv_M}{dt} \\approx \\frac{4\\sqrt{2\\pi}}{3} \\frac{G^2 M \\rho}{\\sigma^2} \\ln \\Lambda",
         "description": "Assuming the object moves at velocity sigma through the background"
       },
       {
         "name": "Deceleration (supersonic, v_M >> sigma)",
-        "expression": "dv = 4 * pi * G^2 * M * m_p * n / sigma^2 * log(Coulomb_log); dv in cm/s^2",
+        "expression": "dv = 4 * pi * G^2 * M * m_p * n / sigma^2 * log(Coulomb_log)\n dv in cm/s^2",
         "latex": "\\frac{dv_M}{dt} \\approx \\frac{4\\pi G^2 M \\rho}{v_M^2} \\ln \\Lambda",
         "description": "Assuming the object moves at velocity sigma >> velocity dispersion"
       },
       {
         "name": "Decay timescale (BH in galaxy core)",
-        "expression": "t_fric = 19 / Coulomb_log * (r_i / 5)^2 * sigma / 200 * (1e8 / M); t_fric in Gyr",
+        "expression": "t_fric = 19 / Coulomb_log * (r_i / 5)^2 * sigma / 200 * (1e8 / M)\n t_fric in Gyr",
         "latex": "t_{\\rm fric} \\approx \\frac{19 \\, {\\rm Gyr}}{\\ln \\Lambda} \\left(\\frac{r_i}{5\\,{\\rm kpc}}\\right)^2 \\frac{\\sigma}{200\\,{\\rm km/s}} \\left(\\frac{10^8 M_\\odot}{M}\\right)",
         "description": "Timescale for a BH to decay to galaxy center in an isothermal sphere"
       }
@@ -167,12 +176,12 @@
     "expressions": [
       {
         "name": "Eddington luminosity",
-        "expression": "L_edd = 4 * pi * G * M * c * m_p / sigma_T; L_edd in erg/s",
+        "expression": "L_edd = 4 * pi * G * M * c * m_p / sigma_T\n L_edd in erg/s",
         "latex": "L_{\\rm Edd} = \\frac{4\\pi G M c m_p}{\\sigma_T}"
       },
       {
         "name": "Eddington accretion rate",
-        "expression": "Mdot_edd = 4 * pi * G * M * m_p / (0.1 * sigma_T * c); Mdot_edd in M_sun/yr",
+        "expression": "Mdot_edd = 4 * pi * G * M * m_p / (0.1 * sigma_T * c)\n Mdot_edd in M_sun/yr",
         "latex": "\\dot{M}_{\\rm Edd} = \\frac{4\\pi G M m_p}{0.1\\sigma_T c}",
         "description": "Assuming 10% radiative efficiency"
       }
@@ -201,12 +210,12 @@
     "expressions": [
       {
         "name": "Escape velocity",
-        "expression": "v_esc = sqrt(2 * G * M / R); v_esc in km/s",
+        "expression": "v_esc = sqrt(2 * G * M / R)\n v_esc in km/s",
         "latex": "v_{\\rm esc} = \\sqrt{\\frac{2GM}{R}}"
       },
       {
         "name": "Circular velocity",
-        "expression": "v_circ = sqrt(G * M / R); v_circ in km/s",
+        "expression": "v_circ = sqrt(G * M / R)\n v_circ in km/s",
         "latex": "v_{\\rm circ} = \\sqrt{\\frac{GM}{R}}",
         "description": "Circular orbital velocity, 1/√2 times escape velocity"
       }
@@ -237,7 +246,7 @@
     "expressions": [
       {
         "name": "Free-fall time",
-        "expression": "t_ff = sqrt(3 * pi / (32 * G * mu * m_p * n)); t_ff in Myr",
+        "expression": "t_ff = sqrt(3 * pi / (32 * G * mu * m_p * n))\n t_ff in Myr",
         "latex": "t_{\\rm ff} = \\sqrt{\\frac{3\\pi}{32G\\rho}}"
       }
     ],
@@ -272,17 +281,17 @@
     "expressions": [
       {
         "name": "Jeans length",
-        "expression": "c_s = sqrt(k_B * T / (mu * m_p))\n lambda_J = c_s * sqrt(pi / (G * mu * m_p * n)); lambda_J in pc",
+        "expression": "c_s = sqrt(k_B * T / (mu * m_p))\n lambda_J = c_s * sqrt(pi / (G * mu * m_p * n))\n lambda_J in pc",
         "latex": "\\lambda_{\\rm J} = c_{\\rm s} \\sqrt{\\frac{\\pi}{G\\bar\\rho}}"
       },
       {
         "name": "Jeans mass",
-        "expression": "c_s = sqrt(k_B * T / (mu * m_p))\n lambda_J = c_s * sqrt(pi / (G * mu * m_p * n))\n M_J = (4/3) * pi * (lambda_J / 2)^3 * mu * m_p * n; M_J in M_sun",
+        "expression": "c_s = sqrt(k_B * T / (mu * m_p))\n lambda_J = c_s * sqrt(pi / (G * mu * m_p * n))\n M_J = (4/3) * pi * (lambda_J / 2)^3 * mu * m_p * n\n M_J in M_sun",
         "latex": "M_{\\rm J} = \\frac{4\\pi}{3} \\left(\\frac{\\lambda_{\\rm J}}{2}\\right)^3 \\bar\\rho"
       },
       {
         "name": "Bonnor-Ebert mass",
-        "expression": "M_BE = 1.182 * sqrt(k_B * T / (mu * m_p))^3 / (G^3 * mu * m_p * n)^(1/2); M_BE in M_sun",
+        "expression": "M_BE = 1.182 * sqrt(k_B * T / (mu * m_p))^3 / (G^3 * mu * m_p * n)^(1/2)\n M_BE in M_sun",
         "latex": "M_{\\rm BE} = 1.182 \\frac{c_s^3}{(G^3 \\rho)^{1/2}} = 0.41 M_{\\rm J}",
         "description": "Maximum stable mass for a pressure-confined isothermal sphere"
       }
@@ -318,7 +327,7 @@
     "expressions": [
       {
         "name": "KH timescale",
-        "expression": "tau = G * M^2 / (R * L); tau in Myr",
+        "expression": "tau = G * M^2 / (R * L)\n tau in Myr",
         "latex": "\\tau_{\\rm KH} \\approx \\frac{GM^2}{RL}"
       }
     ],
@@ -352,12 +361,12 @@
     "expressions": [
       {
         "name": "Orbital period",
-        "expression": "P = sqrt(4 * pi^2 * a^3 / (G * M)); P in yr",
+        "expression": "P = sqrt(4 * pi^2 * a^3 / (G * M))\n P in yr",
         "latex": "P = \\sqrt{\\frac{4\\pi^2 a^3}{GM}}"
       },
       {
         "name": "Orbital separation from period",
-        "expression": "a = (G * M * P^2 / (4 * pi^2))^(1/3); a in au",
+        "expression": "a = (G * M * P^2 / (4 * pi^2))^(1/3)\n a in au",
         "latex": "a = \\left(\\frac{GMP^2}{4\\pi^2}\\right)^{1/3}",
         "description": "Given period P, compute semi-major axis"
       }
@@ -384,7 +393,7 @@
     "expressions": [
       {
         "name": "Schwarzschild radius",
-        "expression": "r_s = 2 * G * M / c^2; r_s in km",
+        "expression": "r_s = 2 * G * M / c^2\n r_s in km",
         "latex": "r_s = \\frac{2GM}{c^2}"
       }
     ],
@@ -424,12 +433,12 @@
     "expressions": [
       {
         "name": "Shock radius",
-        "expression": "r_sh = (E * t^2 / (mu * m_p * n))^(1/5); r_sh in pc",
+        "expression": "r_sh = (E * t^2 / (mu * m_p * n))^(1/5)\n r_sh in pc",
         "latex": "r_{\\rm sh}(t) = \\xi_0 \\left(\\frac{Et^2}{\\rho_1}\\right)^{1/5}"
       },
       {
         "name": "Shock velocity",
-        "expression": "U_sh = (2/5) * (E / (mu * m_p * n))^(1/5) * t^(-3/5); U_sh in km/s",
+        "expression": "U_sh = (2/5) * (E / (mu * m_p * n))^(1/5) * t^(-3/5)\n U_sh in km/s",
         "latex": "U_{\\rm sh} = \\frac{2}{5} \\left(\\frac{E}{\\rho_1}\\right)^{1/5} t^{-3/5}"
       }
     ],
@@ -464,12 +473,12 @@
     "expressions": [
       {
         "name": "Sound speed",
-        "expression": "c_s = sqrt(gamma_ad * k_B * T / (mu * m_p)); c_s in km/s",
+        "expression": "c_s = sqrt(gamma_ad * k_B * T / (mu * m_p))\n c_s in km/s",
         "latex": "c_s = \\sqrt{\\frac{\\gamma kT}{\\mu m_{\\rm H}}}"
       },
       {
         "name": "Isothermal sound speed (gamma=1)",
-        "expression": "c_s = 0.29 * sqrt(T / 10 / mu); c_s in km/s",
+        "expression": "c_s = 0.29 * sqrt(T / 10 / mu)\n c_s in km/s",
         "latex": "c_s \\approx 0.29 \\, \\left(\\frac{T/10\\,{\\rm K}}{\\mu}\\right)^{1/2} \\, {\\rm km/s}"
       }
     ],
@@ -509,7 +518,7 @@
     "expressions": [
       {
         "name": "Strömgren radius",
-        "expression": "R_S = (3 * Q0 / (4 * pi * n^2 * alpha_B))^(1/3); R_S in pc",
+        "expression": "R_S = (3 * Q0 / (4 * pi * n^2 * alpha_B))^(1/3)\n R_S in pc",
         "latex": "R_{\\rm S} = \\left(\\frac{3Q_0}{4\\pi n_0^2 \\alpha_B}\\right)^{1/3}"
       }
     ],
