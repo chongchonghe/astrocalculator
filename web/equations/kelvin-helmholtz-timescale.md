@@ -14,7 +14,7 @@ params:
     description: Luminosity of the star
 expressions:
   - name: "KH timescale"
-    expression: "tau = G * M^2 / (R * L); tau in Myr"
+    expression: "tau = G * M^2 / (R * L)\n tau in Myr"
     latex: "\\tau_{\\rm KH} \\approx \\frac{GM^2}{RL}"
 ---
 

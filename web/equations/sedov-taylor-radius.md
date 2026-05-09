@@ -17,10 +17,10 @@ params:
     description: Mean molecular weight
 expressions:
   - name: "Shock radius"
-    expression: "r_sh = (E * t^2 / (mu * m_p * n))^(1/5); r_sh in pc"
+    expression: "r_sh = (E * t^2 / (mu * m_p * n))^(1/5)\n r_sh in pc"
     latex: "r_{\\rm sh}(t) = \\xi_0 \\left(\\frac{Et^2}{\\rho_1}\\right)^{1/5}"
   - name: "Shock velocity"
-    expression: "U_sh = (2/5) * (E / (mu * m_p * n))^(1/5) * t^(-3/5); U_sh in km/s"
+    expression: "U_sh = (2/5) * (E / (mu * m_p * n))^(1/5) * t^(-3/5)\n U_sh in km/s"
     latex: "U_{\\rm sh} = \\frac{2}{5} \\left(\\frac{E}{\\rho_1}\\right)^{1/5} t^{-3/5}"
 ---
 

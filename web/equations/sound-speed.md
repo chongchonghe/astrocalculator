@@ -14,10 +14,10 @@ params:
     description: Adiabatic index (1 for isothermal, 5/3 for adiabatic)
 expressions:
   - name: "Sound speed"
-    expression: "c_s = sqrt(gamma_ad * k_B * T / (mu * m_p)); c_s in km/s"
+    expression: "c_s = sqrt(gamma_ad * k_B * T / (mu * m_p))\n c_s in km/s"
     latex: "c_s = \\sqrt{\\frac{\\gamma kT}{\\mu m_{\\rm H}}}"
   - name: "Isothermal sound speed (gamma=1)"
-    expression: "c_s = 0.29 * sqrt(T / 10 / mu); c_s in km/s"
+    expression: "c_s = 0.29 * sqrt(T / 10 / mu)\n c_s in km/s"
     latex: "c_s \\approx 0.29 \\, \\left(\\frac{T/10\\,{\\rm K}}{\\mu}\\right)^{1/2} \\, {\\rm km/s}"
 ---
 

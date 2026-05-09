@@ -17,7 +17,7 @@ params:
     description: Length scale (for crossing time)
 expressions:
   - name: "Alfvén velocity"
-    expression: "v_A = B / sqrt(4 * pi * mu * m_p * n); v_A in km/s"
+    expression: "v_A = B / sqrt(4 * pi * mu * m_p * n)\n v_A in km/s"
     latex: "v_{\\rm A} = \\frac{B_0}{\\sqrt{4\\pi\\rho_0}}"
 ---
 

@@ -17,13 +17,13 @@ params:
     description: Relative velocity (0 for pure Bondi)
 expressions:
   - name: "Bondi radius"
-    expression: "r_B = G * M / c_s^2; r_B in cm"
+    expression: "r_B = G * M / c_s^2\n r_B in cm"
     latex: "r_{\\rm B} = \\frac{GM}{c_s^2}"
   - name: "Bondi accretion rate"
-    expression: "Mdot = 4 * pi * G^2 * M^2 * rho_inf / c_s^3; Mdot in M_sun/yr"
+    expression: "Mdot = 4 * pi * G^2 * M^2 * rho_inf / c_s^3\n Mdot in M_sun/yr"
     latex: "\\dot{M}_{\\rm B} = \\frac{4\\pi G^2 M^2 \\rho_{\\infty}}{c_s^3}"
   - name: "Bondi-Hoyle accretion rate"
-    expression: "Mdot = 4 * pi * G^2 * M^2 * rho_inf / (c_s^2 + v_inf^2)^(3/2); Mdot in M_sun/yr"
+    expression: "Mdot = 4 * pi * G^2 * M^2 * rho_inf / (c_s^2 + v_inf^2)^(3/2)\n Mdot in M_sun/yr"
     latex: "\\dot{M}_{\\rm BH} = \\frac{4\\pi G^2 M^2 \\rho_{\\infty}}{(c_\\infty^2 + v_\\infty^2)^{3/2}}"
     description: "Interpolation formula including relative motion"
 ---

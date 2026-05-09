@@ -11,7 +11,7 @@ params:
     description: Mean molecular weight
 expressions:
   - name: "Free-fall time"
-    expression: "t_ff = sqrt(3 * pi / (32 * G * mu * m_p * n)); t_ff in Myr"
+    expression: "t_ff = sqrt(3 * pi / (32 * G * mu * m_p * n))\n t_ff in Myr"
     latex: "t_{\\rm ff} = \\sqrt{\\frac{3\\pi}{32G\\rho}}"
 ---
 

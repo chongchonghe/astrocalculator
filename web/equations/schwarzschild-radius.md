@@ -8,7 +8,7 @@ params:
     description: Mass of the object
 expressions:
   - name: "Schwarzschild radius"
-    expression: "r_s = 2 * G * M / c^2; r_s in km"
+    expression: "r_s = 2 * G * M / c^2\n r_s in km"
     latex: "r_s = \\frac{2GM}{c^2}"
 ---
 
