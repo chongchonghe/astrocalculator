@@ -1,53 +1,100 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useCalculator } from '../hooks/useCalculator';
 import type { CalculatorResult } from '../types';
 
 export default function ResultDisplay() {
-  const { evaluate, ready } = useCalculator();
+  const { evaluate, setPrecision, ready } = useCalculator();
   const [result, setResult] = useState<CalculatorResult | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [evaluating, setEvaluating] = useState(false);
+  const [precision, setPrecisionLocal] = useState(4);
+  const lastExprRef = useRef<string>('');
+
+  const runEvaluate = useCallback((expr: string) => {
+    if (!expr.trim()) return;
+    setEvaluating(true);
+    setError(null);
+    evaluate(expr).then(res => {
+      setResult(res);
+      setEvaluating(false);
+    }).catch(err => {
+      setError(String(err));
+      setEvaluating(false);
+    });
+  }, [evaluate]);
 
   useEffect(() => {
     const handler = (e: Event) => {
       const detail = (e as CustomEvent).detail as string;
-      if (!detail.trim()) return;
-      setEvaluating(true);
-      setError(null);
-      evaluate(detail).then(res => {
-        setResult(res);
-        setEvaluating(false);
-      }).catch(err => {
-        setError(String(err));
-        setEvaluating(false);
-      });
+      lastExprRef.current = detail;
+      runEvaluate(detail);
     };
     window.addEventListener('evaluate', handler);
     return () => window.removeEventListener('evaluate', handler);
-  }, [evaluate]);
+  }, [runEvaluate]);
+
+  const handlePrecisionChange = useCallback((n: number) => {
+    setPrecisionLocal(n);
+    setPrecision(n);
+    if (lastExprRef.current) {
+      setTimeout(() => runEvaluate(lastExprRef.current), 0);
+    }
+  }, [setPrecision, runEvaluate]);
 
   const copyText = useCallback((text: string) => {
     navigator.clipboard.writeText(text).catch(() => {});
   }, []);
 
+  const precisionControl = (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 6, justifyContent: 'flex-end' }}>
+      <label style={{ fontSize: 'var(--font-xs)', color: 'var(--color-text-muted)' }}>Precision</label>
+      <select
+        value={precision}
+        onChange={e => handlePrecisionChange(Number(e.target.value))}
+        style={{
+          fontSize: 'var(--font-xs)',
+          padding: '2px 4px',
+          border: '1px solid var(--color-border)',
+          borderRadius: 4,
+          background: 'var(--color-surface)',
+          color: 'var(--color-text)',
+          cursor: 'pointer',
+        }}
+      >
+        {[1,2,3,4,5,6,7,8,9].map(n => (
+          <option key={n} value={n}>{n}</option>
+        ))}
+      </select>
+    </div>
+  );
+
   if (!result && !error && !evaluating) {
     return (
-      <div style={{ color: 'var(--color-text-muted)', fontSize: 'var(--font-base)', textAlign: 'center', padding: 20 }}>
-        {ready
-          ? 'Cmd+Enter to evaluate'
-          : 'Loading scientific engine...'}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+        {precisionControl}
+        <div style={{ color: 'var(--color-text-muted)', fontSize: 'var(--font-base)', textAlign: 'center', padding: 20 }}>
+          {ready ? 'Cmd+Enter to evaluate' : 'Loading scientific engine...'}
+        </div>
       </div>
     );
   }
 
   if (evaluating) {
-    return <div style={{ color: 'var(--color-text-muted)', fontSize: 'var(--font-base)', textAlign: 'center', padding: 20 }}>Evaluating...</div>;
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+        {precisionControl}
+        <div style={{ color: 'var(--color-text-muted)', fontSize: 'var(--font-base)', textAlign: 'center', padding: 20 }}>Evaluating...</div>
+      </div>
+    );
   }
 
   if (error) {
     return (
-      <div style={{ background: '#fff5f5', padding: 12, borderRadius: 'var(--radius)', color: 'var(--color-error)', fontSize: 'var(--font-base)' }}>
-        {error}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+        {precisionControl}
+        <div style={{ background: '#fff5f5', padding: 12, borderRadius: 'var(--radius)', color: 'var(--color-error)', fontSize: 'var(--font-base)' }}>
+          {error}
+        </div>
       </div>
     );
   }
@@ -62,6 +109,7 @@ export default function ResultDisplay() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+      {precisionControl}
       <div style={{ display: 'flex', gap: 8 }}>
         {cards.map(card => (
           <div key={card.label} style={{

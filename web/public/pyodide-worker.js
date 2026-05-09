@@ -3,6 +3,7 @@
 
 var pyodideReady = false;
 var evaluateFn = null;
+var setPrecisionFn = null;
 
 var PYODIDE_URL = 'https://cdn.jsdelivr.net/pyodide/v0.25.1/full/';
 
@@ -55,6 +56,12 @@ evaluate_wrapper\n\
   ');
   log('Evaluate wrapper created');
 
+  setPrecisionFn = pyodide.runPython('\n\
+def set_precision_wrapper(n):\n\
+    set_precision(int(n))\n\
+set_precision_wrapper\n\
+  ');
+
   pyodideReady = true;
   self.postMessage({ type: 'ready' });
   log('Engine ready!');
@@ -78,6 +85,15 @@ self.onmessage = async function(e) {
 
   if (!pyodideReady) {
     self.postMessage({ id: id, type: 'error', payload: 'Engine not ready' });
+    return;
+  }
+
+  if (type === 'set_precision') {
+    try {
+      setPrecisionFn(payload);
+    } catch (err) {
+      log('set_precision error: ' + String(err));
+    }
     return;
   }
 
